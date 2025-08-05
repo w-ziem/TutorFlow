@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: TutorFlow
+  datasource:
+    url:
+    username:
+    password:
+  jpa:
+    show-sql: true
+  jwt:
+    secret: ${JWT_SECRET}
+    accessTokenExpiration: 300 #5min
+    refreshTokenExpiration: 604800 #7day
