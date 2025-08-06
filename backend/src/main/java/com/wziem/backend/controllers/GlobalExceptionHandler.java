@@ -1,6 +1,7 @@
 package com.wziem.backend.controllers;
 
 
+import com.wziem.backend.exceptions.RefreshTokenExpiredException;
 import com.wziem.backend.exceptions.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,24 +19,15 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    // "name" : "NameIsRequired"
-    public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException  exception) {
-        var errors = new HashMap<String, String>();
-        exception.getBindingResult().getFieldErrors().forEach(error ->
-        {errors.put(error.getField(), error.getDefaultMessage());
-        } );
 
-        return ResponseEntity.badRequest().body(errors);
-    }
-
+    // USER ERROR HANDLERS
     @ExceptionHandler(UserAlreadyExistException.class)
     public ResponseEntity<Map<String, String>> handleUserAlreadyExistException(UserAlreadyExistException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Map.of("error", "User with this email already exists",
-                        "field", "email"));
+                        "field", "email",
+                        "action", "redirectToLogin"));
     }
-
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Map<String, String>> handleBadCredentialsException(BadCredentialsException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -51,6 +43,15 @@ public class GlobalExceptionHandler {
                         "field", "email"));
     }
 
+    @ExceptionHandler(RefreshTokenExpiredException.class)
+    public ResponseEntity<Map<String, String>> handleRefreshTokenExpiredException(RefreshTokenExpiredException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("error", "Refresh token expired", "action", "redirectToLogin"));
+    }
+
+
+
+    // REST API ERROR HANDLERS
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
@@ -58,6 +59,19 @@ public class GlobalExceptionHandler {
                 .body(Map.of("error", "Invalid request format. Please check your request body."));
     }
 
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    // "name" : "NameIsRequired"
+    public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException  exception) {
+        var errors = new HashMap<String, String>();
+        exception.getBindingResult().getFieldErrors().forEach(error ->
+        {errors.put(error.getField(), error.getDefaultMessage());
+        } );
+
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    // GENERIC ERROR HANDLER
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
         System.err.println("Unexpected error occured: " + ex);
