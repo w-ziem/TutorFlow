@@ -19,6 +19,5 @@ public class RegisterRequest {
     @NotBlank(message = "Name must not be blank")
     private String name;
 
-    @NotBlank(message = "Role must not be blank")
     private Role role;
 }

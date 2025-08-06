@@ -1,6 +1,7 @@
 package com.wziem.backend.controllers;
 
 
+import com.wziem.backend.exceptions.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,6 +27,13 @@ public class GlobalExceptionHandler {
         } );
 
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<Map<String, String>> handleUserAlreadyExistException(UserAlreadyExistException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of("error", "User with this email already exists",
+                        "field", "email"));
     }
 
     @ExceptionHandler(BadCredentialsException.class)

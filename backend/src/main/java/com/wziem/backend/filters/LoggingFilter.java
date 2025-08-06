@@ -17,9 +17,6 @@ public class LoggingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         System.out.println("Request: " + request.getRequestURI());
         System.out.println("Method: " + request.getMethod());
-        System.out.println("Headers: " + request.getHeaderNames());
-        System.out.println("Params: " + request.getParameterMap());
-        System.out.println("Body: " + request.getReader());
         System.out.println("Cookies: " + Arrays.toString(request.getCookies()));
         filterChain.doFilter(request, response);
         System.out.println("Response: " + response.getStatus());
