@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const Cta = () => {
     return (
@@ -21,12 +22,12 @@ const Cta = () => {
                     >
                         Załóż konto
                     </a>
-                    <a
-                        href="#features"
+                    <Link
+                        to="/demo"
                         className="inline-flex border-1 backdrop-blur-2xl items-center justify-center rounded-xl px-7 py-3 text-base font-semibold text-heading ring-1 ring-white/15 transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                     >
-                        Zobacz funkcje
-                    </a>
+                        Zobacz demo
+                    </Link>
                 </div>
             </div>
         </section>
