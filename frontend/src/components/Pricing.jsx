@@ -55,9 +55,9 @@ const Pricing = () => {
             return (
                 <div 
                     key={index} 
-                    className={`relative p-6 rounded-2xl shadow-2xl overflow-hidden flex flex-col gap-4 height-auto w-[30rem] transition-all duration-500 ${
+                    className={`relative p-6 rounded-2xl shadow-2xl shadow-secondary flex flex-col gap-4 height-auto w-[30rem] transition-all duration-500 ${
                         isPopular 
-                            ? 'bg-white border-2 border-secondary shadow-secondary/20 shadow-2xl transform scale-105' 
+                            ? 'bg-white border-2 border-secondary shadow-secondary shadow-2xl transform scale-105' 
                             : 'bg-white hover:bg-secondary/10'
                     }`}
                 >

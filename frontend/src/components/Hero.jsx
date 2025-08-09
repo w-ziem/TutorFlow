@@ -6,7 +6,7 @@ const Hero = () => {
     return (
         <section className="overflow-hidden relative isolate  bg-background text-white md:overflow-visible">
             {/* Dekoracyjne tła */}
-            <div aria-hidden="true" className="pointer-events-none absolute -top-15 right-1/3 h-[36rem] w-[36rem] translate-x-1/2 rounded-full bg-indigo-600/20 blur-3xl" />
+            <div aria-hidden="true" className="pointer-events-none absolute -top-15 right-1/3 h-[36rem] w-[52rem] translate-x-1/2 rounded-full bg-indigo-600/20 blur-[80px]" />
             <div aria-hidden="true" className="pointer-events-none absolute -bottom-0 left-1/4 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-fuchsia-500/20 blur-3xl" />
 
             <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
