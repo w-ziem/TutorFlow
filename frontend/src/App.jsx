@@ -8,7 +8,7 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<MainLayout />} >
 
-            <Route inxed element={<MainPage />} />
+            <Route index element={<MainPage />} />
             <Route path='*' element={<NotFoundPage />} />
 
         </Route>
@@ -17,7 +17,6 @@ const router = createBrowserRouter(
 
 
 function App() {
-
   return <RouterProvider  router={router}/>
 }
 
