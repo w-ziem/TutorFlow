@@ -9,9 +9,9 @@ const Header = () => {
         <header className="flex items-center justify-evenly gap-25 py-2 px-8">
             <img className="h-30" src={logo} alt="TutorFlow Logo"/>
             <nav className="flex gap-15 justify-evenly w-fit px-12 py-4 rounded-4xl bg-black">
-                <NavLink className="text-white hover:text-secondary ease-[0.3] transition-all" to="about">Funkcje</NavLink>
-                <NavLink className="text-white hover:text-secondary ease-[0.3] transition-all" to="#testimonials" >Cennik</NavLink>
-                <NavLink className="text-white hover:text-secondary ease-[0.3] transition-all" to="#testimonials">Opinie</NavLink>
+                <a className="text-white text-md font-semibold hover:text-secondary ease-[0.3] transition-all" href="#features">Funkcje</a>
+                <a className="text-white text-md font-semibold hover:text-secondary ease-[0.3] transition-all" href="#pricing" >Cennik</a>
+                <a className="text-white text-md font-semibold hover:text-secondary ease-[0.3] transition-all" href="#testimonials">Opinie</a>
             </nav>
             <NavLink
              className="group inline-flex items-center bg-gradient-to-r from-[#242E7C] to-[#5FA3F7]

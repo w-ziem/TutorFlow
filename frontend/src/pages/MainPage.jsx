@@ -1,23 +1,23 @@
 import React from 'react';
-import Header from "../components/Header.jsx";
-import About from "../components/About.jsx";
-import Testimonials from "../components/Testimonials.jsx";
 import Cta from "../components/Cta.jsx";
-import Footer from "../components/Footer.jsx";
 import Hero from "../components/Hero.jsx";
+import Features from "../components/Features.jsx";
+import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
+import Pricing from "../components/Pricing.jsx";
 
 
 
 const MainPage = () => {
     return (
-        <>
-            <Header/>
+        <div className="min-h-screen text-lg">
+            <Header />
             <Hero />
-            <About />
-            <Testimonials />
+            <Features />
+            <Pricing />
             <Cta />
             <Footer />
-        </>
+        </div>
     );
 };
 
