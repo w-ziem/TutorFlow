@@ -1,12 +1,30 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser, FaUserGraduate} from "react-icons/fa";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useLocation} from "react-router-dom";
 import axios from 'axios';
 import {jwtDecode} from "jwt-decode";
 
-
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [notification, setNotification] = useState(null);
+    const location = useLocation();
+    
+    // Odbierz stan z nawigacji
+    useEffect(() => {
+        if (location.state) {
+            const { isNewAccount, isAlreadyExistingAccount, message } = location.state;
+            
+            if (isNewAccount || isAlreadyExistingAccount) {
+                setNotification({
+                    type: isNewAccount ? 'success' : 'info',
+                    message: message
+                });
+                
+                // Wyczyść notyfikację po 5 sekundach
+                setTimeout(() => setNotification(null), 5000);
+            }
+        }
+    }, [location.state]);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -32,7 +50,7 @@ const LoginForm = () => {
             const response = await axios.post('api/auth/login', form);
             localStorage.setItem('token', response.data.token);
             const payload = jwtDecode(response.data.token);
-            navigation(`/dashboard/${payload.role.toLowerCase()}`, {replace: true});
+            navigation(`/dashboard-${payload.role.toLowerCase()}`, {replace: true});
 
         } catch (error) {
             console.error('Login error:', error.response?.data || error.message);
@@ -43,6 +61,25 @@ const LoginForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col w-full lg:w-1/2 gap-4 p-4 rounded-xl bg-white ">
+            {/* Popup z notyfikacją */}
+            {notification && (
+                <div className={`p-4 mb-4 rounded-xl ${
+                    notification.type === 'success' 
+                        ? 'bg-green-100 text-green-800 border border-green-200' 
+                        : 'bg-blue-100 text-blue-800 border border-blue-200'
+                }`}>
+                    <div className="flex justify-between items-center">
+                        <span>{notification.message}</span>
+                        <button 
+                            onClick={() => setNotification(null)}
+                            className="text-xl font-bold hover:opacity-70"
+                        >
+                            ×
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Email Field */}
             <div className="space-y-2">
                 <label htmlFor="email" className="block text-sm font-semibold text-heading">

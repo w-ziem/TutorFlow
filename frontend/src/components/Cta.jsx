@@ -16,12 +16,12 @@ const Cta = () => {
                 </p>
 
                 <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                    <a
-                        href="#"
+                    <Link
+                        to="/signup"
                         className="inline-flex items-center justify-center rounded-xl bg-secondary px-7 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-600/30 transition hover:translate-y-[-1px] hover:bg-indigo-500 hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                     >
                         Załóż konto
-                    </a>
+                    </Link>
                     <Link
                         to="/demo"
                         className="inline-flex border-1 backdrop-blur-2xl items-center justify-center rounded-xl px-7 py-3 text-base font-semibold text-heading ring-1 ring-white/15 transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"

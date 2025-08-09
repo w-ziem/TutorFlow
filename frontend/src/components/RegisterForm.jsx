@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser, FaUserGraduate} from "react-icons/fa";
-import {useNavigate} from "react-router-dom";
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -28,15 +28,32 @@ const RegisterForm = () => {
     const navigation = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await axios.post('api/auth/register', form);
-        if (res.status === 201) {
-            navigation('/login', {replace: true});
-        } else {
-            console.error('Registration error:', res.data.message);
-            form.clear();
-        }
 
-    }
+        try {
+            const res = await axios.post('api/auth/register', form);
+
+            if (res.status === 201) {
+                navigation('/login', {
+                    replace: true,
+                    state: { isNewAccount: true, message: 'Konto zostało utworzone pomyślnie!' }
+                });
+            }
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 409) {
+                    navigation('/login', {
+                        replace: true,
+                        state: { isAlreadyExistingAccount: true, message: 'Konto już istnieje. Zaloguj się.' }
+                    });
+                } else {
+                    console.error('Registration error:', error.response.data?.message);
+                }
+            } else {
+                console.error('Unexpected error:', error);
+            }
+        }
+    };
+
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col w-full lg:w-1/2 gap-4 p-4 rounded-xl bg-white ">
