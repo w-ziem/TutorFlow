@@ -24,6 +24,7 @@ const Header = () => {
                 <a className="text-white text-md font-semibold hover:text-secondary ease-[0.3] transition-all" href="#features">Funkcje</a>
                 <a className="text-white text-md font-semibold hover:text-secondary ease-[0.3] transition-all" href="#pricing">Cennik</a>
                 <a className="text-white text-md font-semibold hover:text-secondary ease-[0.3] transition-all" href="#testimonials">Opinie</a>
+                <Link className="text-white text-md font-semibold hover:text-secondary ease-[0.3] transition-all" to="/login">Zaloguj się</Link>
             </nav>
 
             {/* Desktop CTA Button */}

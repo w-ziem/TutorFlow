@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import {FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser, FaUserGraduate} from "react-icons/fa";
+import {useNavigate} from "react-router-dom";
+import axios from 'axios';
 
 const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -23,13 +25,21 @@ const RegisterForm = () => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const navigation = useNavigate();
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(form.name, form.email, form.password, form.role);
+        const res = await axios.post('api/auth/register', form);
+        if (res.status === 201) {
+            navigation('/login', {replace: true});
+        } else {
+            console.error('Registration error:', res.data.message);
+            form.clear();
+        }
+
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col w-1/2 gap-4 p-4 rounded-xl bg-white ">
+        <form onSubmit={handleSubmit} className="flex flex-col w-full lg:w-1/2 gap-4 p-4 rounded-xl bg-white ">
             {/* Name Field */}
             <div className="space-y-2">
                 <label htmlFor="name" className="block text-sm font-semibold text-heading">

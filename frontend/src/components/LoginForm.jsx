@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser, FaUserGraduate} from "react-icons/fa";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import axios from 'axios';
+import {jwtDecode} from "jwt-decode";
+
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -10,10 +13,8 @@ const LoginForm = () => {
     };
 
     const [form, setForm] = useState({
-        name: '',
         email: '',
-        password: '',
-        role: ''
+        password: ''
     });
 
 
@@ -24,13 +25,24 @@ const LoginForm = () => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const navigation = useNavigate();
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(form.name, form.email, form.password, form.role);
-    }
+        try {
+            const response = await axios.post('api/auth/login', form);
+            localStorage.setItem('token', response.data.token);
+            const payload = jwtDecode(response.data.token);
+            navigation(`/dashboard/${payload.role.toLowerCase()}`, {replace: true});
+
+        } catch (error) {
+            console.error('Login error:', error.response?.data || error.message);
+            form.clear();
+        }
+    };
+
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col w-1/2 gap-4 p-4 rounded-xl bg-white ">
+        <form onSubmit={handleSubmit} className="flex flex-col w-full lg:w-1/2 gap-4 p-4 rounded-xl bg-white ">
             {/* Email Field */}
             <div className="space-y-2">
                 <label htmlFor="email" className="block text-sm font-semibold text-heading">

@@ -5,6 +5,8 @@ import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
+import StudentDashboardPage from "./pages/StudentDashboardPage.jsx";
+import TutorDashboardPage from "./pages/TutorDashboardPage.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -14,6 +16,8 @@ const router = createBrowserRouter(
             <Route path="/signup" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path='*' element={<NotFoundPage />} />
+            <Route path='/dashboard/student' element={<StudentDashboardPage />} />
+            <Route path='/dashboard/tutor' element={<TutorDashboardPage />} />
 
         </Route>
     )

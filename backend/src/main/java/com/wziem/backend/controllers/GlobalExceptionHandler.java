@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RefreshTokenExpiredException.class)
     public ResponseEntity<Map<String, String>> handleRefreshTokenExpiredException(RefreshTokenExpiredException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("error", "Refresh token expired", "action", "redirectToLogin"));
+                .body(Map.of("error", "Refresh token expired", "action", "redirectToRefresh"));
     }
 
 
