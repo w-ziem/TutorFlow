@@ -64,8 +64,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/tutor/**").hasRole(Role.TUTOR.name())
-                        .requestMatchers("/student/**").hasRole(Role.STUDENT.name())
+                        .requestMatchers("/students/**").hasRole(Role.TUTOR.name())
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(c -> {
