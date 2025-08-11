@@ -4,19 +4,19 @@ import heroImage from "../assets/hero.svg";
 
 const Hero = () => {
     return (
-        <section className="overflow-hidden relative isolate  bg-background text-white md:overflow-visible">
+        <section className="overflow-hidden relative isolate  bg-background text-white lg:overflow-visible">
             {/* Dekoracyjne tła */}
             <div aria-hidden="true" className="pointer-events-none absolute -top-15 right-1/3 h-[36rem] w-[52rem] translate-x-1/2 rounded-full bg-indigo-600/20 blur-[80px]" />
             <div aria-hidden="true" className="pointer-events-none absolute -bottom-0 left-1/4 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-fuchsia-500/20 blur-3xl" />
 
             <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
-                <div className="flex gap-4">
-                <div className=" w-[60%] flex flex-col">
-                    <h1 className="font-main gradient-text text-6xl md:text-8xl max-w-3xl py-2 font-semibold">
+                <div className="flex items-center flex-col lg:flex-row lg:items-start gap-4">
+                <div className="w-full lg:w-[60%] flex flex-col">
+                    <h1 className="font-main gradient-text text-6xl md:text-8xl text-center lg:text-start max-w-3xl py-2 font-semibold">
                         Twoje lekcje. Twój flow.
                     </h1>
 
-                    <p className="mt-6 text-pretty text-2xl leading-8 text-text">
+                    <p className="mt-6 text-pretty text-2xl leading-8 text-center lg:text-start text-text">
                         TutorFlow to asystent dla nowoczesnych tutorów. Wszystko, czego potrzebujesz, by prowadzić korepetycje
                         w pełnym spokoju – od pierwszej lekcji po ostatnią płatność.
                     </p>

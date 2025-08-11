@@ -56,7 +56,7 @@ const Header = () => {
             {/* Mobile Menu Overlay */}
             {isMenuOpen && (
                 <div 
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                    className="fixed inset-0 blur-2xl bg-opacity-50 z-40 md:hidden"
                     onClick={closeMenu}
                 />
             )}

@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 const Cta = () => {
     return (
-        <section id="cta" className="relative isolate overflow-hidden md:overflow-visible bg-background py-24">
+        <section id="cta" className="relative isolate overflow-hidden lg:overflow-visible bg-background py-24">
             <div aria-hidden="true" className="pointer-events-none absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-indigo-600/20 blur-3xl" />
             <div aria-hidden="true" className="pointer-events-none absolute -right-24 top-10 h-80 w-80 rounded-full bg-fuchsia-500/20 blur-3xl" />
 
