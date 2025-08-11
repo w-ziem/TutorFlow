@@ -22,7 +22,6 @@ const router = createBrowserRouter(
 
             <Route path="/dashboard-tutor/" element={<TutorLayout />} >
                 <Route index element={<TutorDashboardPage />} />
-                <Route path='*' element={<NotFoundPage />} />
             </Route>
         </>
     )

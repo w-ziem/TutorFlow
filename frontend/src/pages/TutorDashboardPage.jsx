@@ -1,10 +1,16 @@
 import React from 'react';
+import LeftSummaries from "../components/LeftSummaries.jsx";
+import RightSummaries from "../components/RightSummaries.jsx";
 
 const TutorDashboardPage = () => {
+
     return (
-        <div>
-            
-        </div>
+        <section className="w-full h-screen flex gap-5">
+            {/*<div></div>  background bubbles*/}
+            //Todo: components
+            <LeftSummaries />
+            <RightSummaries />
+        </section>
     );
 };
 

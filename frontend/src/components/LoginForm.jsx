@@ -50,6 +50,7 @@ const LoginForm = () => {
             const response = await axios.post('api/auth/login', form);
             localStorage.setItem('token', response.data.token);
             const payload = jwtDecode(response.data.token);
+            localStorage.setItem('payload', JSON.stringify(payload));
             navigation(`/dashboard-${payload.role.toLowerCase()}`, {replace: true});
 
         } catch (error) {
@@ -58,7 +59,7 @@ const LoginForm = () => {
         }
     };
 
-
+    //TODO: AuthContext - wywołanie login po zalogowaniu aby zapisać rzeczy
     return (
         <form onSubmit={handleSubmit} className="flex flex-col w-full lg:w-1/2 gap-4 p-4 rounded-xl bg-white ">
             {/* Popup z notyfikacją */}
