@@ -1,5 +1,6 @@
 import './App.css'
-import {Route, createBrowserRouter, createRoutesFromElements, RouterProvider, Routes} from 'react-router-dom';
+import {Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthProvider.jsx';
 import MainLayout from './Layouts/MainLayout';
 import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -8,6 +9,7 @@ import LoginPage from './pages/LoginPage';
 import StudentDashboardPage from "./pages/StudentDashboardPage.jsx";
 import TutorDashboardPage from "./pages/TutorDashboardPage.jsx";
 import TutorLayout from "./Layouts/TutorLayout.jsx";
+import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -16,20 +18,32 @@ const router = createBrowserRouter(
                 <Route index element={<MainPage />} />
                 <Route path="/signup" element={<RegisterPage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path='/dashboard-student' element={<StudentDashboardPage />} />
                 <Route path='*' element={<NotFoundPage />} />
             </Route>
-
-            <Route path="/dashboard-tutor/" element={<TutorLayout />} >
+            
+            <Route path="/dashboard-student" element={
+                <ProtectedRoute requiredRole="STUDENT">
+                    <StudentDashboardPage />
+                </ProtectedRoute>
+            } />
+            
+            <Route path="/dashboard-tutor/*" element={
+                <ProtectedRoute requiredRole="TUTOR">
+                    <TutorLayout />
+                </ProtectedRoute>
+            } >            
                 <Route index element={<TutorDashboardPage />} />
             </Route>
         </>
     )
 )
 
-
 function App() {
-  return <RouterProvider  router={router}/>
+    return (
+        <AuthProvider>
+            <RouterProvider router={router}/>
+        </AuthProvider>
+    );
 }
 
 export default App

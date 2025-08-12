@@ -3,7 +3,7 @@ import axios from 'axios';
 
 //Axios instance
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3000/api',
+    baseURL: 'http://localhost:8080/api',
     withCredentials: true, //cookies
 });
 
@@ -58,7 +58,7 @@ axiosInstance.interceptors.response.use( (response) => response, async (error) =
     isRefreshing = true;
 
     try {
-        const response = await axiosInstance.get('/auth/refresh');
+        const response = await axiosInstance.post('/auth/refresh');
         const {token} = response.data;
 
         localStorage.setItem("token", token);

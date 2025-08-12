@@ -3,11 +3,13 @@ import {FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser, FaUserGraduate} from "rea
 import {Link, useNavigate, useLocation} from "react-router-dom";
 import axios from 'axios';
 import {jwtDecode} from "jwt-decode";
+import {useAuth} from "../contexts/AuthProvider.jsx"
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [notification, setNotification] = useState(null);
     const location = useLocation();
+    const {login} = useAuth();
     
     // Odbierz stan z nawigacji
     useEffect(() => {
@@ -48,18 +50,20 @@ const LoginForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post('api/auth/login', form);
-            localStorage.setItem('token', response.data.token);
-            const payload = jwtDecode(response.data.token);
-            localStorage.setItem('payload', JSON.stringify(payload));
-            navigation(`/dashboard-${payload.role.toLowerCase()}`, {replace: true});
+            const token = response.data.token;
 
+            localStorage.setItem('token', token);
+            const payload = jwtDecode(token);
+
+            if(login(token)) {
+                navigation(`/dashboard-${payload.role.toLowerCase()}`, {replace: true});
+            }
         } catch (error) {
             console.error('Login error:', error.response?.data || error.message);
             form.clear();
         }
     };
 
-    //TODO: AuthContext - wywołanie login po zalogowaniu aby zapisać rzeczy
     return (
         <form onSubmit={handleSubmit} className="flex flex-col w-full lg:w-1/2 gap-4 p-4 rounded-xl bg-white ">
             {/* Popup z notyfikacją */}
