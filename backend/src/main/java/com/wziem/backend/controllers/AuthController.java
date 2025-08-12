@@ -33,7 +33,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
-    @GetMapping("/refresh")
+    @PostMapping("/refresh")
     public ResponseEntity<JwtDto> refreshToken(@CookieValue("refreshToken") String refreshToken) {
         JwtDto token = authService.refteshAccessToken(refreshToken);
         return ResponseEntity.ok(token);
