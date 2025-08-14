@@ -8,23 +8,23 @@ const SidebarLinks = ({children}, path) => {
 
     return (
         <nav className="flex flex-col gap-3 ml-3">
-            <NavLink className={linkClass} to="." end>
+            <NavLink className={linkClass} to="/dashboard-tutor" end>
                 <FaHome className="inline mr-3 mb-0.5"/>
                 Dashboard
             </NavLink>
-            <NavLink className={linkClass} to="./students">
+            <NavLink className={linkClass} to="/dashboard-tutor/students">
                 <FaUserGraduate className="inline mr-3 mb-0.5"/>
                 Uczniowie
             </NavLink>
-            <NavLink className={linkClass} to="./lessons">
+            <NavLink className={linkClass} to="/dashboard-tutor/lessons">
                 <FaBook className="inline mr-3 mb-0.5"/>
                 Lekcje
             </NavLink>
-            <NavLink  className={linkClass} to="./materials">
+            <NavLink  className={linkClass} to="/dashboard-tutor/materials">
                 <FaLink className="inline mr-3 mb-0.5"/>
                 Materiały
             </NavLink>
-            <NavLink className={linkClass} to="./raports">
+            <NavLink className={linkClass} to="/dashboard-tutor/raports">
                 <FaNewspaper className="inline mr-3 mb-0.5"/>
                 Raporty
             </NavLink>

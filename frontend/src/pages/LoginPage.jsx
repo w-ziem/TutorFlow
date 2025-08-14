@@ -1,6 +1,6 @@
 import React from 'react';
 import loginImage from "../assets/login.svg";
-import LoginForm from "../components/LoginForm.jsx";
+import LoginForm from "../components/Forms/LoginForm.jsx";
 import {Link} from "react-router-dom";
 import {FaArrowLeft} from "react-icons/fa";
 

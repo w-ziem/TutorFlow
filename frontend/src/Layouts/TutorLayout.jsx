@@ -1,6 +1,6 @@
 import React from 'react';
 import {Outlet} from "react-router-dom";
-import Sidebar from "../components/Sidebar.jsx";
+import Sidebar from "../components/Dashboard/Sidebar.jsx";
 
 const TutorLayout = () => {
     return (

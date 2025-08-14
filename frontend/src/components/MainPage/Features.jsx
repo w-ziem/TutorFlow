@@ -1,7 +1,7 @@
-import learning from "../assets/nauczanie.svg";
-import ai from "../assets/ai.svg";
-import calendar from "../assets/calendar.svg";
-import relation from "../assets/realtion.svg";
+import learning from "../../assets/nauczanie.svg";
+import ai from "../../assets/ai.svg";
+import calendar from "../../assets/calendar.svg";
+import relation from "../../assets/realtion.svg";
 
 export default function Features() {
     const features = [

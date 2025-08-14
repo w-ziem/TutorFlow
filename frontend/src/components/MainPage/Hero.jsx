@@ -1,6 +1,6 @@
 import React from 'react';
-import placeholder from "../assets/placeholder.png";
-import heroImage from "../assets/hero.svg";
+import placeholder from "../../assets/placeholder.png";
+import heroImage from "../../assets/hero.svg";
 
 const Hero = () => {
     return (

@@ -3,7 +3,7 @@ import {FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser, FaUserGraduate} from "rea
 import {Link, useNavigate, useLocation} from "react-router-dom";
 import axios from 'axios';
 import {jwtDecode} from "jwt-decode";
-import {useAuth} from "../contexts/AuthProvider.jsx"
+import {useAuth} from "../../contexts/AuthProvider.jsx"
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);

@@ -7,14 +7,15 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     if (loading) {
         return <div>Loading...</div>; // lub spinner
     }
+    //TODO: ODCOMMENTOWAĆ JAK ZROBIE DASHBOARD
 
-    if (!isAuthenticated) {
-        return <Navigate to="/login" replace />;
-    }
+    // if (!isAuthenticated) {
+    //     return <Navigate to="/login" replace />;
+    // }
 
-    if (requiredRole && user?.role !== requiredRole) {
-        return <Navigate to="/" replace />;
-    }
+    // if (requiredRole && user?.role !== requiredRole) {
+    //     return <Navigate to="/" replace />;
+    // }
 
     return children;
 };

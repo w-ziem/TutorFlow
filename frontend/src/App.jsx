@@ -11,6 +11,12 @@ import TutorDashboardPage from "./pages/TutorDashboardPage.jsx";
 import TutorLayout from "./Layouts/TutorLayout.jsx";
 import ProtectedRoute from './components/ProtectedRoute';
 
+import Modal from './components/Modal/Modal';
+import AddStudentForm from "./components/Forms/AddStudentForm.jsx";
+import {useState} from "react";
+import {FormProvider} from "./contexts/FromContext.jsx";
+import {GlobalModal} from "./components/Modal/GlobalModal.jsx";
+
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
@@ -41,9 +47,13 @@ const router = createBrowserRouter(
 function App() {
     return (
         <AuthProvider>
-            <RouterProvider router={router}/>
+            <FormProvider>
+                <RouterProvider router={router}/>
+                <GlobalModal />
+            </FormProvider>
         </AuthProvider>
     );
 }
+
 
 export default App

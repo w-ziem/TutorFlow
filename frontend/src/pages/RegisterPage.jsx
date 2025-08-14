@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {FaUser, FaEnvelope, FaLock, FaUserGraduate, FaEye, FaEyeSlash, FaArrowLeft} from 'react-icons/fa';
 import registerImage from "../assets/register.svg";
-import RegisterForm from "../components/RegisterForm.jsx";
+import RegisterForm from "../components/Forms/RegisterForm.jsx";
 import {Link} from "react-router-dom";
 
 const RegisterPage = () => {
