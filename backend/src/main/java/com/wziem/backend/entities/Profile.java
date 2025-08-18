@@ -32,7 +32,7 @@ public class Profile {
 
 
     @Column(name = "rate")
-    private BigDecimal houtRate;
+    private BigDecimal hourRate;
 
 
     @Column(name = "lesson_count")

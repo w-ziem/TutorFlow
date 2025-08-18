@@ -1,6 +1,7 @@
 package com.wziem.backend.repositories;
 
 import com.wziem.backend.entities.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -8,4 +9,7 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByEmail(String email);
+
+    @EntityGraph(attributePaths = "profile")
+    List<User> findAllByTutorId(Long tutorId);
 }

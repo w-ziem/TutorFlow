@@ -2,6 +2,7 @@ package com.wziem.backend.services;
 
 import com.wziem.backend.dtos.AddStudentRequest;
 import com.wziem.backend.dtos.ProfileDto;
+import com.wziem.backend.dtos.StudentDto;
 import com.wziem.backend.entities.Profile;
 import com.wziem.backend.entities.User;
 import com.wziem.backend.mappers.ProfileMapper;
@@ -10,6 +11,8 @@ import com.wziem.backend.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -34,11 +37,16 @@ public class StudentService {
         Profile profile = new Profile();
         profile.setStudent(student);
         profile.setTutor(tutor);
-        profile.setHoutRate(details.getHourlyRate());
+        profile.setHourRate(details.getHourlyRate());
         profile.setLessonCount(0);
         profile.setEducationLevel(details.getEducationLevel());
         profile.setCommunicationLink(details.getCommunicationLink());
 
         return profileRepository.save(profile); //tutor and user are saved in the same transaction
+    }
+
+    public List<StudentDto> fetchTutorStudents(long tutorId) {
+        List<Profile> students = profileRepository.findAllByTutorId(tutorId);
+        return students.stream().map(profileMapper::toStudentDto).toList();
     }
 }
