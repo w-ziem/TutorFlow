@@ -29,7 +29,7 @@ export default function Modal({ isOpen, onClose, children, closing }) {
             {/* Kontener */}
             <div
                 onClick={(e) => e.stopPropagation()}
-                className={`bg-white rounded-xl shadow-lg p-6 w-[600px] z-10 max-h-[90vh] overflow-auto
+                className={`bg-none rounded-xl shadow-lg p-1 w-[1000px] z-10 max-h-[90vh] overflow-auto
                     ${closing ? "animate-slideDown" : "animate-slideUp"}`}
             >
                 {children}

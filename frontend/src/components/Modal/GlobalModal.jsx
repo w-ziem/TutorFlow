@@ -21,7 +21,7 @@ export const GlobalModal = () => {
             onClose={handleClose}
             closing={closing}
         >
-            {activeForm === "student" && <AddStudentForm onSuccess={handleClose} />}
+            {activeForm === "students" && <AddStudentForm onSuccess={handleClose} />}
             {/* inne formularze */}
         </Modal>
     );

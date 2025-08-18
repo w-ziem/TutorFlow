@@ -11,11 +11,11 @@ import TutorDashboardPage from "./pages/TutorDashboardPage.jsx";
 import TutorLayout from "./Layouts/TutorLayout.jsx";
 import ProtectedRoute from './components/ProtectedRoute';
 
-import Modal from './components/Modal/Modal';
-import AddStudentForm from "./components/Forms/AddStudentForm.jsx";
-import {useState} from "react";
+
 import {FormProvider} from "./contexts/FromContext.jsx";
 import {GlobalModal} from "./components/Modal/GlobalModal.jsx";
+import {Toaster} from "react-hot-toast";
+import ListPage from "./pages/ListPage.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -39,6 +39,7 @@ const router = createBrowserRouter(
                 </ProtectedRoute>
             } >            
                 <Route index element={<TutorDashboardPage />} />
+                <Route path="students" element={<ListPage type="students"/>} />
             </Route>
         </>
     )
@@ -46,12 +47,15 @@ const router = createBrowserRouter(
 
 function App() {
     return (
+       <>
         <AuthProvider>
             <FormProvider>
                 <RouterProvider router={router}/>
                 <GlobalModal />
             </FormProvider>
         </AuthProvider>
+        <Toaster position='top-right' reverseOrder={false} />
+       </>
     );
 }
 

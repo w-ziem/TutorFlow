@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import studentImage from "../../assets/student.svg";
 import InputField from "../Ui/InputField.jsx";
 import {useForm} from "../../contexts/FromContext.jsx";
+import axiosInstance from "../../utils/axiosInstance.jsx";
+import {toast} from "react-hot-toast";
 
 const AddStudentForm = ({ onSuccess }) => {
     const [data, setData] = useState({
@@ -12,7 +14,6 @@ const AddStudentForm = ({ onSuccess }) => {
     });
 
     const {setActiveForm} = useForm();
-    const {}
 
     const handleChange = (e) => {
         setData({
@@ -21,19 +22,31 @@ const AddStudentForm = ({ onSuccess }) => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-
-        // Symulacja API call
-        // TODO: POST do api
-
-        // ✅ Po udanym wysłaniu wywołaj onSuccess
-        onSuccess();
+        try {
+            const res = await axiosInstance.post('/students', data);
+            console.log(res);
+            if (res.status === 201) {
+                toast.success("Przypisano nowego ucznia.")
+                onSuccess();
+            }
+        }catch (error) {
+            if (error.response.status === 404) {
+                toast.error("Nie znaleziono ucznia.");
+            }
+            else if (error.response.status === 409) {
+                toast.error("Uczeń jest juz do ciebie przypisany.");
+            }
+            else {
+                console.error('Error:', error);
+                toast.error("Wystąpił nieoczekiwany błąd.")
+            }
+        }
     };
 
     return (
-        <div className="flex justify-between gap-6 min-h-[400px] p-6 bg-white rounded-lg border-1 border-primary">
+        <div className="flex flex-col md:flex-row justify-between gap-6 min-h-[400px] p-6 bg-white rounded-lg border-1 border-primary">
             <div className="flex flex-col gap-4 flex-1">
                 <h1 className="font-bold text-primary text-4xl leading-tight">
                     Weź ucznia pod swoje skrzydła
