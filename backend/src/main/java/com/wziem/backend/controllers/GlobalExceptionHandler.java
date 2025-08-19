@@ -1,6 +1,7 @@
 package com.wziem.backend.controllers;
 
 
+import com.wziem.backend.exceptions.ForbiddenContentAccessException;
 import com.wziem.backend.exceptions.RefreshTokenExpiredException;
 import com.wziem.backend.exceptions.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,11 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(ForbiddenContentAccessException.class)
+    public ResponseEntity<Map<String, String>> handleForbiddenContentAccessException(ForbiddenContentAccessException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of("error", "Forbidden Content Access"));
+    }
 
     // REST API ERROR HANDLERS
 
