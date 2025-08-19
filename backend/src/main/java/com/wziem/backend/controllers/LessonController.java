@@ -50,5 +50,8 @@ public class LessonController {
     }
 
     //TODO: updating lesson (patch vs put) for adding notes to then use for prompts
+    //TODO: delete lesson
+
+    //TODO: test for all endpoints with postman (db reset when migrating)
 
 }

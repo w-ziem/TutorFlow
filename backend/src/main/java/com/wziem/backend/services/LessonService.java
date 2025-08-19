@@ -28,6 +28,10 @@ public class LessonService {
         User tutor = userRepository.findById(tutorId).orElseThrow(() ->  new UsernameNotFoundException("tutor not found"));
         User  student = userRepository.findById(studentId).orElseThrow(() -> new UsernameNotFoundException("student not found"));
 
+        if (!tutor.equals(student.getTutor())) {
+            throw new ForbiddenContentAccessException("You don't have permission to create lesson for students not connected to you");
+        }
+
         Lesson lesson = new Lesson();
         lesson.setDate(LocalDateTime.now());
         lesson.setTopic(topic);
