@@ -11,7 +11,6 @@ const formatLink = (link) => {
 };
 
 const ListCard = ({ item }) => {
-    // Dodaj sprawdzenie czy item istnieje
     if (!item) {
         return (
             <div className="rounded-2xl shadow-md bg-white p-4 flex flex-col gap-2">

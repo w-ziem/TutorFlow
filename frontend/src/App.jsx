@@ -40,6 +40,9 @@ const router = createBrowserRouter(
             } >            
                 <Route index element={<TutorDashboardPage />} />
                 <Route path="students" element={<ListPage type="students"/>} />
+                <Route path="lessons" element={<ListPage type="lessons"/>} />
+                <Route path="materials" element={<ListPage type="materials"/>} />
+                <Route path="reports" element={<ListPage type="reports"/>} />
             </Route>
         </>
     )
