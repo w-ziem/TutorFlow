@@ -17,7 +17,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/lesson")
+@RequestMapping("/lessons")
 public class LessonController {
     private final LessonService lessonService;
 
@@ -25,7 +25,7 @@ public class LessonController {
     public ResponseEntity<LessonDto> createLesson(@Valid @RequestBody CreateLessonRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long tutorId = (Long) authentication.getPrincipal();
-        LessonDto createdLesson = lessonService.createLesson(tutorId, request.getStudentId(), request.getTopic());
+        LessonDto createdLesson = lessonService.createLesson(tutorId, request.getStudentEmail(), request.getTopic());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdLesson);
     }

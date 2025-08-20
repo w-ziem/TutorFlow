@@ -1,5 +1,7 @@
 package com.wziem.backend.dtos;
 
+import java.time.LocalDateTime;
+
 import com.wziem.backend.entities.User;
 import lombok.Data;
 
@@ -9,4 +11,5 @@ public class LessonDto {
     private String tutorName;
     private String studentName;
     private String topic;
+    private LocalDateTime date;
 }

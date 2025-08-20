@@ -24,19 +24,20 @@ public class LessonService {
     private final UserMapper userMapper;
 
 
-    public LessonDto createLesson(Long tutorId, Long studentId, String topic) {
+    public LessonDto createLesson(Long tutorId, String studentEmail, String topic) {
         User tutor = userRepository.findById(tutorId).orElseThrow(() ->  new UsernameNotFoundException("tutor not found"));
-        User  student = userRepository.findById(studentId).orElseThrow(() -> new UsernameNotFoundException("student not found"));
+        User  student = userRepository.findByEmail(studentEmail).orElseThrow(() -> new UsernameNotFoundException("student not found"));
 
         if (!tutor.equals(student.getTutor())) {
             throw new ForbiddenContentAccessException("You don't have permission to create lesson for students not connected to you");
         }
 
-        Lesson lesson = new Lesson();
-        lesson.setDate(LocalDateTime.now());
-        lesson.setTopic(topic);
-        lesson.setTutor(tutor);
-        lesson.setStudent(student);
+        Lesson lesson = Lesson.builder()
+                .date(LocalDateTime.now())
+                .topic(topic)
+                .tutor(tutor)
+                .student(student)
+                .build();
         lessonRepository.save(lesson);
 
         return lessonMapper.toDto(lesson);
