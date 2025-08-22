@@ -10,6 +10,6 @@ import java.util.List;
 
 
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
-    @Query("SELECT l FROM Lesson l WHERE l.tutor = :user OR l.student = :user")
+    @Query("SELECT l FROM Lesson l WHERE l.tutor = :user OR l.student = :user ORDER BY l.date DESC")
     List<Lesson> findAllByUser(@Param("user") User user);
 }

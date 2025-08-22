@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 @Data
 public class StudentDto {
+    private Long id;
     private String name;
     private String email;
     private String communicationLink;

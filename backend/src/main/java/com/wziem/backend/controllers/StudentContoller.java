@@ -19,7 +19,6 @@ import java.util.List;
 public class StudentContoller {
     private final StudentService studentService;
 
-
     //endpoint to manage students - eg. connect students to tutors
 
     @PostMapping
