@@ -5,7 +5,7 @@ import AddStudentForm from "../Forms/AddStudentForm.jsx";
 import AddLessonForm from "../Forms/AddLessonForm.jsx";
 
 export const GlobalModal = () => {
-    const { activeForm, setActiveForm } = useForm();
+    const { activeForm, setActiveForm, onSuccessRefresh } = useForm();
     const [closing, setClosing] = useState(false);
 
     const handleClose = () => {
@@ -16,14 +16,21 @@ export const GlobalModal = () => {
         }, 300);
     };
 
+    const handleSuccess = async () => {
+        handleClose();
+        console.log("onSuccess value:" + typeof onSuccessRefresh);
+        console.log("onSuccessRefresh value:" + onSuccessRefresh);
+        await onSuccessRefresh();
+    }
+
     return (
         <Modal
             isOpen={!!activeForm}
             onClose={handleClose}
             closing={closing}
         >
-            {activeForm === "students" && <AddStudentForm onSuccess={handleClose} />}
-            {activeForm === "lessons" && <AddLessonForm onSuccess={handleClose} />}
+            {activeForm === "students" && <AddStudentForm onSuccess={handleSuccess} />}
+            {activeForm === "lessons" && <AddLessonForm onSuccess={handleSuccess} />}
             {/* inne formularze */}
         </Modal>
     );

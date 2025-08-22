@@ -28,7 +28,7 @@ const AddStudentForm = ({ onSuccess }) => {
             const res = await axiosInstance.post('/students', data);
             console.log(res);
             if (res.status === 201) {
-                toast.success("Przypisano nowego ucznia.")
+                toast.success("Przypisano nowego ucznia.");
                 onSuccess();
             }
         }catch (error) {

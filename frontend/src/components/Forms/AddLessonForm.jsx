@@ -16,7 +16,6 @@ const AddLessonForm = ({onSuccess}) => {
         const fetchStudents = async () => {
             try {
                 const res = await axiosInstance.get("/students");
-                console.log("student data: ",res); ///DEBUG
                 setStudents(res.data);
             } catch (err) {
                 toast.error("Nie udało się pobrać listy uczniów");
@@ -34,10 +33,10 @@ const AddLessonForm = ({onSuccess}) => {
         });
     };
 
+    //TODO: handle different responses eg. not your student etc.
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log("Data being sent:", data); ///DEBUG
             const res = await axiosInstance.post('/lessons', data);
             console.log(res);
             if (res.status === 201) {
@@ -45,7 +44,7 @@ const AddLessonForm = ({onSuccess}) => {
                 onSuccess();
             }
         }catch (error) {
-            if (error.response.status === 404) {
+            if (error.response?.status === 404) {
                 toast.error("Nie znaleziono ucznia.");
             }
             else {

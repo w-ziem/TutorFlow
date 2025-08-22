@@ -1,5 +1,5 @@
 import React from "react";
-import ListCard from "./ListCard.jsx";
+import StudentCard from "./StudentCard.jsx";
 
 const ListCards = ({ items, renderCard }) => {
     if (!items || !Array.isArray(items)) {
@@ -9,7 +9,7 @@ const ListCards = ({ items, renderCard }) => {
     return (
         <div className="flex flex-wrap gap-4">
             {items.map((item, index) =>
-                renderCard ? renderCard(item, index) : <ListCard key={item.id || index} item={item} />
+                renderCard && renderCard(item, index)
             )}
         </div>
     );

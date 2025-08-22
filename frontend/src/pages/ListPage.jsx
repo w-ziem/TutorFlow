@@ -8,19 +8,20 @@ import ListCard from "../components/Dashboard/Lists/ListCard.jsx";
 const ListPage = ({ type }) => {
     const config = listConfig[type];
     const [data, setData] = useState([]);
-    const {setActiveForm} = useForm();
+    const {setActiveForm, setOnSuccessRefresh} = useForm();
+
+    const fetchData = async () => {
+        try {
+            const res = await axiosInstance.get(config.endpoint);
+            setData(res.data);
+            console.log(res.data);
+        } catch (err) {
+            console.error("Błąd pobierania:", err);
+        }
+    };
 
     useEffect(() => {
-        const fetch = async () => {
-            try {
-                const res = await axiosInstance.get(config.endpoint);
-                setData(res.data);
-                console.log(res.data);
-            } catch (err) {
-                console.error("Błąd pobierania:", err);
-            }
-        };
-        fetch();
+        fetchData();
     }, [config.endpoint]);
 
     return (
@@ -31,12 +32,15 @@ const ListPage = ({ type }) => {
                 heading={config.heading}
                 description={config.description}
                 buttonLabel={config.addButton}
-                onAdd={() => {setActiveForm(type)}}
+                onAdd={() => {
+                    setActiveForm(type);
+                    setOnSuccessRefresh(fetchData);
+                }}
             />
 
                 <ListCards
                     items={data}
-                    renderCard={(item, index) => <ListCard key={index} item={item} />}
+                    renderCard={(item, index) => <ListCard key={index} item={item} type={type} />}
                 />
         </div>
         </>
