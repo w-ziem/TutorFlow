@@ -3,6 +3,7 @@ package com.wziem.backend.controllers;
 
 import com.wziem.backend.exceptions.ForbiddenContentAccessException;
 import com.wziem.backend.exceptions.RefreshTokenExpiredException;
+import com.wziem.backend.exceptions.SavingEmptyFileException;
 import com.wziem.backend.exceptions.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +57,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleForbiddenContentAccessException(ForbiddenContentAccessException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(Map.of("error", "Forbidden Content Access"));
+    }
+
+
+    // MATERIALS ERROR HANDLERS
+    @ExceptionHandler(SavingEmptyFileException.class)
+    public ResponseEntity<Map<String, String>> handleSavingEmptyFileException(SavingEmptyFileException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", "File is empty"));
     }
 
     // REST API ERROR HANDLERS
