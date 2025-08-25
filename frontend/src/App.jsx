@@ -16,6 +16,7 @@ import {FormProvider} from "./contexts/FromContext.jsx";
 import {GlobalModal} from "./components/Modal/GlobalModal.jsx";
 import {Toaster} from "react-hot-toast";
 import ListPage from "./pages/ListPage.jsx";
+import LessonPage from "./pages/LessonPage.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
                 <Route index element={<TutorDashboardPage />} />
                 <Route path="students" element={<ListPage type="students"/>} />
                 <Route path="lessons" element={<ListPage type="lessons"/>} />
+                <Route path="lessons/:id"  element={<LessonPage />} />
                 <Route path="materials" element={<ListPage type="materials"/>} />
                 <Route path="reports" element={<ListPage type="reports"/>} />
             </Route>

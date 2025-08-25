@@ -110,7 +110,17 @@ const AddLessonForm = ({onSuccess}) => {
                         placeholder="np. Wielomiany: schemat hornera"
                         value={data.topic}
                         onChange={handleChange}
-                        required
+                        required={true}
+                    />
+
+                    <InputField
+                        id="whiteboardLink"
+                        type="text"
+                        title="Tablica interaktywna"
+                        placeholder="np. zoom.us/j.kowalski-123456789"
+                        value={data.whiteboardLink}
+                        onChange={handleChange}
+                        required={true}
                     />
 
                     <button

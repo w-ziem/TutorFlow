@@ -4,6 +4,7 @@ package com.wziem.backend.controllers;
 import com.wziem.backend.dtos.CreateLessonRequest;
 import com.wziem.backend.dtos.LessonDto;
 import com.wziem.backend.entities.Lesson;
+import com.wziem.backend.mappers.LessonMapper;
 import com.wziem.backend.services.LessonService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -20,12 +21,13 @@ import java.util.List;
 @RequestMapping("/lessons")
 public class LessonController {
     private final LessonService lessonService;
+    private final LessonMapper lessonMapper;
 
     @PostMapping
     public ResponseEntity<LessonDto> createLesson(@Valid @RequestBody CreateLessonRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long tutorId = (Long) authentication.getPrincipal();
-        LessonDto createdLesson = lessonService.createLesson(tutorId, request.getStudentEmail(), request.getTopic());
+        LessonDto createdLesson = lessonService.createLesson(tutorId, request.getStudentEmail(), request.getTopic(), request.getWhiteboardLink());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdLesson);
     }
@@ -40,18 +42,28 @@ public class LessonController {
         return ResponseEntity.ok().body(res);
     }
 
+    @GetMapping("/recent")
+    public ResponseEntity<List<LessonDto>> getRecentLessons() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = (Long) authentication.getPrincipal();
+        List<LessonDto> res = lessonService.getUsersRecentLessons(userId);
+
+        return ResponseEntity.ok().body(res);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getLesson(@PathVariable Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = (Long) authentication.getPrincipal();
         Lesson fetchedLesson = lessonService.getLessonById(userId, id);
+        System.out.println(fetchedLesson);
 
-        return ResponseEntity.ok().body(fetchedLesson);
+        return ResponseEntity.ok().body(lessonMapper.toDto(fetchedLesson));
     }
 
     //TODO: updating lesson (patch vs put) for adding notes to then use for prompts
     //TODO: delete lesson
 
-    //TODO: test for all endpoints with postman (db reset when migrating)
 
 }

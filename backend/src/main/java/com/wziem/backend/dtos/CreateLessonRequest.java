@@ -14,4 +14,8 @@ public class CreateLessonRequest {
     @NotEmpty
     @Email
     private String studentEmail;
+
+    @NotNull
+    @NotEmpty
+    private String whiteboardLink;
 }

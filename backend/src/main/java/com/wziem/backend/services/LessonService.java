@@ -9,11 +9,13 @@ import com.wziem.backend.mappers.UserMapper;
 import com.wziem.backend.repositories.LessonRepository;
 import com.wziem.backend.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +26,7 @@ public class LessonService {
     private final UserMapper userMapper;
 
 
-    public LessonDto createLesson(Long tutorId, String studentEmail, String topic) {
+    public LessonDto createLesson(Long tutorId, String studentEmail, String topic, String link) {
         User tutor = userRepository.findById(tutorId).orElseThrow(() ->  new UsernameNotFoundException("tutor not found"));
         User  student = userRepository.findByEmail(studentEmail).orElseThrow(() -> new UsernameNotFoundException("student not found"));
 
@@ -37,6 +39,7 @@ public class LessonService {
                 .topic(topic)
                 .tutor(tutor)
                 .student(student)
+                .whiteboardLink(link)
                 .build();
         lessonRepository.save(lesson);
 
@@ -45,19 +48,25 @@ public class LessonService {
 
     public List<LessonDto> getUsersLessons(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("user not found"));
-        List<Lesson> lessons = lessonRepository.findAllByUser(user);
+        List<Lesson> lessons = lessonRepository.findLessonByUser(user, Pageable.unpaged());
 
         return lessons.stream().map(lessonMapper::toDto).toList();
     }
 
-    public Lesson getLessonById(Long userId, Long id) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("user not found"));
-        Lesson lesson = lessonRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("lesson not found"));
-
-        if(!lesson.getTutor().getId().equals(user.getId()) && !lesson.getStudent().getId().equals(user.getId())) {
-            throw new ForbiddenContentAccessException("You don't have permission to access lesson");
+    public Lesson getLessonById(Long userId ,Long lessonId) {
+        Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(() -> new UsernameNotFoundException("lesson not found"));
+        if(!Objects.equals(lesson.getStudent().getId(), userId) && !Objects.equals(lesson.getTutor().getId(), userId)) {
+            throw new ForbiddenContentAccessException("You don't have permission to access this lesson");
         }
 
         return lesson;
+    }
+
+
+    public List<LessonDto> getUsersRecentLessons(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("user not found"));
+        List<Lesson> recentLessons = lessonRepository.findLessonByUser(user, Pageable.ofSize(3));
+
+        return recentLessons.stream().map(lessonMapper::toDto).toList();
     }
 }

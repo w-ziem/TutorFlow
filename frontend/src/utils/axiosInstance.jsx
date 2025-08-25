@@ -54,27 +54,31 @@ axiosInstance.interceptors.response.use(
             return Promise.reject(error);
         }
 
+        originalRequest._retry = true;
+
         // Jeśli już trwa refreshowanie, dodaj do kolejki
         if (isRefreshing) {
             return new Promise((resolve, reject) => {
                 failedRequests.push({ resolve, reject });
             })
                 .then((token) => {
+                    // Tylko ustaw token, NIE wywołuj ponownie requesta tutaj
                     originalRequest.headers.Authorization = `Bearer ${token}`;
                     return axiosInstance(originalRequest);
                 })
                 .catch((err) => Promise.reject(err));
         }
 
-        originalRequest._retry = true;
         isRefreshing = true;
 
         try {
-            // UŻYJ refreshInstance zamiast axiosInstance!
+            // Refresh tokena
             const response = await refreshInstance.get('/auth/refresh');
             const { token } = response.data;
 
             localStorage.setItem('token', token);
+
+            // Przetwórz kolejkę PRZED ponowieniem oryginalnego requesta
             processQueue(null, token);
 
             // Ponów oryginalny request z nowym tokenem

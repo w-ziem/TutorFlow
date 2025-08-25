@@ -12,4 +12,5 @@ public class LessonDto {
     private String studentName;
     private String topic;
     private LocalDateTime date;
+    private String whiteboardLink;
 }

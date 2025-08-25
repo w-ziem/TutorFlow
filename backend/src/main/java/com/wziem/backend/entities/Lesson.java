@@ -46,4 +46,7 @@ public class Lesson {
     @Column(name = "note")
     private String note;
 
+    @Column(name = "whiteboard")
+    private String whiteboardLink;
+
 }
