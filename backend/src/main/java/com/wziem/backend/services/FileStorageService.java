@@ -1,9 +1,11 @@
 package com.wziem.backend.services;
 
 import com.wziem.backend.exceptions.SavingEmptyFileException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,9 +15,14 @@ import java.util.UUID;
 @Service
 public class FileStorageService {
 
-    private final Path root = Paths.get("resources/uploads");
+    @Value("${app.upload.dir:${user.home}/tutorflow/uploads}")
+    private String uploadDir;
 
-    public FileStorageService() throws IOException {
+    private Path root;
+
+    @PostConstruct
+    public void init() throws IOException {
+        root = Paths.get(uploadDir).toAbsolutePath().normalize();
         if (!Files.exists(root)) {
             Files.createDirectories(root);
         }
@@ -26,13 +33,16 @@ public class FileStorageService {
             throw new SavingEmptyFileException("File is empty");
         }
 
-        // creating unique name
         String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-
         Path destination = root.resolve(filename);
+
+        // Sprawdź, czy ścieżka nie wychodzi poza dozwolony katalog (security)
+        if (!destination.normalize().startsWith(root)) {
+            throw new IOException("Cannot store file outside current directory");
+        }
 
         file.transferTo(destination.toFile());
 
-        return destination.toString();
+        return filename;
     }
 }
