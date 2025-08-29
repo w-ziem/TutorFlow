@@ -37,7 +37,7 @@ public class MaterialController {
             res = materialService.addMaterial(id, file);
         } else {
             //else just save the value
-            res = materialService.addMaterial(id, request.getValue());
+            res = materialService.addMaterial(id, request.getValue(), request.getType());
         }
 
 

@@ -10,5 +10,6 @@ import org.mapstruct.Mapping;
 public interface LessonMapper {
     @Mapping(source = "student.name", target = "studentName")
     @Mapping(source = "tutor.name", target = "tutorName")
+    @Mapping(source = "whiteboardLink", target = "whiteboardLink")
     public LessonDto toDto(Lesson lesson);
 }

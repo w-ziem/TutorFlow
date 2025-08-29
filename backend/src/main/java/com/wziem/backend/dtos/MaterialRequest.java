@@ -9,6 +9,5 @@ import lombok.Data;
 public class MaterialRequest {
     private String value;
     @NotNull
-    @NotEmpty
     private MaterialType type;
 }

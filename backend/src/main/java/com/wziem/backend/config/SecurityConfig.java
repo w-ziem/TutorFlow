@@ -65,6 +65,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/students/**").hasRole(Role.TUTOR.name())
+                        .requestMatchers("/lessons/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(c -> {

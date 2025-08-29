@@ -46,10 +46,10 @@ public class MaterialService {
 
 
 
-    public MaterialDto addMaterial(Long lessonId, String value) {
+    public MaterialDto addMaterial(Long lessonId, String value, MaterialType type) {
         Lesson relatedLesson = lessonRepository.findById(lessonId).orElseThrow(() -> new UsernameNotFoundException("Lesson Not Found"));
 
-        Material material = Material.builder().lesson(relatedLesson).value(value).build();
+        Material material = Material.builder().lesson(relatedLesson).value(value).type(type).build();
         materialRepository.save(material);
 
         return materialMapper.toDto(material);

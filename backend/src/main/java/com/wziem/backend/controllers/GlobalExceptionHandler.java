@@ -42,8 +42,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleUsernameNotFoundException(UsernameNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(Map.of("error", "User not found",
-                        "field", "email"));
+                .body(Map.of("error", ex.getMessage()));
     }
 
     @ExceptionHandler(RefreshTokenExpiredException.class)
