@@ -15,11 +15,6 @@ export const listConfig = {
         heading: "Twoje materiały",
         description: "Tutaj możesz przechowywać swoje materiały.",
         addButton: "Dodaj materiał",
-        columns: [
-            { key: "id", label: "ID" },
-            { key: "title", label: "Tytuł" },
-            { key: "type", label: "Typ" },
-        ],
         endpoint: "/materials",
     },
 };

@@ -3,6 +3,7 @@ import { useForm } from "../../contexts/FromContext.jsx";
 import Modal from "./Modal";
 import AddStudentForm from "../Forms/AddStudentForm.jsx";
 import AddLessonForm from "../Forms/AddLessonForm.jsx";
+import AddMaterialForm from "../Forms/AddMaterialForm.jsx";
 
 export const GlobalModal = () => {
     const { activeForm, setActiveForm, onSuccessRefresh } = useForm();
@@ -31,6 +32,7 @@ export const GlobalModal = () => {
         >
             {activeForm === "students" && <AddStudentForm onSuccess={handleSuccess} />}
             {activeForm === "lessons" && <AddLessonForm onSuccess={handleSuccess} />}
+            {activeForm === "materials" && <AddMaterialForm onSuccess={handleSuccess} />}
             {/* inne formularze */}
         </Modal>
     );
