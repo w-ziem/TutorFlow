@@ -9,6 +9,7 @@ backend/.settings
 backend/logs/
 backend/*.log
 backend/.env
+backend/uploads
 
 # Maven Wrapper files
 backend/mvnw

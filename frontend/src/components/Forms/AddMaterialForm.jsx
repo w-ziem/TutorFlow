@@ -7,12 +7,14 @@ import TextInput from "../Ui/TextInput.jsx";
 import LinkInput from "../Ui/LinkInput.jsx";
 import FileUpload from "../Ui/FileUpload.jsx";
 import {formatDate} from "../../utils/HelperFunctions.js";
+import InputField from "../Ui/InputField.jsx";
 
 const AddMaterialForm = ({onSuccess}) => {
     const [lessons, setLessons] = useState([]);
     const [data, setData] = useState({
         type: '',
         value: '',
+        name: ''
     });
     const [file, setFile] = useState(null);
     const [lessonId, setLessonId] = useState(null);
@@ -50,7 +52,8 @@ const AddMaterialForm = ({onSuccess}) => {
                 "data",
                 new Blob([JSON.stringify({
                     type: data.type,
-                    value: data.value
+                    value: data.value,
+                    name: data.name
                 })], { type: "application/json" })
             );
 
@@ -125,6 +128,15 @@ const AddMaterialForm = ({onSuccess}) => {
                             </option>
                         ))}
                     </select>
+
+                    <InputField
+                            type="text"
+                            id="name"
+                            value={data.name}
+                            onChange={handleChange}
+                            title="Podaj nazwę"
+                            placeholder="np. Czworokąty: zadania cz.1"
+                    />
 
                     <label className="text-lg text-primary font-[550]">
                         Wybierz typ przesyłanego materiału

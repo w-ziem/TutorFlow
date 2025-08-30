@@ -79,6 +79,7 @@ html {
 @layer base {
   body {
     @apply font-main;
+    @apply font-[14px];
   }
 }
 
