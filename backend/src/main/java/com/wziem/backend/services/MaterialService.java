@@ -4,15 +4,20 @@ import com.wziem.backend.dtos.MaterialDto;
 import com.wziem.backend.entities.Lesson;
 import com.wziem.backend.entities.Material;
 import com.wziem.backend.entities.MaterialType;
+import com.wziem.backend.entities.User;
+import com.wziem.backend.exceptions.ForbiddenContentAccessException;
 import com.wziem.backend.mappers.MaterialMapper;
 import com.wziem.backend.repositories.LessonRepository;
 import com.wziem.backend.repositories.MaterialRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -22,9 +27,9 @@ public class MaterialService {
     private final LessonRepository lessonRepository;
     private final FileStorageService fileStorageService;
 
-    public MaterialDto addMaterial(Long id, MultipartFile file) {
+    public MaterialDto addMaterial(Long id, MultipartFile file, String name) {
         Lesson relatedLesson = lessonRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("Lesson Not Found"));
+                .orElseThrow(() -> new EntityNotFoundException("Lesson Not Found"));
 
         String filepath;
         try {
@@ -37,6 +42,7 @@ public class MaterialService {
                 .type(MaterialType.FILE)
                 .lesson(relatedLesson)
                 .value(filepath)
+                .name(name)
                 .build();
 
         materialRepository.save(material);
@@ -46,13 +52,24 @@ public class MaterialService {
 
 
 
-    public MaterialDto addMaterial(Long lessonId, String value, MaterialType type) {
-        Lesson relatedLesson = lessonRepository.findById(lessonId).orElseThrow(() -> new UsernameNotFoundException("Lesson Not Found"));
+    public MaterialDto addMaterial(Long lessonId, String value, MaterialType type, String name) {
+        Lesson relatedLesson = lessonRepository.findById(lessonId).orElseThrow(() -> new EntityNotFoundException("Lesson Not Found"));
 
-        Material material = Material.builder().lesson(relatedLesson).value(value).type(type).build();
+        Material material = Material.builder().lesson(relatedLesson).value(value).type(type).name(name).build();
         materialRepository.save(material);
 
         return materialMapper.toDto(material);
     }
 
+    public List<MaterialDto> getRelatedMaterials(Long userId, Long lessonId) {
+        Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(() -> new EntityNotFoundException("Lesson Not Found"));
+
+        if(!Objects.equals(lesson.getStudent().getId(), userId) && !Objects.equals(lesson.getTutor().getId(), userId)) {
+            throw new ForbiddenContentAccessException("You don't have permission to access this lesson");
+        }
+
+        List<Material> materials = materialRepository.findByLesson(lesson);
+
+        return materials.stream().map(materialMapper::toDto).toList();
+    }
 }

@@ -10,4 +10,6 @@ public class MaterialRequest {
     private String value;
     @NotNull
     private MaterialType type;
+
+    private String name;
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class MaterialDto {
     private MaterialType type;
+    private String name;
     private String value;
     private Long lessonId;
 }
