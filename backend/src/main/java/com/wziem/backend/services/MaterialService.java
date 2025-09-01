@@ -9,6 +9,7 @@ import com.wziem.backend.exceptions.ForbiddenContentAccessException;
 import com.wziem.backend.mappers.MaterialMapper;
 import com.wziem.backend.repositories.LessonRepository;
 import com.wziem.backend.repositories.MaterialRepository;
+import com.wziem.backend.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class MaterialService {
     private final MaterialRepository materialRepository;
     private final LessonRepository lessonRepository;
     private final FileStorageService fileStorageService;
+    private final UserRepository userRepository;
 
     public MaterialDto addMaterial(Long id, MultipartFile file, String name) {
         Lesson relatedLesson = lessonRepository.findById(id)
@@ -71,5 +73,13 @@ public class MaterialService {
         List<Material> materials = materialRepository.findByLesson(lesson);
 
         return materials.stream().map(materialMapper::toDto).toList();
+    }
+
+    public List<MaterialDto> getAllMaterials(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User Not Found"));
+
+        List<Material> userMaterials = materialRepository.findByUser(user);
+
+        return userMaterials.stream().map(materialMapper::toDto).toList();
     }
 }

@@ -57,4 +57,14 @@ public class MaterialController {
 
         return ResponseEntity.ok().body(materials);
     }
+
+    @GetMapping("/materials")
+    public ResponseEntity<?> getMaterials(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = (Long) authentication.getPrincipal();
+        List<MaterialDto> materials = materialService.getAllMaterials(userId);
+
+        return ResponseEntity.ok().body(materials);
+    }
+
 }

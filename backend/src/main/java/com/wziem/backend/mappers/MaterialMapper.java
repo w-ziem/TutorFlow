@@ -9,5 +9,6 @@ import org.mapstruct.Mapping;
 public interface MaterialMapper {
     @Mapping(target = "lessonId", source = "lesson.id")
     @Mapping(target = "name", source = "name")
+    @Mapping(target = "id", source = "id")
     MaterialDto toDto(Material material);
 }
