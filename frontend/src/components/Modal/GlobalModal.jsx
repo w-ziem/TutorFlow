@@ -4,16 +4,17 @@ import Modal from "./Modal";
 import AddStudentForm from "../Forms/AddStudentForm.jsx";
 import AddLessonForm from "../Forms/AddLessonForm.jsx";
 import AddMaterialForm from "../Forms/AddMaterialForm.jsx";
+import FullNoteView from "../Modal/FullNoteView.jsx";
 
 export const GlobalModal = () => {
-    const { activeForm, setActiveForm, onSuccessRefresh } = useForm();
+    const { activeForm, modalData, closeModal, onSuccessRefresh } = useForm();
     const [closing, setClosing] = useState(false);
 
     const handleClose = () => {
         setClosing(true);
         setTimeout(() => {
             setClosing(false);
-            setActiveForm(null);
+            closeModal(); // Użyj nowej funkcji z kontekstu
         }, 300);
     };
 
@@ -33,6 +34,7 @@ export const GlobalModal = () => {
             {activeForm === "students" && <AddStudentForm onSuccess={handleSuccess} />}
             {activeForm === "lessons" && <AddLessonForm onSuccess={handleSuccess} />}
             {activeForm === "materials" && <AddMaterialForm onSuccess={handleSuccess} />}
+            {activeForm === "fullnote" && <FullNoteView note={modalData} onClose={handleClose} />}
             {/* inne formularze */}
         </Modal>
     );

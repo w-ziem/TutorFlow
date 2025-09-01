@@ -4,19 +4,37 @@ const FormContext = createContext();
 
 export const FormProvider = ({ children }) => {
     const [activeForm, setActiveForm] = useState(null);
+    const [modalData, setModalData] = useState(null); // Nowe pole dla danych modalu
     const onSuccessRef = useRef(null);
 
     const setOnSuccessRefresh = (callback) => {
-        console.log("LOG: Setting callback function:", typeof callback);
-        console.log("LOG: Callback is:", callback);
         onSuccessRef.current = callback;
-        console.log("LOG: After setting - ref.current:", typeof onSuccessRef.current);
     };
 
     const onSuccessRefresh = onSuccessRef.current;
 
+    // Funkcja do otwierania modalu z danymi
+    const openModal = (formType, data = null) => {
+        setActiveForm(formType);
+        setModalData(data);
+    };
+
+    // Funkcja do zamykania modalu
+    const closeModal = () => {
+        setActiveForm(null);
+        setModalData(null);
+    };
+
     return (
-        <FormContext.Provider value={{ activeForm, setActiveForm, onSuccessRefresh, setOnSuccessRefresh }}>
+        <FormContext.Provider value={{ 
+            activeForm, 
+            setActiveForm, 
+            modalData,
+            openModal,
+            closeModal,
+            onSuccessRefresh, 
+            setOnSuccessRefresh 
+        }}>
             {children}
         </FormContext.Provider>
     );
