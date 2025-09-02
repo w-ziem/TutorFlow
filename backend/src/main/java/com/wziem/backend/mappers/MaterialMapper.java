@@ -1,6 +1,7 @@
 package com.wziem.backend.mappers;
 
 import com.wziem.backend.dtos.MaterialDto;
+import com.wziem.backend.dtos.MaterialResourceDto;
 import com.wziem.backend.entities.Material;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -11,4 +12,9 @@ public interface MaterialMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "id", source = "id")
     MaterialDto toDto(Material material);
+
+//    @Deprecated
+//    @Mapping(target = "name", source = "name")
+//    @Mapping(target = "path", source = "value")
+//    MaterialResourceDto toResourceDto(Material material);
 }

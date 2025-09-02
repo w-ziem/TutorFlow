@@ -1,6 +1,7 @@
 package com.wziem.backend.services;
 
 import com.wziem.backend.dtos.MaterialDto;
+import com.wziem.backend.dtos.MaterialResourceDto;
 import com.wziem.backend.entities.Lesson;
 import com.wziem.backend.entities.Material;
 import com.wziem.backend.entities.MaterialType;
@@ -29,6 +30,8 @@ public class MaterialService {
     private final FileStorageService fileStorageService;
     private final UserRepository userRepository;
 
+
+    //add file type material
     public MaterialDto addMaterial(Long id, MultipartFile file, String name) {
         Lesson relatedLesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Lesson Not Found"));
@@ -53,7 +56,7 @@ public class MaterialService {
     }
 
 
-
+    //add link or text material
     public MaterialDto addMaterial(Long lessonId, String value, MaterialType type, String name) {
         Lesson relatedLesson = lessonRepository.findById(lessonId).orElseThrow(() -> new EntityNotFoundException("Lesson Not Found"));
 
@@ -81,5 +84,18 @@ public class MaterialService {
         List<Material> userMaterials = materialRepository.findByUser(user);
 
         return userMaterials.stream().map(materialMapper::toDto).toList();
+    }
+
+    public MaterialResourceDto getMaterialPath(Long userId, Long materialId) {
+        Material material = materialRepository.findById(materialId).orElseThrow(() -> new EntityNotFoundException("Material Not Found"));
+
+        //check if user that requested the material has access to it
+        if(!Objects.equals(material.getLesson().getStudent().getId(), userId) && !Objects.equals(material.getLesson().getTutor().getId(), userId)) {
+            throw new ForbiddenContentAccessException("You don't have permission to access this material");
+        }
+
+        MaterialResourceDto resource = MaterialResourceDto.builder().path(fileStorageService.getFullPath(material.getValue())).name(material.getName()).build();
+
+        return resource;
     }
 }

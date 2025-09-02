@@ -41,8 +41,24 @@ public class FileStorageService {
             throw new IOException("Cannot store file outside current directory");
         }
 
+
         file.transferTo(destination.toFile());
 
         return filename;
     }
+
+    public Path getFullPath(String filename) {
+        if (filename == null || filename.trim().isEmpty()) {
+            throw new IllegalArgumentException("Filename cannot be null or empty");
+        }
+
+        Path filePath = root.resolve(filename);
+
+        if (!filePath.normalize().startsWith(root)) {
+            throw new IllegalArgumentException("Invalid filename - path traversal attempt detected");
+        }
+
+        return filePath;
+    }
+
 }
