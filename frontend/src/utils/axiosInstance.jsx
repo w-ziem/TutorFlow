@@ -26,6 +26,19 @@ const processQueue = (error, token = null) => {
     failedRequests = [];
 };
 
+// Wyodrębniona funkcja do refreshu tokena
+export const refreshToken = async () => {
+    try {
+        const response = await refreshInstance.get('/auth/refresh');
+        const { token } = response.data;
+        localStorage.setItem('token', token);
+        return token;
+    } catch (error) {
+        localStorage.removeItem('token');
+        throw error;
+    }
+};
+
 // Request interceptor - dodaje token do nagłówków
 axiosInstance.interceptors.request.use(
     (config) => {
@@ -44,25 +57,21 @@ axiosInstance.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        // Odrzuć błędy inne niż 401
         if (error.response?.status !== 401) {
             return Promise.reject(error);
         }
 
-        // Jeśli to już jest retry, odrzuć
         if (originalRequest._retry) {
             return Promise.reject(error);
         }
 
         originalRequest._retry = true;
 
-        // Jeśli już trwa refreshowanie, dodaj do kolejki
         if (isRefreshing) {
             return new Promise((resolve, reject) => {
                 failedRequests.push({ resolve, reject });
             })
                 .then((token) => {
-                    // Tylko ustaw token, NIE wywołuj ponownie requesta tutaj
                     originalRequest.headers.Authorization = `Bearer ${token}`;
                     return axiosInstance(originalRequest);
                 })
@@ -72,13 +81,9 @@ axiosInstance.interceptors.response.use(
         isRefreshing = true;
 
         try {
-            // Refresh tokena
-            const response = await refreshInstance.get('/auth/refresh');
-            const { token } = response.data;
 
-            localStorage.setItem('token', token);
+            const token = await refreshToken();
 
-            // Przetwórz kolejkę PRZED ponowieniem oryginalnego requesta
             processQueue(null, token);
 
             // Ponów oryginalny request z nowym tokenem
@@ -88,9 +93,7 @@ axiosInstance.interceptors.response.use(
         } catch (refreshError) {
             console.log('Refresh token failed:', refreshError);
             processQueue(refreshError, null);
-            localStorage.removeItem('token');
 
-            // Przekieruj na login tylko jeśli refresh naprawdę się nie powiódł
             if (refreshError.response?.status === 401) {
                 window.location.href = '/login';
             }

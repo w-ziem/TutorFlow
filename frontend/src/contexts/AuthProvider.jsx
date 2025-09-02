@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
-
+import { refreshToken } from '../utils/axiosInstance.jsx';
 
 const AuthContext = createContext();
 
@@ -12,34 +12,56 @@ export const useAuth = () => {
     return context;
 };
 
-
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    //check token after starting application
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            try {
-                const decodecToken = jwtDecode(token);
-                //check if token is expired
-                if (decodecToken.exp * 1000 < Date.now()) {
-                    localStorage.removeItem('token');
-                } else {
-                    setUser(decodecToken);
-                    setToken(token);
-                }
-            } catch (error) {
-                localStorage.removeItem('token');
-                console.log('Token error:', error);
-            }
+    // Funkcja do próby refreshu tokena
+    const tryRefreshToken = async () => {
+        try {
+            const newToken = await refreshToken();
+            const decodedToken = jwtDecode(newToken);
+            setUser(decodedToken);
+            setToken(newToken);
+            return true;
+        } catch (error) {
+            console.log('Refresh token failed:', error);
+            logout();
+            return false;
         }
+    };
 
-        setLoading(false);
+    // Check token after starting application
+    useEffect(() => {
+        const initializeAuth = async () => {
+            const storedToken = localStorage.getItem('token');
+            
+            if (storedToken) {
+                try {
+                    const decodedToken = jwtDecode(storedToken);
+                    
+                    // Check if token is expired
+                    if (decodedToken.exp * 1000 < Date.now()) {
+                        console.log('Token expired, attempting refresh...');
+                        // Spróbuj odświeżyć token
+                        await tryRefreshToken();
+                    } else {
+                        setUser(decodedToken);
+                        setToken(storedToken);
+                    }
+                } catch (error) {
+                    console.log('Token decode error:', error);
+                    // Spróbuj odświeżyć token jeśli nie można zdekodować
+                    await tryRefreshToken();
+                }
+            }
+
+            setLoading(false);
+        };
+
+        initializeAuth();
     }, []);
-
 
     const login = (token) => {
         try {
@@ -54,7 +76,7 @@ export const AuthProvider = ({ children }) => {
             console.log('Login error:', error);
             return false;
         }
-    }
+    };
 
     const logout = () => {
         localStorage.removeItem('token');
@@ -62,24 +84,19 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
-
     const value = {
         user,
         token,
         loading,
         login,
         logout,
+        tryRefreshToken,
         isAuthenticated: !!token,
         isTutor: user?.role === 'TUTOR',
         isStudent: user?.role === 'STUDENT'
-    }
-
+    };
 
     return (
         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
     );
-
 };
-
-
-

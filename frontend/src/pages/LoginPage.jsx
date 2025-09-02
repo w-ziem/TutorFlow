@@ -1,11 +1,41 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import loginImage from "../assets/login.svg";
 import LoginForm from "../components/Forms/LoginForm.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {FaArrowLeft} from "react-icons/fa";
-
+import {useAuth} from "../contexts/AuthProvider.jsx";
+import {jwtDecode} from "jwt-decode";
 
 const LoginPage = () => {
+    const { isAuthenticated, loading, tryRefreshToken, token } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const attemptAutoLogin = async () => {
+            console.log('Attempting auto-login...');
+            console.log("token: ", token)
+            const payload = jwtDecode(token);
+            if (!loading && !isAuthenticated) {
+                console.log('Attempting auto-login with refresh token...');
+                const success = await tryRefreshToken();
+                const payload = jwtDecode(token);
+                if (success) {
+                    console.log('Auto-login successful, redirecting to dashboard');
+                    navigate(`/dashboard-${payload.role.toLowerCase()}`);
+                }
+            } else if (isAuthenticated) {
+                navigate(`/dashboard-${payload.role.toLowerCase()}`);
+            }
+        };
+
+        attemptAutoLogin();
+    }, [loading, isAuthenticated, tryRefreshToken, navigate]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-tertiary/70 via-secondary/20 to-primary/25 flex items-center justify-center py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-sm sm:max-w-4xl lg:max-w-6xl">
