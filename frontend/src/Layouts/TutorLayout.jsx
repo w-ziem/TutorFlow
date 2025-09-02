@@ -4,9 +4,11 @@ import Sidebar from "../components/Dashboard/Sidebar.jsx";
 
 const TutorLayout = () => {
     return (
-        <div className="flex gap-4">
+        <div className="flex min-h-screen">
             <Sidebar />
-            <Outlet />
+            <div className="flex-1 overflow-auto">
+                <Outlet />
+            </div>
         </div>
     );
 };

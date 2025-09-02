@@ -3,6 +3,7 @@ import axiosInstance from "../utils/axiosInstance.jsx";
 import {useAuth} from "../contexts/AuthProvider.jsx";
 import {useParams} from "react-router-dom";
 import LessonsMaterials from "../components/Dashboard/LessonsMaterials.jsx";
+import {formatLink} from "../utils/HelperFunctions.js";
 
 const LessonPage = () => {
     const [lesson, setLesson] = useState(null); // Zmiana na null
@@ -77,7 +78,7 @@ const LessonPage = () => {
     // Render z danymi
     return (
         <section>
-            <div className="flex flex-col p-50">
+            <div className="flex flex-col p-20 m-10 ">
                 <h1 className="text-5xl text-primary font-semibold">{lesson.topic}</h1>
                 <h3 className="text-text text-2xl">{}</h3>
                 {lesson.date && (
@@ -85,7 +86,9 @@ const LessonPage = () => {
                         Data: {formatDate(lesson.date)}
                     </p>
                 )}
-                <LessonsMaterials />
+                <hr className="my-4" />
+                <p className="text-2xl font-semibold mb-20">Link do tablicy: <a href={formatLink(lesson.whiteboardLink)} target="_blank" className="underline text-secondary">{lesson.whiteboardLink}</a></p>
+                <LessonsMaterials lessonId={id} />
             </div>
 
         </section>

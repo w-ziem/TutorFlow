@@ -1,15 +1,8 @@
 import React from "react";
 import CardInfo from "../../Ui/CardInfo.jsx";
 import {NavLink} from "react-router-dom";
+import {formatLink} from "/src/utils/HelperFunctions.js";
 
-
-const formatLink = (link) => {
-    if (!link) return '#';
-    if (link.startsWith('http://') || link.startsWith('https://')) {
-        return link;
-    }
-    return `https://${link}`;
-};
 
 const StudentCard = ({ item }) => {
     if (!item) {
@@ -19,8 +12,6 @@ const StudentCard = ({ item }) => {
             </div>
         );
     }
-
-        //TODO: individual student/lesson etc view.
 
     return (
         <NavLink to={`${item.id}`} className="flex gap-2 w-100 bg-white/80 drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103">
