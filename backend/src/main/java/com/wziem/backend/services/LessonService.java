@@ -69,4 +69,16 @@ public class LessonService {
 
         return recentLessons.stream().map(lessonMapper::toDto).toList();
     }
+
+    public void finishLesson(Long userId, Long lessonId, String comment, Long grade) {
+        Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(() -> new UsernameNotFoundException("lesson not found"));
+        if(!Objects.equals(lesson.getStudent().getId(), userId) && !Objects.equals(lesson.getTutor().getId(), userId)) {
+            throw new ForbiddenContentAccessException("You don't have permission to access this lesson");
+        }
+
+        lesson.setNote(comment);
+        lesson.setGrade(grade);
+        lesson.setCompleted(true);
+        lessonRepository.save(lesson);
+    }
 }

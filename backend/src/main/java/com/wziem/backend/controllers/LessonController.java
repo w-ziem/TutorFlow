@@ -2,6 +2,7 @@ package com.wziem.backend.controllers;
 
 
 import com.wziem.backend.dtos.CreateLessonRequest;
+import com.wziem.backend.dtos.FinishLessonRequest;
 import com.wziem.backend.dtos.LessonDto;
 import com.wziem.backend.entities.Lesson;
 import com.wziem.backend.mappers.LessonMapper;
@@ -62,8 +63,15 @@ public class LessonController {
         return ResponseEntity.ok().body(lessonMapper.toDto(fetchedLesson));
     }
 
-    //TODO: updating lesson (patch vs put) for adding notes to then use for prompts
-    //TODO: delete lesson
+    @PostMapping("/{id}/finish")
+    public ResponseEntity<?> finishLesson(@PathVariable(value = "id") Long lessonId, @Valid @RequestBody FinishLessonRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = (Long) authentication.getPrincipal();
+
+        lessonService.finishLesson(userId, lessonId, request.getComment(), request.getGrade());
+
+        return ResponseEntity.ok().build();
+    }
 
 
 }

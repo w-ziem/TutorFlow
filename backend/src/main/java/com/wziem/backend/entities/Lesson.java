@@ -49,4 +49,12 @@ public class Lesson {
     @Column(name = "whiteboard")
     private String whiteboardLink;
 
+    @Column(name = "is_completed")
+    private boolean completed;
+
+    @Column(name = "is_paid")
+    private boolean paid;
+
+    @Column(name = "grade")
+    private Long grade;
 }
