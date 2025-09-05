@@ -7,7 +7,7 @@ import {toast} from "react-hot-toast";
 
 const MaterialCard = ({item}) => {
     const [lessonInfo, setLessonInfo] = useState();
-    const { openModal } = useForm(); // Użyj hooka
+    const { openModal } = useForm();
 
     useEffect(() => {
         const fetchLessonInfo = async () => {

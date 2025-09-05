@@ -60,7 +60,6 @@ const LoginForm = () => {
             }
         } catch (error) {
             console.error('Login error:', error.response?.data || error.message);
-            form.clear();
         }
     };
 

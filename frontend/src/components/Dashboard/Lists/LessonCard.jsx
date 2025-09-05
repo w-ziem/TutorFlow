@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
+import {FaCircle} from "react-icons/fa";
 
 const formatDate = (date) => {
     return new Date(date).toLocaleDateString();
@@ -21,6 +22,7 @@ const LessonCard = ({item, isMainDashboard=false}) => {
                 <div className="mt-auto">
                     <h2 className="text-xl font-[500]">{item.studentName}</h2>
                     <p className="text-lg text-gray-500">{formatDate(item.date)}</p>
+                    {item.paid ? <p><FaCircle className="text-green-500 inline"/> opłacona</p> : <p ><FaCircle className="text-red-600 inline"/> nieopłacona</p>}
                 </div>
             </div>
         </NavLink>

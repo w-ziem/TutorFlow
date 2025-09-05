@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import axiosInstance from "../../utils/axiosInstance.jsx";
 import MaterialCard from "./Lists/MaterialCard.jsx";
+import {FaTurnDown} from "react-icons/fa6";
+import {useForm} from "../../contexts/FromContext.jsx";
 
-const LessonsMaterials = ({lessonId}) => {
+const LessonsMaterials = ({lessonId, refreshTrigger}) => {
     const [materials, setMaterials] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const {setActiveForm} = useForm();
 
     useEffect(() => {
         const fetchRelatedMaterials = async () => {
@@ -26,7 +29,7 @@ const LessonsMaterials = ({lessonId}) => {
         if (lessonId) {
             fetchRelatedMaterials();
         }
-    }, [lessonId]);
+    }, [lessonId, refreshTrigger]);
 
 
     if (loading) {
@@ -39,7 +42,11 @@ const LessonsMaterials = ({lessonId}) => {
     }
 
     if (materials.length === 0) {
-        return <div>Brak materiałów dla tej lekcji</div>;
+        return <div className="w-100">
+                <p className="text-lg text-primary">Brak materiałów dla tej lekcji, wciśnij przycisk aby dodać <FaTurnDown className="text-primary text-xl inline ml-2" /></p>
+            <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {setActiveForm("materials")}}>Dodaj materiał</button>
+
+        </div>;
     }
 
     return (
@@ -50,6 +57,7 @@ const LessonsMaterials = ({lessonId}) => {
                     <MaterialCard key={material.id || index} item={material} />
                 ))}
             </div>
+            <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {setActiveForm("materials")}}>Dodaj materiał</button>
         </>
     );
 };

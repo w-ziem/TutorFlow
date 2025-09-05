@@ -1,23 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import axiosInstance from "../utils/axiosInstance.jsx";
-import {useAuth} from "../contexts/AuthProvider.jsx";
 import {useParams} from "react-router-dom";
 import LessonsMaterials from "../components/Dashboard/LessonsMaterials.jsx";
 import {formatLink} from "../utils/HelperFunctions.js";
+import {useForm} from "../contexts/FromContext.jsx";
+import {formatDate} from "../utils/HelperFunctions.js";
 
 const LessonPage = () => {
-    const [lesson, setLesson] = useState(null); // Zmiana na null
-    const [loading, setLoading] = useState(true); // Dodanie loading state
-    const [error, setError] = useState(null); // Dodanie error state
+    const [lesson, setLesson] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [refreshMaterials, setRefreshMaterials] = useState(0); // Stan do wymuszania przeładowania materiałów
     const {id} = useParams();
-    const {isStudent} = useAuth();
+    const { openModal, setOnSuccessRefresh } = useForm();
 
-    const formatDate = (date) => {
-        return new Date(date).toLocaleDateString();
+    // Funkcja do odświeżania materiałów
+    const handleRefreshMaterials = () => {
+        setRefreshMaterials(prev => prev + 1);
     };
-
-    console.log('ID:', id);
-    console.log('Lesson:', lesson);
 
     useEffect(() => {
         const fetchLesson = async () => {
@@ -41,6 +41,10 @@ const LessonPage = () => {
             fetchLesson();
         }
     }, [id]);
+
+    useEffect(() => {
+        setOnSuccessRefresh(handleRefreshMaterials);
+    }, [setOnSuccessRefresh]);
 
     // Loading state
     if (loading) {
@@ -77,20 +81,42 @@ const LessonPage = () => {
 
     // Render z danymi
     return (
-        <section>
+        <section className="relative">
             <div className="flex flex-col p-20 m-10 ">
-                <h1 className="text-5xl text-primary font-semibold">{lesson.topic}</h1>
-                <h3 className="text-text text-2xl">{}</h3>
-                {lesson.date && (
-                    <p className="text-gray-500 mt-2 text-xl">
-                        Data: {formatDate(lesson.date)}
+                <div className="flex justify-between items-start mb-4">
+                    <div className="flex flex-col">
+                        <h1 className="text-5xl text-primary font-semibold">{lesson.topic}</h1>
+                        <h3 className="text-text text-2xl">{}</h3>
+                        {lesson.date && (
+                            <p className="text-gray-500 mt-2 text-xl">
+                                Data: {formatDate(lesson.date)}
+                            </p>
+                        )}
+                    </div>
+                    <button
+                        onClick={() => {openModal("finishLesson", id);}}
+                        className={`px-6 py-3 backdrop-blur-md border-2 text-xl font-[500] rounded-lg shadow ${
+                            lesson.completed
+                                ? 'border-gray-400 text-gray-500 cursor-default'
+                                : 'border-secondary text-text cursor-pointer hover:scale-105 transition-all duration-300'
+                        }`}
+                        disabled={lesson.completed}
+                    >
+                        {lesson.completed ? 'Lekcja zakończona' : 'Zakończ lekcję'}
+                    </button>
+                </div>
+
+                {!lesson.paid && Date.now() - new Date(lesson.date).getTime() > 7 * 24 * 60 * 60 * 1000 && (
+                    <p className="text-red-600 font-semibold mt-2">
+                        Uwaga! Lekcja nieopłacona od tygodnia!
                     </p>
                 )}
-                <hr className="my-4" />
-                <p className="text-2xl font-semibold mb-20">Link do tablicy: <a href={formatLink(lesson.whiteboardLink)} target="_blank" className="underline text-secondary">{lesson.whiteboardLink}</a></p>
-                <LessonsMaterials lessonId={id} />
-            </div>
 
+                <hr className="my-4" />
+                <p className="text-2xl font-semibold">Link do tablicy: <a href={formatLink(lesson.whiteboardLink)} target="_blank" className="underline text-secondary">{lesson.whiteboardLink}</a></p>
+                {lesson.note && <p className="mb-20 text-lg text-text">Komentarz do lekcji: {lesson.note}</p>}
+                <LessonsMaterials lessonId={id} refreshTrigger={refreshMaterials} />
+            </div>
         </section>
     );
 };
