@@ -58,6 +58,7 @@ public class Lesson {
     @Column(name = "grade")
     private Long grade;
 
-    @Column(name = "is_used")
-    private boolean used;
+    @ManyToOne
+    @JoinColumn(name = "report_id")
+    private Report report;
 }

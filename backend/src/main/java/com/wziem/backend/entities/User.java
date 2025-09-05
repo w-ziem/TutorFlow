@@ -43,4 +43,8 @@ public class User {
     @OneToMany(mappedBy = "tutor")
     private List<User> students;
 
+    @OneToMany(mappedBy = "student")
+    private List<Report> reports;
+
+
 }
