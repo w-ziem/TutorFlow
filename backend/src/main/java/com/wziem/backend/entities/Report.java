@@ -22,11 +22,9 @@ public class Report {
     @JoinColumn(name = "student_id")
     private User student;
 
-    @NotNull
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     private List<Lesson> lessons;
 
-    @NotNull
     @Column(name = "response")
     private String response;
 

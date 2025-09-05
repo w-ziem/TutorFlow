@@ -28,3 +28,8 @@ app:
     dir: ./uploads
   system:
     prompt: ${SYSTEM_PROMPT}
+
+openai:
+  api-key: ${OPENAI_API_KEY}
+  base-url: https://api.openai.com/v1/chat/completions
+  max-response-tokens: 800

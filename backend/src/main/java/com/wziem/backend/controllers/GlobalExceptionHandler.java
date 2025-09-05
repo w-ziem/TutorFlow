@@ -78,6 +78,13 @@ public class GlobalExceptionHandler {
                 .body(Map.of("error", "Unknown file type"));
     }
 
+    //OPENAI REPORTS HANDLERS
+    @ExceptionHandler(ErrorFetchingResponseException.class)
+    public ResponseEntity<Map<String, String>> handleErrorFetchingResponseException(ErrorFetchingResponseException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                .body(Map.of("error", "Error fetching response from openAi"));
+    }
+
     // REST API ERROR HANDLERS
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
