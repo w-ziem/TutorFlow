@@ -13,6 +13,8 @@ import java.util.Optional;
 
 
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
+
+    @EntityGraph(attributePaths = {"student"})
     @Query("SELECT l FROM Lesson l WHERE l.tutor = :user OR l.student = :user ORDER BY l.date DESC")
     List<Lesson> findLessonByUser(@Param("user") User user, Pageable pageable);
 }

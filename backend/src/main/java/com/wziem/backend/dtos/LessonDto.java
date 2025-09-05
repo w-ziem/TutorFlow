@@ -2,7 +2,6 @@ package com.wziem.backend.dtos;
 
 import java.time.LocalDateTime;
 
-import com.wziem.backend.entities.User;
 import lombok.Data;
 
 @Data
@@ -13,4 +12,8 @@ public class LessonDto {
     private String topic;
     private LocalDateTime date;
     private String whiteboardLink;
+    private boolean paid;
+    private boolean completed;
+    private Long grade;
+    private String note;
 }

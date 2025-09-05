@@ -1,8 +1,8 @@
 package com.wziem.backend.dtos;
 
-import jakarta.validation.constraints.;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 
 @Data
 public class FinishLessonRequest {

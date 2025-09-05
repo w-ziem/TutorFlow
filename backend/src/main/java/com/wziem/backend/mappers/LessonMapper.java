@@ -11,5 +11,8 @@ public interface LessonMapper {
     @Mapping(source = "student.name", target = "studentName")
     @Mapping(source = "tutor.name", target = "tutorName")
     @Mapping(source = "whiteboardLink", target = "whiteboardLink")
+    @Mapping(source = "grade", target = "grade")
+    @Mapping(source = "completed", target = "completed")
+    @Mapping(source = "note", target = "note")
     public LessonDto toDto(Lesson lesson);
 }

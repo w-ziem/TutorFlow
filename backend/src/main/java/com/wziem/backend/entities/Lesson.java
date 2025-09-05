@@ -57,4 +57,7 @@ public class Lesson {
 
     @Column(name = "grade")
     private Long grade;
+
+    @Column(name = "is_used")
+    private boolean used;
 }
