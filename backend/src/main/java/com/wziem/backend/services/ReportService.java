@@ -1,10 +1,8 @@
 package com.wziem.backend.services;
 
 import com.wziem.backend.dtos.ReportDto;
-import com.wziem.backend.entities.Lesson;
-import com.wziem.backend.entities.Profile;
-import com.wziem.backend.entities.Report;
-import com.wziem.backend.entities.User;
+import com.wziem.backend.dtos.ReportSummary;
+import com.wziem.backend.entities.*;
 import com.wziem.backend.exceptions.ForbiddenContentAccessException;
 import com.wziem.backend.mappers.ReportMapper;
 import com.wziem.backend.repositories.LessonRepository;
@@ -123,5 +121,24 @@ public class ReportService {
             throw new ForbiddenContentAccessException("You don't have permission to access this student");
         }
         return student;
+    }
+
+    public List<ReportSummary> getUsersReports(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if(!user.getRole().equals(Role.TUTOR)) { throw new ForbiddenContentAccessException("You don't have permission to access reports"); }
+
+        List<Report> reports =  reportRepositiory.findAllByUser(user);
+
+        return reports.stream().map(reportMapper::toSummaryDto).toList();
+    }
+
+    public ReportDto getReport(Long userId, Long reportId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if(!user.getRole().equals(Role.TUTOR)) { throw new ForbiddenContentAccessException("You don't have permission to access reports"); }
+
+        Report report = reportRepositiory.findById(reportId).orElseThrow(() -> new EntityNotFoundException("Report not found"));
+        if(!report.getStudent().getTutor().equals(user)) { throw new ForbiddenContentAccessException("You don't have permission to access this report"); }
+
+        return reportMapper.toDto(report);
     }
 }
