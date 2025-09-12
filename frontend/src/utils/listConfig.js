@@ -17,4 +17,10 @@ export const listConfig = {
         addButton: "Dodaj materiał",
         endpoint: "/materials",
     },
+    reports: {
+        heading: "Twoje Raporty",
+        description: "Tutaj możesz przeglądać wygenerowane raporty.",
+        addButton: "Wygeneruj raport",
+        endpoint: "/reports",
+    },
 };

@@ -6,6 +6,7 @@ import AddLessonForm from "../Forms/AddLessonForm.jsx";
 import AddMaterialForm from "../Forms/AddMaterialForm.jsx";
 import FullNoteView from "../Modal/FullNoteView.jsx";
 import FinishLessonForm from "../Forms/FinishLessonForm.jsx";
+import GenerateReportForm from "../Forms/GenerateReportForm.jsx";
 
 export const GlobalModal = () => {
     const { activeForm, modalData, closeModal, onSuccessRefresh } = useForm();
@@ -35,6 +36,7 @@ export const GlobalModal = () => {
             {activeForm === "students" && <AddStudentForm onSuccess={handleSuccess} />}
             {activeForm === "lessons" && <AddLessonForm onSuccess={handleSuccess} />}
             {activeForm === "materials" && <AddMaterialForm onSuccess={handleSuccess} />}
+            {activeForm === "reports" && <GenerateReportForm onSuccess={handleSuccess} />}
             {activeForm === "fullnote" && <FullNoteView note={modalData} onClose={handleClose} />}
             {activeForm === "finishLesson" && <FinishLessonForm onSuccess={handleSuccess} lessonId={modalData} />}
             {/* inne formularze */}

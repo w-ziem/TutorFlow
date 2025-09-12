@@ -24,7 +24,7 @@ const SidebarLinks = ({children}, path) => {
                 <FaLink className="inline mr-3 mb-0.5"/>
                 Materiały
             </NavLink>
-            <NavLink className={linkClass} to="/dashboard-tutor/raports">
+            <NavLink className={linkClass} to="/dashboard-tutor/reports">
                 <FaNewspaper className="inline mr-3 mb-0.5"/>
                 Raporty
             </NavLink>
