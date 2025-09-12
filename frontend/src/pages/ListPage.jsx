@@ -50,5 +50,4 @@ const ListPage = ({ type }) => {
 export default ListPage;
 
 //TODO: REPORTS, czyli:
-//TODO: ReportCard
 //TODO: ReportPage

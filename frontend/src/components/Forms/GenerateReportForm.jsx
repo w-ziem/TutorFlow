@@ -45,7 +45,7 @@ const GenerateReportForm = ({onSuccess}) => {
                 setIsSubmitting(false);
                 setIsSuccess(true);
                 toast.success("Raport Został wygenerowany. Zobacz wyniki w sekcji raporty");
-                onSuccess();
+                setTimeout(() => {onSuccess()}, 2000)
             }
         }catch (error) {
             setIsSubmitting(false);
@@ -124,6 +124,7 @@ const GenerateReportForm = ({onSuccess}) => {
                             <FaCheck className={"text-center"} size={15}/> : isError ?
                                 <FaX className={"text-center"} size={15}/> : <span>Generuj raport</span>}
                     </button>
+                    {isSubmitting && <span className="text-center font-semibold text-md text-secondary">Trwa generowanie raportu...</span>}
                 </form>
             </div>}
         </div>
