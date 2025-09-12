@@ -52,4 +52,3 @@ export default ListPage;
 //TODO: REPORTS, czyli:
 //TODO: ReportCard
 //TODO: ReportPage
-//TODO: GenerateReportForm
