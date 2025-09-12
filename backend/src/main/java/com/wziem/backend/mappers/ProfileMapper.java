@@ -15,6 +15,7 @@ public interface ProfileMapper {
     @Mapping(target = "email", source = "student.email")
     @Mapping(target = "name", source = "student.name")
     @Mapping(target = "hourRate", source = "hourRate")
+    @Mapping(target = "id", source = "student.id")
     public StudentDto toStudentDto(Profile profile);
 
 }

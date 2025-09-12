@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,7 +39,7 @@ public class ReportService {
         Report report = new Report();
         report.setCreatedDate(LocalDateTime.now());
         report.setStudent(student);
-        
+
         // getting context
         String context = gatherContext(student);
         String response = openAiService.fetchResponse(context);
@@ -46,7 +47,6 @@ public class ReportService {
 
         // update realtions between report and lessons
         updateLessonReportRelations(student, report);
-
 
         report = reportRepositiory.save(report);
 
@@ -65,6 +65,7 @@ public class ReportService {
         for (Lesson lesson : allRelevantLessons) {
             if (lesson.getReport() == null) {
                 lesson.setReport(report);
+                report.getLessons().add(lesson);
                 lessonRepository.save(lesson); // Explicit save to be sure
             }
         }

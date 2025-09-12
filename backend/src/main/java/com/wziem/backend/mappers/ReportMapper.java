@@ -26,6 +26,7 @@ public interface ReportMapper {
     public ReportDto toDto(Report report);
 
     default List<String> extractLessonNames(Report report) {
+        System.out.println(report.toString());
         return report.getLessons().stream()
                 .map(Lesson::getTopic)
                 .collect(Collectors.toList());

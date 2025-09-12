@@ -4,13 +4,16 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "reports")
 public class Report {
     @Id
@@ -20,10 +23,11 @@ public class Report {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
+    @ToString.Exclude
     private User student;
 
-    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
-    private List<Lesson> lessons;
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Lesson> lessons = new ArrayList<>();
 
     @Column(name = "response")
     private String response;
