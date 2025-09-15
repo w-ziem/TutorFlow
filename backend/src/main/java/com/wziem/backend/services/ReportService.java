@@ -56,7 +56,7 @@ public class ReportService {
     private void updateLessonReportRelations(User student, Report report) {
         List<Lesson> badGradeLessons = lessonRepository.findLessonsWithBadGradesForStudent(student);
         
-        List<Lesson> latestLessons = lessonRepository.findLessonByUser(student, Pageable.ofSize(3));
+        List<Lesson> latestLessons = lessonRepository.findUnusedLessonByUser(student, Pageable.ofSize(3));
         
         Set<Lesson> allRelevantLessons = new HashSet<>();
         allRelevantLessons.addAll(badGradeLessons);
@@ -70,7 +70,6 @@ public class ReportService {
             }
         }
     }
-    //todo: if leson is used dont use it. check if minimum 3 unused lessons
     public String gatherContext(User student) {
         StringBuilder context = new StringBuilder();
         appendStudentProfile(context, student);
@@ -103,7 +102,7 @@ public class ReportService {
 
     private void appendLatestLessons(StringBuilder context, User student) {
         context.append("Ostatnie lekcje ucznia:\n");
-        List<Lesson> latestLessons = lessonRepository.findLessonByUser(student, Pageable.ofSize(3));
+        List<Lesson> latestLessons = lessonRepository.findUnusedLessonByUser(student, Pageable.ofSize(3));
         latestLessons.forEach(lesson -> appendLessonInfo(context, lesson));
     }
 
