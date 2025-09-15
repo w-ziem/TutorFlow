@@ -18,6 +18,7 @@ import {Toaster} from "react-hot-toast";
 import ListPage from "./pages/ListPage.jsx";
 import LessonPage from "./pages/LessonPage.jsx";
 import ReportPage from "./pages/ReportPage.jsx";
+import StudentPage from "./pages/StudentPage.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -42,6 +43,7 @@ const router = createBrowserRouter(
             } >            
                 <Route index element={<TutorDashboardPage />} />
                 <Route path="students" element={<ListPage type="students"/>} />
+                <Route path="students/:id"  element={<StudentPage />} />
                 <Route path="lessons" element={<ListPage type="lessons"/>} />
                 <Route path="lessons/:id"  element={<LessonPage />} />
                 <Route path="materials" element={<ListPage type="materials"/>} />
