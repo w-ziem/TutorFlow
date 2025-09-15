@@ -7,10 +7,14 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
     @EntityGraph(attributePaths = "student")
     public List<Profile> findAllByTutorId(Long tutorId);
 
     Profile findByStudent(User student);
+
+    @EntityGraph(attributePaths = "student")
+    Optional<Profile> findByStudentId(Long studentId);
 }

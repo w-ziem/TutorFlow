@@ -3,6 +3,8 @@ package com.wziem.backend.controllers;
 import com.wziem.backend.dtos.AddStudentRequest;
 import com.wziem.backend.dtos.ProfileDto;
 import com.wziem.backend.dtos.StudentDto;
+import com.wziem.backend.entities.User;
+import com.wziem.backend.repositories.UserRepository;
 import com.wziem.backend.services.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequestMapping("/students")
 public class StudentContoller {
     private final StudentService studentService;
+    private final UserRepository userRepository;
 
     //endpoint to manage students - eg. connect students to tutors
 
@@ -40,5 +43,14 @@ public class StudentContoller {
     }
 
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> fetchStudent(@PathVariable(value = "id") Long studentId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.isAuthenticated()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        StudentDto student = studentService.getStudent(studentId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(student);
+    }
 
 }

@@ -70,7 +70,7 @@ public class ReportService {
             }
         }
     }
-
+    //todo: if leson is used dont use it. check if minimum 3 unused lessons
     public String gatherContext(User student) {
         StringBuilder context = new StringBuilder();
         appendStudentProfile(context, student);
