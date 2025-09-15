@@ -22,9 +22,10 @@ const AddLessonForm = ({onSuccess}) => {
             }
         };
         fetchStudents();
+        setData({...data, studentEmail: modalData?.toString() || ""});
     }, []);
 
-    const {setActiveForm} = useForm();
+    const {modalData} = useForm();
 
     const handleChange = (e) => {
         setData({
