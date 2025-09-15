@@ -60,7 +60,7 @@ const MaterialCard = ({item}) => {
         case "TEXT":
             return <button 
                         onClick={showFullNote} 
-                        className="gap-2 w-100 bg-white/80 cursor-pointer drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103 break-all text-left"
+                        className="rounded-xl gap-2 w-100 bg-white/80 cursor-pointer drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103 break-all text-left"
                     >
                         <div className="flex flex-col justify-evenly py-5 h-full w-full">
                             <h2 className="text-2xl font-semibold">{item.name}</h2>
@@ -74,7 +74,7 @@ const MaterialCard = ({item}) => {
                     </button>
         case "FILE":
             return <button onClick={downloadAsset}
-                        className="flex flex-col justify-evenly relative gap-2 w-100 bg-white/80 cursor-pointer drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103 break-all text-left">
+                        className="rounded-xl flex flex-col justify-evenly relative gap-2 w-100 bg-white/80 cursor-pointer drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103 break-all text-left">
                 <h2 className="text-2xl font-semibold">{item.name}</h2>
                 <p className="text-xl max-w-4/5">{item.value}</p>
                 {lessonInfo && (
@@ -87,7 +87,7 @@ const MaterialCard = ({item}) => {
                 </div>
             </button>
         case "LINK":
-            return <a href={item.value} target="_blank" className="flex flex-col justify-evenly relative gap-2 w-100 bg-white/80 cursor-pointer drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103 break-all text-left">
+            return <a href={item.value} target="_blank" className="rounded-xl flex flex-col justify-evenly relative gap-2 w-100 bg-white/80 cursor-pointer drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103 break-all text-left">
                 <h2 className="text-2xl font-semibold">{item.name}</h2>
                 <p className="text-xl max-w-4/5">{item.value}</p>
                 {lessonInfo && (
