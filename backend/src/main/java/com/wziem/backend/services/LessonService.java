@@ -2,12 +2,15 @@ package com.wziem.backend.services;
 
 import com.wziem.backend.dtos.LessonDto;
 import com.wziem.backend.entities.Lesson;
+import com.wziem.backend.entities.Profile;
 import com.wziem.backend.entities.User;
 import com.wziem.backend.exceptions.ForbiddenContentAccessException;
 import com.wziem.backend.mappers.LessonMapper;
-import com.wziem.backend.mappers.UserMapper;
 import com.wziem.backend.repositories.LessonRepository;
+import com.wziem.backend.repositories.ProfileRepository;
 import com.wziem.backend.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +26,7 @@ public class LessonService {
     private final LessonRepository lessonRepository;
     private final UserRepository userRepository;
     private final LessonMapper lessonMapper;
-    private final UserMapper userMapper;
+    private final ProfileRepository profileRepository;
 
 
     public LessonDto createLesson(Long tutorId, String studentEmail, String topic, String link) {
@@ -70,6 +73,7 @@ public class LessonService {
         return recentLessons.stream().map(lessonMapper::toDto).toList();
     }
 
+    @Transactional
     public void finishLesson(Long userId, Long lessonId, String comment, Long grade) {
         Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(() -> new UsernameNotFoundException("lesson not found"));
         if(!Objects.equals(lesson.getStudent().getId(), userId) && !Objects.equals(lesson.getTutor().getId(), userId)) {
@@ -79,6 +83,10 @@ public class LessonService {
         lesson.setNote(comment);
         lesson.setGrade(grade);
         lesson.setCompleted(true);
+        Long studentId = lesson.getStudent().getId();
+        Profile studentProfile = profileRepository.findByStudentId(studentId).orElseThrow(() -> new EntityNotFoundException("student profile not found"));
+        studentProfile.setLessonCount(studentProfile.getLessonCount() + 1);
+        profileRepository.save(studentProfile);
         lessonRepository.save(lesson);
     }
 }

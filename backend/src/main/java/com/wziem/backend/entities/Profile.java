@@ -1,8 +1,6 @@
 package com.wziem.backend.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,7 +31,6 @@ public class Profile {
 
     @Column(name = "rate")
     private BigDecimal hourRate;
-
 
     @Column(name = "lesson_count")
     private Integer lessonCount;
