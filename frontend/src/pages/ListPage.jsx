@@ -28,15 +28,19 @@ const ListPage = ({ type }) => {
         <>
         <div className="absolute w-[700px] h-[500px] bg-gradient-to-r from-secondary/80 to-fuchsia-400/40 rounded-full blur-[250px] bottom-50 right-1/4"></div>
         <div className="p-30 w-[100%] h-screen">
-            <ListHeader
-                heading={config.heading}
-                description={config.description}
-                buttonLabel={config.addButton}
-                onAdd={() => {
-                    setActiveForm(type);
-                    setOnSuccessRefresh(fetchData);
-                }}
-            />
+                <div className="w-[100%] mx-auto mb-10">
+                    <div className="relative px-12 py-8 rounded-3xl bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
+                        <ListHeader
+                            heading={config.heading}
+                            description={config.description}
+                            buttonLabel={config.addButton}
+                            onAdd={() => {
+                                setActiveForm(type);
+                                setOnSuccessRefresh(fetchData);
+                            }}
+                        />
+                    </div>
+                </div>
 
                 <ListCards
                     items={data}
@@ -49,5 +53,3 @@ const ListPage = ({ type }) => {
 
 export default ListPage;
 
-//TODO: REPORTS, czyli:
-//TODO: ReportPage
