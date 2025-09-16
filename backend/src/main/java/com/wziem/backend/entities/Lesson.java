@@ -61,4 +61,7 @@ public class Lesson {
     @ManyToOne
     @JoinColumn(name = "report_id")
     private Report report;
+
+    @Column(name = "duration")
+    private Integer duration;
 }
