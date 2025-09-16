@@ -35,7 +35,7 @@ export const GlobalModal = () => {
         >
             {activeForm === "students" && <AddStudentForm onSuccess={handleSuccess} />}
             {activeForm === "lessons" && <AddLessonForm onSuccess={handleSuccess} />}
-            {activeForm === "materials" && <AddMaterialForm onSuccess={handleSuccess} />}
+            {activeForm === "materials" && <AddMaterialForm onSuccess={handleSuccess} lessonId={modalData} />}
             {activeForm === "reports" && <GenerateReportForm onSuccess={handleSuccess} />}
             {activeForm === "fullnote" && <FullNoteView note={modalData} onClose={handleClose} />}
             {activeForm === "finishLesson" && <FinishLessonForm onSuccess={handleSuccess} lessonId={modalData} />}

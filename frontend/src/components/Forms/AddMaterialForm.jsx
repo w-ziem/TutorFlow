@@ -18,6 +18,7 @@ const AddMaterialForm = ({onSuccess}) => {
     });
     const [file, setFile] = useState(null);
     const [lessonId, setLessonId] = useState(null);
+    const {modalData} = useForm();
 
     useEffect(() => {
         const fetchLessons = async () => {
@@ -29,6 +30,7 @@ const AddMaterialForm = ({onSuccess}) => {
             }
         };
         fetchLessons();
+        setLessonId(modalData?.toString() || "");
     }, []);
 
     const {setActiveForm} = useForm();

@@ -8,7 +8,7 @@ const LessonsMaterials = ({lessonId, refreshTrigger}) => {
     const [materials, setMaterials] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const {setActiveForm} = useForm();
+    const {openModal} = useForm();
 
     useEffect(() => {
         const fetchRelatedMaterials = async () => {
@@ -44,7 +44,7 @@ const LessonsMaterials = ({lessonId, refreshTrigger}) => {
     if (materials.length === 0) {
         return <div className="w-100">
                 <p className="text-lg text-primary">Brak materiałów dla tej lekcji, wciśnij przycisk aby dodać <FaTurnDown className="text-primary text-xl inline ml-2" /></p>
-            <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {setActiveForm("materials")}}>Dodaj materiał</button>
+            <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {openModal("materials", lessonId)}}>Dodaj materiał</button>
 
         </div>;
     }
@@ -57,7 +57,7 @@ const LessonsMaterials = ({lessonId, refreshTrigger}) => {
                     <MaterialCard key={material.id || index} item={material} />
                 ))}
             </div>
-            <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {setActiveForm("materials")}}>Dodaj materiał</button>
+            <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {openModal("materials", lessonId)}}>Dodaj materiał</button>
         </>
     );
 };
