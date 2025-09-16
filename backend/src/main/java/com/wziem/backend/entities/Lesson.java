@@ -63,5 +63,5 @@ public class Lesson {
     private Report report;
 
     @Column(name = "duration")
-    private Integer duration;
+    private Integer duration; //minutes
 }
