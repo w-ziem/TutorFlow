@@ -19,24 +19,25 @@ const LessonPage = () => {
         setRefreshMaterials(prev => prev + 1);
     };
 
-    useEffect(() => {
-        const fetchLesson = async () => {
-            try {
-                setLoading(true);
-                setError(null);
+    const fetchLesson = async () => {
+        try {
+            setLoading(true);
+            setError(null);
 
-                const res = await axiosInstance.get(`/lessons/${id}`);
-                if (res.status === 200) {
-                    setLesson(res.data);
-                }
-            } catch (err) {
-                console.error('Error fetching lesson:', err);
-                setError('Nie udało się załadować lekcji');
-            } finally {
-                setLoading(false);
+            const res = await axiosInstance.get(`/lessons/${id}`);
+            if (res.status === 200) {
+                setLesson(res.data);
             }
-        };
+        } catch (err) {
+            console.error('Error fetching lesson:', err);
+            setError('Nie udało się załadować lekcji');
+        } finally {
+            setLoading(false);
+        }
+    };
 
+
+    useEffect(() => {
         if (id) {
             fetchLesson();
         }
@@ -46,7 +47,6 @@ const LessonPage = () => {
         setOnSuccessRefresh(handleRefreshMaterials);
     }, [setOnSuccessRefresh]);
 
-    // Enhanced Loading State
     if (loading) {
         return (
             <div className="relative min-h-screen overflow-hidden">
@@ -171,7 +171,10 @@ const LessonPage = () => {
                                     {/* Action Button */}
                                     <div className="flex-shrink-0">
                                         <button
-                                            onClick={() => {openModal("finishLesson", id);}}
+                                            onClick={() => {
+                                                openModal("finishLesson", id);
+                                                setOnSuccessRefresh(fetchLesson);
+                                            }}
                                             className={`group relative px-8 py-4 rounded-2xl font-semibold text-xl transition-all duration-300 ${
                                                 lesson.completed
                                                     ? 'bg-gray-500/20 text-gray-400 cursor-default border border-gray-500/20'
