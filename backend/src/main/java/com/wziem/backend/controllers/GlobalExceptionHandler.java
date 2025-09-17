@@ -2,7 +2,6 @@ package com.wziem.backend.controllers;
 
 
 import com.wziem.backend.exceptions.*;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,6 +82,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleErrorFetchingResponseException(ErrorFetchingResponseException ex) {
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                 .body(Map.of("error", "Error fetching response from openAi"));
+    }
+
+    @ExceptionHandler(NotSufficientContextException.class)
+    public ResponseEntity<Map<String, String>> handleNotSufficientContextException(NotSufficientContextException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", "Not suffiecient context"));
     }
 
     // REST API ERROR HANDLERS
