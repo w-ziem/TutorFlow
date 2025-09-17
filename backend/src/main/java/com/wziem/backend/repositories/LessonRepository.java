@@ -14,25 +14,34 @@ import java.util.List;
 
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
+
     @EntityGraph(attributePaths = {"student"})
     @Query("SELECT l FROM Lesson l WHERE l.tutor = :user OR l.student = :user ORDER BY l.date DESC")
     List<Lesson> findLessonByUser(@Param("user") User user, Pageable pageable);
+
+
 
     //finding lessons for reports
     @EntityGraph(attributePaths = {"student"})
     @Query("SELECT l FROM Lesson l WHERE l.tutor = :user OR l.student = :user AND l.report IS NULL ORDER BY l.date DESC")
     List<Lesson> findUnusedLessonByUser(@Param("user") User user, Pageable pageable);
 
+
+
     @Query("SELECT l FROM Lesson l WHERE l.student = :student AND l.grade < 6 AND l.report IS NULL")
     List<Lesson> findLessonsWithBadGradesForStudent(@Param("student") User student);
 
+
+
     @Query("""
-           SELECT COUNT(l) FROM Lesson l 
-           WHERE (l.tutor = :user OR l.student = :user) 
-           AND l.date BETWEEN :startDate AND :currentDate 
+           SELECT COUNT(l) FROM Lesson l
+           WHERE (l.tutor = :user OR l.student = :user)
+           AND l.date BETWEEN :startDate AND :currentDate
            AND l.completed IS TRUE
            """)
     Integer countLessonsByUserAndDate(User user, LocalDateTime startDate, LocalDateTime currentDate);
+
+
 
     @Query("""
         SELECT SUM(l.duration/60.0 * p.hourRate)
@@ -44,6 +53,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     """)
     BigDecimal sumTotalEarningsByUserAndDate(User user, LocalDateTime startDate, LocalDateTime currentDate);
 
+
+
     @Query("""
         SELECT SUM(l.duration/60.0 * p.hourRate) / SUM(l.duration/60.0)
         FROM Lesson l
@@ -54,6 +65,54 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     """)
     BigDecimal getAvgHourRateByUserAndDate(User user, LocalDateTime startDate, LocalDateTime currentDate);
 
+
+
     @Query(" SELECT AVG(l.grade) FROM Lesson l WHERE (l.tutor = :user OR l.student = :user) AND l.completed IS TRUE ")
     Double getAvgGradeByUserAndDate(User user, LocalDateTime startDate, LocalDateTime currentDate);
+
+
+
+    // Info for attention required statistics
+    @Query("""
+        SELECT s.id, s.name, 
+               DATEDIFF(CURRENT_DATE, MAX(l.date)) as daysSinceLastLesson
+        FROM Lesson l
+        JOIN l.student s
+        WHERE l.tutor.id = :tutorId 
+          AND l.completed = true
+        GROUP BY s.id, s.name
+        HAVING DATEDIFF(CURRENT_DATE, MAX(l.date)) > :minDays
+        ORDER BY DATEDIFF(CURRENT_DATE, MAX(l.date)) DESC
+        """)
+    List<Object[]> findStudentsWithLongBreakSinceLastLesson(@Param("tutorId") Long tutorId, @Param("minDays") int minDays);
+
+    @Query("""
+        SELECT s.id, s.name,
+               COUNT(l.id) as unpaidCount,
+               DATEDIFF(CURRENT_DATE, MIN(l.date)) as oldestUnpaidDays
+        FROM Lesson l
+        JOIN l.student s
+        WHERE l.tutor.id = :tutorId
+          AND l.completed = true
+          AND l.paid = false
+          AND DATEDIFF(CURRENT_DATE, l.date) > :minDays
+        GROUP BY s.id, s.name
+        HAVING COUNT(l.id) > 0
+        ORDER BY DATEDIFF(CURRENT_DATE, MIN(l.date)) DESC
+        """)
+    List<Object[]> findStudentsWithUnpaidLessons(@Param("tutorId") Long tutorId, @Param("minDays") int minDays);
+
+    @Query("""
+        SELECT l.id, s.name, l.grade, l.date, l.topic
+        FROM Lesson l
+        JOIN l.student s
+        WHERE l.tutor.id = :tutorId
+          AND l.completed = true
+          AND l.grade IS NOT NULL
+          AND l.grade < :maxGrade
+          AND l.date > :sinceDate
+        ORDER BY l.date DESC
+        """)
+    List<Object[]> findRecentLessonsWithLowGrades(@Param("tutorId") Long tutorId, @Param("maxGrade") Long maxGrade, @Param("sinceDate") LocalDateTime sinceDate);
+
 }

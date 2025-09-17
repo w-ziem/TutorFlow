@@ -1,5 +1,6 @@
 package com.wziem.backend.controllers;
 
+import com.wziem.backend.dtos.AttentionItemDto;
 import com.wziem.backend.dtos.WeeklySummaryDto;
 import com.wziem.backend.services.StatService;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/stats")
@@ -24,4 +27,15 @@ public class StatController {
 
         return ResponseEntity.ok().body(data);
     }
+
+    @GetMapping("/attention")
+    public ResponseEntity<?> getAttentionRequired() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = (Long) authentication.getPrincipal();
+        List<AttentionItemDto> data = statService.getAttentionSensitiveStats(userId);
+
+        return ResponseEntity.ok().body(data);
+    }
+
+
 }

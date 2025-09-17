@@ -90,6 +90,13 @@ public class GlobalExceptionHandler {
                 .body(Map.of("error", "Not suffiecient context"));
     }
 
+    // STATS HANDLERS
+    @ExceptionHandler(ClassCastException.class)
+    public ResponseEntity<Map<String, String>> handleClassCastException(ClassCastException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", "Error parsing data to statistics" + ex.getMessage()));
+    }
+
     // REST API ERROR HANDLERS
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
