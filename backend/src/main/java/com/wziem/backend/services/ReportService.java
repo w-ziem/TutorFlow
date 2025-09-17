@@ -4,7 +4,7 @@ import com.wziem.backend.dtos.ReportDto;
 import com.wziem.backend.dtos.ReportSummary;
 import com.wziem.backend.entities.*;
 import com.wziem.backend.exceptions.ForbiddenContentAccessException;
-import com.wziem.backend.exceptions.NotSuffiecientContextException;
+import com.wziem.backend.exceptions.NotSufficientContextException;
 import com.wziem.backend.mappers.ReportMapper;
 import com.wziem.backend.repositories.LessonRepository;
 import com.wziem.backend.repositories.ProfileRepository;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +32,7 @@ public class ReportService {
     private final OpenAiService openAiService;
     private final ReportMapper reportMapper;
 
-    public ReportDto generateReport(Long studentId, Long tutorId) throws NotSuffiecientContextException {
+    public ReportDto generateReport(Long studentId, Long tutorId) throws NotSufficientContextException {
         User student = validateAndGetStudent(studentId, tutorId);
         
         // generating report
@@ -51,7 +50,7 @@ public class ReportService {
 
         //check if enough data to consider making a report
         if(report.getLessons().size() < 3) {
-            throw new NotSuffiecientContextException("Not enough data to make a report.");
+            throw new NotSufficientContextException("Not enough data to make a report.");
         }
 
         report = reportRepositiory.save(report);

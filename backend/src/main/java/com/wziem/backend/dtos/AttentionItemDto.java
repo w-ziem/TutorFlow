@@ -12,7 +12,6 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttentionItemDto {
-    private Long id;
     private AttentionType type;
     private String title;
     private String description;

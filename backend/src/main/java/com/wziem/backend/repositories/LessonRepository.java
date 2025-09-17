@@ -73,33 +73,35 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
 
     // Info for attention required statistics
-    @Query("""
-        SELECT s.id, s.name, 
-               DATEDIFF(CURRENT_DATE, MAX(l.date)) as daysSinceLastLesson
-        FROM Lesson l
-        JOIN l.student s
-        WHERE l.tutor.id = :tutorId 
-          AND l.completed = true
-        GROUP BY s.id, s.name
-        HAVING DATEDIFF(CURRENT_DATE, MAX(l.date)) > :minDays
-        ORDER BY DATEDIFF(CURRENT_DATE, MAX(l.date)) DESC
-        """)
+    @Query(value = """
+    SELECT s.id,
+           s.name,
+           (CURRENT_DATE - MAX(l.date::date)) AS daysSinceLastLesson
+    FROM tutorflow.public.lessons l
+    JOIN tutorflow.public.users s ON l.student_id = s.id
+    WHERE l.tutor_id = :tutorId
+      AND l.is_completed = true
+    GROUP BY s.id, s.name
+    HAVING (CURRENT_DATE - MAX(l.date::date)) > :minDays
+    ORDER BY (CURRENT_DATE - MAX(l.date::date)) DESC
+    """, nativeQuery = true)
     List<Object[]> findStudentsWithLongBreakSinceLastLesson(@Param("tutorId") Long tutorId, @Param("minDays") int minDays);
 
-    @Query("""
-        SELECT s.id, s.name,
-               COUNT(l.id) as unpaidCount,
-               DATEDIFF(CURRENT_DATE, MIN(l.date)) as oldestUnpaidDays
-        FROM Lesson l
-        JOIN l.student s
-        WHERE l.tutor.id = :tutorId
-          AND l.completed = true
-          AND l.paid = false
-          AND DATEDIFF(CURRENT_DATE, l.date) > :minDays
-        GROUP BY s.id, s.name
-        HAVING COUNT(l.id) > 0
-        ORDER BY DATEDIFF(CURRENT_DATE, MIN(l.date)) DESC
-        """)
+    @Query(value = """
+    SELECT s.id,
+           s.name,
+           COUNT(l.id) AS unpaidCount,
+           (CURRENT_DATE - MIN(l.date::date)) AS oldestUnpaidDays
+    FROM tutorflow.public.lessons l
+    JOIN tutorflow.public.users s ON l.student_id = s.id
+    WHERE l.tutor_id = :tutorId
+      AND l.is_completed = true
+      AND l.is_paid = false
+      AND (CURRENT_DATE - l.date::date) > :minDays
+    GROUP BY s.id, s.name
+    HAVING COUNT(l.id) > 0
+    ORDER BY (CURRENT_DATE - MIN(l.date::date)) DESC
+    """, nativeQuery = true)
     List<Object[]> findStudentsWithUnpaidLessons(@Param("tutorId") Long tutorId, @Param("minDays") int minDays);
 
     @Query("""

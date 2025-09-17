@@ -93,8 +93,9 @@ public class GlobalExceptionHandler {
     // STATS HANDLERS
     @ExceptionHandler(ClassCastException.class)
     public ResponseEntity<Map<String, String>> handleClassCastException(ClassCastException ex) {
+        System.err.println("Error parsing data to statistics: " + Arrays.toString(ex.getStackTrace()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("error", "Error parsing data to statistics" + ex.getMessage()));
+                .body(Map.of("error", "Error parsing data to statistics: " + ex.getMessage()));
     }
 
     // REST API ERROR HANDLERS

@@ -111,7 +111,7 @@ public class StatService {
             Long studentId = (Long) row[0];
             String studentName = (String) row[1];
             Long unpaidLessonsCount = (Long) row[2];
-            Long oldestUnpaidDays = (Long) row[3];
+            Integer oldestUnpaidDays = (Integer) row[3];
 
             AttentionItemDto item = AttentionItemDto.builder()
                     .type(AttentionType.PAYMENT)
@@ -121,7 +121,7 @@ public class StatService {
                     .actionText("Sprawdź status płatności")
                     .data(Map.of(
                             "lessonsCount", unpaidLessonsCount.intValue(),
-                            "daysOverdue", oldestUnpaidDays.intValue(),
+                            "daysOverdue", oldestUnpaidDays,
                             "studentId", studentId
                     ))
                     .build();
