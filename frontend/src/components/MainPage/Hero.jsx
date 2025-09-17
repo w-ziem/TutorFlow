@@ -1,5 +1,6 @@
 import React from 'react';
-import placeholder from "../../assets/placeholder.png";
+import mockup from "../../assets/mockup.png";
+import test from "../../assets/76a742700f3.png";
 import heroImage from "../../assets/hero.svg";
 
 const Hero = () => {
@@ -42,7 +43,7 @@ const Hero = () => {
 
                 </div>
 
-                <img src={placeholder}  className="mt-3" alt=""/>
+                <img src={mockup}  className="mt-3 rounded-xl rounded-tl-[30%] shadow-xl rounded-br-[30%] bg-none" alt=""/>
             </div>
         </section>
     );
