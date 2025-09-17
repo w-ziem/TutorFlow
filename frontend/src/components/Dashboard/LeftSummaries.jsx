@@ -12,7 +12,7 @@ const LeftSummaries = () => {
     }, [user]);
 
     return (
-        <div className="w-[60%] p-10">
+        <div className="w-[60%] p-10 h-screen">
             <div className="ml-10">
                 <h1 className="gradient-text drop-shadow-2xl drop-shadow-secondary text-5xl/18 line-2 font-semibold">Cześć, {name}</h1>
                 <p className="text-xl text-text/70 font-medium">

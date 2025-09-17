@@ -41,10 +41,10 @@ const LatestLessons = () => {
     };
 
     return (
-        <div className="relative p-8 rounded-2xl shadow-xl ml-8 max-h-[250px] bg-gradient-to-b from-secondary/10 to-sky-200/10 backdrop-blur-xl backdrop-filter backdrop-saturate-150">
+        <div className="relative p-8 rounded-2xl shadow-xl ml-8 h-fit bg-gradient-to-b from-secondary/10 to-sky-200/10 backdrop-blur-xl backdrop-filter backdrop-saturate-150">
             <div className="relative z-10 h-full flex flex-col">
                 {/* Header */}
-                <div className="flex items-center gap-4 mb-4 flex-shrink-0">
+                <div className="flex items-center gap-3 flex-shrink-0">
                     <div>
                         <h2 className="text-2xl font-bold text-text">Ostatnie Lekcje</h2>
                         <p className="text-text/60">Twoja najnowsza aktywność</p>

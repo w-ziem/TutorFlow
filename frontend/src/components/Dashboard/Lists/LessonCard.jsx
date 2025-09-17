@@ -17,7 +17,7 @@ const LessonCard = ({item, isMainDashboard=false}) => {
 
     return (
         <NavLink to={`/dashboard-tutor/lessons/${item.id}`} className={className}>
-            <div className="flex flex-col justify-between py-5 h-full">
+            <div className="flex flex-col justify-between py-5 h-fit">
                 <h2 className="text-xl font-semibold">{item.topic}</h2>
                 <div className="mt-auto">
                     <h2 className="text-xl font-[500]">{item.studentName}</h2>
