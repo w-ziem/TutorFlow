@@ -89,4 +89,16 @@ public class LessonService {
         profileRepository.save(studentProfile);
         lessonRepository.save(lesson);
     }
+
+    public List<LessonDto> getStudentLessons(Long tutorId, Long studentId) {
+        User tutor = userRepository.findById(tutorId).orElseThrow(() -> new UsernameNotFoundException("tutor not found"));
+        User student = userRepository.findById(studentId).orElseThrow(() -> new UsernameNotFoundException("student not found"));
+
+        if(!Objects.equals(tutor.getId(), student.getTutor().getId())) {
+            throw new ForbiddenContentAccessException("You don't have permission to access this lesson");
+        }
+
+        List<Lesson> lessons = lessonRepository.findLessonsByStudentAndTutor(student, tutor);
+        return lessons.stream().map(lessonMapper::toDto).toList();
+    }
 }

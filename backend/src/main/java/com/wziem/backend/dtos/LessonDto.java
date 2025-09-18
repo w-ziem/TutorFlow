@@ -16,4 +16,6 @@ public class LessonDto {
     private boolean completed;
     private Long grade;
     private String note;
+    private Integer duration;
+
 }

@@ -58,7 +58,7 @@ public class Lesson {
     @Column(name = "grade")
     private Long grade;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "report_id")
     private Report report;
 

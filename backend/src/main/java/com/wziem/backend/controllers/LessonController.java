@@ -74,4 +74,14 @@ public class LessonController {
     }
 
 
+    @GetMapping("/student/{id}")
+    public ResponseEntity<?> getStudentLessons(@PathVariable(value="id") Long studentId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long tutorId = (Long) authentication.getPrincipal();
+
+        List<LessonDto> lessons = lessonService.getStudentLessons(tutorId, studentId);
+
+        return ResponseEntity.ok().body(lessons);
+    }
+
 }
