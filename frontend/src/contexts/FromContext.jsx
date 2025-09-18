@@ -4,7 +4,7 @@ const FormContext = createContext();
 
 export const FormProvider = ({ children }) => {
     const [activeForm, setActiveForm] = useState(null);
-    const [modalData, setModalData] = useState(null); // Nowe pole dla danych modalu
+    const [modalData, setModalData] = useState(null);
     const onSuccessRef = useRef(null);
 
     const setOnSuccessRefresh = (callback) => {
@@ -13,13 +13,11 @@ export const FormProvider = ({ children }) => {
 
     const onSuccessRefresh = onSuccessRef.current;
 
-    // Funkcja do otwierania modalu z danymi
     const openModal = (formType, data = null) => {
         setActiveForm(formType);
         setModalData(data);
     };
 
-    // Funkcja do zamykania modalu
     const closeModal = () => {
         setActiveForm(null);
         setModalData(null);

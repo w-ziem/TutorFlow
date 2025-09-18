@@ -11,7 +11,7 @@ const StudentLessons = ({studentId, refreshTrigger}) => {
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        const fetchRelatedMaterials = async () => {
+        const fetchLessons = async () => {
             try {
                 setLoading(true);
                 setError(null);
@@ -25,8 +25,8 @@ const StudentLessons = ({studentId, refreshTrigger}) => {
                 setLoading(false);
             }
         };
-        fetchRelatedMaterials();
-    }, [studentId]);
+        fetchLessons();
+    }, [studentId, refreshTrigger]);
 
     if(loading) {
         return <ClipLoader color={"blue"} size={50} className="mt-30" />;

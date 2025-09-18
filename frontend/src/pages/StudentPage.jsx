@@ -12,7 +12,15 @@ const StudentPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { id } = useParams();
-    const { openModal } = useForm();
+    const { openModal, setOnSuccessRefresh } = useForm();
+
+    const [refreshLessons, setRefreshLessons] = useState(0);
+
+    const handleRefreshLessons = () => {
+        setRefreshLessons(prev => prev + 1);
+    }
+
+
 
     useEffect(() => {
         const fetchStudent = async () => {
@@ -56,7 +64,10 @@ const StudentPage = () => {
                 </div>
                 <div className="mt-5 lg:mt-0 lg:absolute lg:top-10 lg:right-10 flex items-center gap-3 text-sm text-text/80">
                     <button
-                        onClick={() => openModal("lessons", student.email)}
+                        onClick={() => {
+                            openModal("lessons", student.email);
+                            setOnSuccessRefresh(handleRefreshLessons);
+                        }}
                         className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#242E7C] to-[#5FA3F7] text-white font-semibold hover:scale-105 transition"
                     >
                         Dodaj lekcję
@@ -97,7 +108,7 @@ const StudentPage = () => {
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/5 to-teal-500/5"></div>
 
                 <div className="relative z-10">
-                  <StudentLessons studentId={id} />
+                  <StudentLessons studentId={id} refreshTrigger={refreshLessons}/>
                 </div>
             </div>
 
