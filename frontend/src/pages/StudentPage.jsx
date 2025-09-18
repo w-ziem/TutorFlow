@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import StudentLessons from "../components/Dashboard/StudentLessons.jsx";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance.jsx";
 import { formatLink } from "../utils/HelperFunctions.js";
@@ -53,6 +54,14 @@ const StudentPage = () => {
                         <span>{student.educationLevel}</span>
                     </div>
                 </div>
+                <div className="mt-5 lg:mt-0 lg:absolute lg:top-10 lg:right-10 flex items-center gap-3 text-sm text-text/80">
+                    <button
+                        onClick={() => openModal("lessons", student.email)}
+                        className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#242E7C] to-[#5FA3F7] text-white font-semibold hover:scale-105 transition"
+                    >
+                        Dodaj lekcję
+                    </button>
+                </div>
             </div>
 
             {/* Cards */}
@@ -84,15 +93,14 @@ const StudentPage = () => {
                 </div>
             </div>
 
-            {/* Actions */}
-            <div className="mt-10">
-                <button
-                    onClick={() => openModal("lessons", student.email)}
-                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#242E7C] to-[#5FA3F7] text-white font-semibold hover:scale-105 transition"
-                >
-                    Dodaj lekcję
-                </button>
+            <div className=" mt-10 relative p-8 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/5 to-teal-500/5"></div>
+
+                <div className="relative z-10">
+                  <StudentLessons studentId={id} />
+                </div>
             </div>
+
         </div>
     );
 };
