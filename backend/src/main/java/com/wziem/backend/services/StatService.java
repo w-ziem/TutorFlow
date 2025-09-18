@@ -82,7 +82,7 @@ public class StatService {
         for (Object[] row : studentsWithLongBreak) {
             Long studentId = (Long) row[0];
             String studentName = (String) row[1];
-            Long daysSinceLastLesson = (Long) row[2];
+            Integer daysSinceLastLesson = (Integer) row[2];
 
             AttentionItemDto item = AttentionItemDto.builder()
                     .type(AttentionType.INFO)
@@ -91,7 +91,7 @@ public class StatService {
                     .student(studentName)
                     .actionText("Skontaktuj się z uczniem")
                     .data(Map.of(
-                            "days", daysSinceLastLesson.intValue(),
+                            "days", daysSinceLastLesson,
                             "studentId", studentId
                     ))
                     .build();

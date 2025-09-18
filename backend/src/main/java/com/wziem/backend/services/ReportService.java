@@ -42,8 +42,6 @@ public class ReportService {
 
         // getting context
         String context = gatherContext(student);
-        String response = openAiService.fetchResponse(context);
-        report.setResponse(response);
 
         // update realtions between report and lessons
         updateLessonReportRelations(student, report);
@@ -52,6 +50,9 @@ public class ReportService {
         if(report.getLessons().size() < 3) {
             throw new NotSufficientContextException("Not enough data to make a report.");
         }
+
+        String response = openAiService.fetchResponse(context);
+        report.setResponse(response);
 
         report = reportRepositiory.save(report);
 

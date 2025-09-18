@@ -47,15 +47,16 @@ const GenerateReportForm = ({onSuccess}) => {
                 toast.success("Raport Został wygenerowany. Zobacz wyniki w sekcji raporty");
                 setTimeout(() => {onSuccess()}, 2000)
             }
-        }catch (error) {
+        } catch (error) {
             setIsSubmitting(false);
             setIsError(true);
             if (error.response?.status === 404) {
                 toast.error("Nie znaleziono ucznia.");
-            }
-            else {
+            } else if (error.response?.status === 400) {
+                toast("Niewystarczający kontekst do wygenerowania raportu", {icon: "ℹ️"});
+            } else {
                 console.error('Error:', error);
-                toast.error("Wystąpił nieoczekiwany błąd. Spróbuj ponownie później")
+                toast.error("Wystąpił nieoczekiwany błąd. Spróbuj ponownie później");
             }
         }
     };
