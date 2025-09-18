@@ -4,11 +4,13 @@ import axiosInstance from '../../utils/axiosInstance.jsx';
 import toast from 'react-hot-toast';
 import TextInput from "../Ui/TextInput.jsx";
 import {FaInfo} from "react-icons/fa6";
+import InputField from "../Ui/InputField.jsx";
 
 const FinishLessonForm = ({ lessonId, onSuccess }) => {
     const [formData, setFormData] = useState({
         grade: '',
-        comment: ''
+        comment: '',
+        duration: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,18 +24,24 @@ const FinishLessonForm = ({ lessonId, onSuccess }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Zmiana z formData.rating na formData.grade
         if (!formData.grade) {
             toast.error('Proszę wystawić ocenę');
             return;
         }
 
+        if (!formData.duration){
+            toast.error("Proszę wpisać długość lekcji");
+            return;
+        }
+
         try {
             setIsSubmitting(true);
+            console.log(formData);
 
             const response = await axiosInstance.post(`/lessons/${lessonId}/finish`, {
                 grade: Number(formData.grade),
-                comment: formData.comment || null
+                comment: formData.comment || null,
+                duration: Number(formData.duration) || null,
             });
 
             if (response.status === 200) {
@@ -74,14 +82,26 @@ const FinishLessonForm = ({ lessonId, onSuccess }) => {
                     </select>
                 </div>
 
+                <InputField
+                    id="duration"
+                    type="number"
+                    title="Długość lekcji w minutach"
+                    placeholder="np. 63"
+                    value={formData.duration}
+                    onChange={handleInputChange}
+                    required={true}
+                />
+
+
                 <TextInput
                     title="Uwagi / Komentarz (opcjonalnie)"
                     placeholder="Tutaj wpisz swoje uwagi, notatki, wnioski, itp."
                     value={formData.comment}
                     id="comment"
                     onChange={handleInputChange}
-                    required={false} // Dodano required={false} jeśli komentarz ma być opcjonalny
+                    required={false}
                 />
+
 
                 <button
                     type="submit"
@@ -97,5 +117,4 @@ const FinishLessonForm = ({ lessonId, onSuccess }) => {
         </div>
     );
 };
-
 export default FinishLessonForm;

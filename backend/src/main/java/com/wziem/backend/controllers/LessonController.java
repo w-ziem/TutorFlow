@@ -68,7 +68,7 @@ public class LessonController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = (Long) authentication.getPrincipal();
 
-        lessonService.finishLesson(userId, lessonId, request.getComment(), request.getGrade());
+        lessonService.finishLesson(userId, lessonId, request.getComment(), request.getGrade(), request.getDuration());
 
         return ResponseEntity.ok().build();
     }

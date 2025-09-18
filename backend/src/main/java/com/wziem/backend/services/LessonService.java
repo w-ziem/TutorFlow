@@ -74,7 +74,7 @@ public class LessonService {
     }
 
     @Transactional
-    public void finishLesson(Long userId, Long lessonId, String comment, Long grade) {
+    public void finishLesson(Long userId, Long lessonId, String comment, Long grade, Integer duration) {
         Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(() -> new UsernameNotFoundException("lesson not found"));
         if(!Objects.equals(lesson.getStudent().getId(), userId) && !Objects.equals(lesson.getTutor().getId(), userId)) {
             throw new ForbiddenContentAccessException("You don't have permission to access this lesson");
@@ -82,6 +82,7 @@ public class LessonService {
 
         lesson.setNote(comment);
         lesson.setGrade(grade);
+        lesson.setDuration(duration);
         lesson.setCompleted(true);
         Long studentId = lesson.getStudent().getId();
         Profile studentProfile = profileRepository.findByStudentId(studentId).orElseThrow(() -> new EntityNotFoundException("student profile not found"));

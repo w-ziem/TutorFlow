@@ -15,5 +15,5 @@ public interface LessonMapper {
     @Mapping(source = "completed", target = "completed")
     @Mapping(source = "note", target = "note")
     @Mapping(source = "duration", target = "duration")
-    public LessonDto toDto(Lesson lesson);
+    LessonDto toDto(Lesson lesson);
 }
