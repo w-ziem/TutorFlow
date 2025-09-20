@@ -6,6 +6,7 @@ import com.wziem.backend.dtos.RegisterRequest;
 import com.wziem.backend.dtos.UserDto;
 import com.wziem.backend.services.AuthService;
 import com.wziem.backend.services.JwtService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -37,5 +38,17 @@ public class AuthController {
     public ResponseEntity<JwtDto> refreshToken(@CookieValue("refreshToken") String refreshToken) {
         JwtDto token = authService.refteshAccessToken(refreshToken);
         return ResponseEntity.ok(token);
+    }
+
+    //most basic logout - to improve
+    @PostMapping("/logout")
+    public ResponseEntity<String> logoutSimple(HttpServletResponse response) {
+
+        Cookie clearCookie = new Cookie("refreshToken", "");
+        clearCookie.setMaxAge(0);
+        clearCookie.setPath("/");
+        response.addCookie(clearCookie);
+
+        return ResponseEntity.ok("Cleared refreshToke cookie");
     }
 }
