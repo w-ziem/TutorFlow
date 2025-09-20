@@ -1,23 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, Calendar, BadgeDollarSign, DollarSign } from 'lucide-react';
+import { TrendingUp, Calendar, BadgeDollarSign, DollarSign, Clock } from 'lucide-react';
 import axiosInstance from "../../utils/axiosInstance.jsx";
+import { useAuth } from "../../contexts/AuthProvider.jsx";
 
 const WeeklyProgress = () => {
-    const [stats, setStats] = useState({
+    const [tutorStats, setTutorStats] = useState({
         lessonsThisWeek: 0,
         averageGrade: 0,
         earningsThisWeek: 0,
         averageHourRate: 0,
     });
 
+    const [studentStats, setStudentStats] = useState({
+        lessonsThisWeek: 0,
+        hoursThisWeek: 0,
+        averageGrade: 0,
+    });
+
+    const { isTutor, isStudent } = useAuth();
+
     const fetchWeeklyStats = async () => {
-        try{
+        try {
             const response = await axiosInstance.get("/stats/weekly");
-            const data = await response.data;
-            setStats(data);
-        }catch(err){
+            const data = response.data;
+            if (isStudent) setStudentStats(data);
+            if (isTutor) setTutorStats(data);
+        } catch (err) {
             console.log("Error fetching weekly stats: " + err.message);
-            window.reload();
+            window.location.reload();
         }
     };
 
@@ -25,36 +35,68 @@ const WeeklyProgress = () => {
         fetchWeeklyStats();
     }, []);
 
-    const statCards = [
+    const tutorStatCards = [
         {
             label: "Lekcje w tym tygodniu",
-            value: stats.lessonsThisWeek,
+            value: tutorStats.lessonsThisWeek,
             icon: Calendar,
             color: "text-blue-400",
             bgColor: "bg-blue-500/10"
         },
         {
             label: "Średnia stawka",
-            value: `${stats.averageHourRate.toFixed(2)}zł/h`,
+            value: `${tutorStats.averageHourRate.toFixed(2)}zł/h`,
             icon: BadgeDollarSign,
             color: "text-emerald-400",
             bgColor: "bg-emerald-500/10"
         },
         {
             label: "Zarobki tygodniowe",
-            value: `${stats.earningsThisWeek.toFixed(2)}zł`,
+            value: `${tutorStats.earningsThisWeek.toFixed(2)}zł`,
             icon: DollarSign,
             color: "text-purple-400",
             bgColor: "bg-purple-500/10"
         },
         {
             label: "Średnia ocena",
-            value: `${stats.averageGrade.toFixed(2)}`,
+            value: `${tutorStats.averageGrade.toFixed(2)}`,
             icon: TrendingUp,
             color: "text-orange-400",
             bgColor: "bg-orange-500/10"
         }
     ];
+
+    const studentStatCards = [
+        {
+            label: "Lekcje w tym tygodniu",
+            value: studentStats.lessonsThisWeek,
+            icon: Calendar,
+            color: "text-blue-400",
+            bgColor: "bg-blue-500/10"
+        },
+        {
+            label: "Godziny nauki",
+            value: `${studentStats.hoursThisWeek}h`,
+            icon: Clock,
+            color: "text-emerald-400",
+            bgColor: "bg-emerald-500/10"
+        },
+        {
+            label: "Średnia ocena",
+            value: studentStats.averageGrade.toFixed(2),
+            icon: TrendingUp,
+            color: "text-purple-400",
+            bgColor: "bg-purple-500/10"
+        },
+    ];
+
+    // Fixed: Determine which stat cards to use based on user type
+    let statCards = [];
+    if (isTutor) {
+        statCards = tutorStatCards;
+    } else if (isStudent) {
+        statCards = studentStatCards;
+    }
 
     return (
         <div className="mt-8">
