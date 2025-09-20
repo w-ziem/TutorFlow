@@ -2,7 +2,7 @@ import React from 'react';
 import {Outlet} from "react-router-dom";
 import Sidebar from "../components/Dashboard/Sidebar.jsx";
 
-const TutorLayout = () => {
+const DashboardLayout = () => {
     return (
         <div className="flex min-h-screen">
             <Sidebar />
@@ -13,4 +13,4 @@ const TutorLayout = () => {
     );
 };
 
-export default TutorLayout;
+export default DashboardLayout;

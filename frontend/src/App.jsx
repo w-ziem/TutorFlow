@@ -8,7 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import StudentDashboardPage from "./pages/StudentDashboardPage.jsx";
 import TutorDashboardPage from "./pages/TutorDashboardPage.jsx";
-import TutorLayout from "./Layouts/TutorLayout.jsx";
+import DashboardLayout from "./Layouts/DashboardLayout.jsx";
 import ProtectedRoute from './components/ProtectedRoute';
 
 
@@ -32,13 +32,16 @@ const router = createBrowserRouter(
             
             <Route path="/dashboard-student" element={
                 <ProtectedRoute requiredRole="STUDENT">
-                    <StudentDashboardPage />
+                    <DashboardLayout />
                 </ProtectedRoute>
-            } />
+            } >
+                <Route index element={<StudentDashboardPage />} />
+                {/*tutaj ścieżki do zakładek ucznia*/}
+            </Route>
             
             <Route path="/dashboard-tutor/*" element={
                 <ProtectedRoute requiredRole="TUTOR">
-                    <TutorLayout />
+                    <DashboardLayout />
                 </ProtectedRoute>
             } >            
                 <Route index element={<TutorDashboardPage />} />
