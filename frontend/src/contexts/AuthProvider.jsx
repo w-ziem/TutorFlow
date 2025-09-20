@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import { refreshToken } from '../utils/axiosInstance.jsx';
+import axiosInstance, { refreshToken } from '../utils/axiosInstance.jsx';
 
 const AuthContext = createContext();
 
@@ -78,10 +78,21 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        setToken(null);
-        setUser(null);
+    const logout = async () => {
+        try{
+            localStorage.removeItem('token');
+            await axiosInstance.post("auth/logout");
+            localStorage.clear();
+            sessionStorage.clear();
+            setToken(null);
+            setUser(null);
+        }catch (err) {
+            console.log("Error logging out: " + err.message);
+            localStorage.clear();
+            sessionStorage.clear();
+            setToken(null);
+            setUser(null);
+        }
     };
 
     const value = {
