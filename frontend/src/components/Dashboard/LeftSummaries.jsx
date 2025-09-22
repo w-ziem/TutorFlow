@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import QuickLinks from "./QuickLinks.jsx";
 import {useAuth} from "../../contexts/AuthProvider.jsx";
 import AddStudentForm from "../Forms/AddStudentForm.jsx";
-import LatestLessons from "./LatestLessons.jsx";
+import LatestLessonsTutor from "./LatestLessonsTutor.jsx";
 
 const LeftSummaries = () => {
     const {user} = useAuth();
@@ -20,7 +20,7 @@ const LeftSummaries = () => {
                 </p>
             </div>
             <QuickLinks />
-            <LatestLessons />
+            <LatestLessonsTutor />
         </div>
     );
 };

@@ -3,7 +3,7 @@ import axiosInstance from "../../utils/axiosInstance.jsx";
 import LessonCard from "./Lists/LessonCard.jsx";
 import { Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const LatestLessons = () => {
+const LatestLessonsTutor = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -138,4 +138,4 @@ const LatestLessons = () => {
     );
 };
 
-export default LatestLessons;
+export default LatestLessonsTutor;
