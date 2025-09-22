@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ClipLoader} from "react-spinners";
 import axiosInstance from "/src/utils/axiosInstance.jsx";
 import {formatDate, getGradeColor} from "../../../utils/HelperFunctions.js";
-import {ChevronRight, Calendar, Clock, CheckCircle, DollarSign, TrendingUp} from "lucide-react";
+import {ChevronRight, Calendar, Clock, CheckCircle, DollarSign} from "lucide-react";
 import {NavLink} from "react-router-dom";
 
 const LatestLessonsStudent = () => {

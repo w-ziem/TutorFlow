@@ -36,6 +36,10 @@ const router = createBrowserRouter(
                 </ProtectedRoute>
             } >
                 <Route index element={<StudentDashboardPage />} />
+                <Route path="lessons" element={<ListPage type="lessons"/>} />
+                <Route path="materials" element={<ListPage type="materials"/>} />
+
+
                 {/*tutaj ścieżki do zakładek ucznia*/}
             </Route>
             

@@ -14,7 +14,7 @@ const StudentCard = ({ item }) => {
     }
 
     return (
-        <NavLink to={`${item.id}`} className="rounded-xl flex gap-2 w-100 bg-white/80 drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103">
+        <NavLink to={`${item.id}`} className="rounded-xl flex gap-2 w-100 bg-white/40 drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103">
             <img
                 src={`https://api.dicebear.com/7.x/initials/svg?seed=${item.name || 'Unknown'}`}
                 alt={item.name || 'Unknown'}

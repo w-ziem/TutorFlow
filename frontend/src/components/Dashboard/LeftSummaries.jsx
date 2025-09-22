@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import QuickLinks from "./QuickLinks.jsx";
 import {useAuth} from "../../contexts/AuthProvider.jsx";
-import AddStudentForm from "../Forms/AddStudentForm.jsx";
 import LatestLessonsTutor from "./LatestLessonsTutor.jsx";
 
 const LeftSummaries = () => {
