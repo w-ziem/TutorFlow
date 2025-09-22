@@ -4,10 +4,12 @@ import {formatDate} from "../../../utils/HelperFunctions.js";
 import { useForm } from "../../../contexts/FromContext.jsx";
 import {FaExternalLinkAlt, FaDownload} from "react-icons/fa";
 import {toast} from "react-hot-toast";
+import {useAuth} from "../../../contexts/AuthProvider.jsx";
 
 const MaterialCard = ({item}) => {
     const [lessonInfo, setLessonInfo] = useState();
     const { openModal } = useForm();
+    const {isTutor} = useAuth();
 
     useEffect(() => {
         const fetchLessonInfo = async () => {
@@ -18,9 +20,8 @@ const MaterialCard = ({item}) => {
                 console.error("Błąd pobierania lekcji:", err);
             }
         };
-
         fetchLessonInfo();
-    }, []);
+    }, [item]);
 
     const showFullNote = () => {
         openModal("fullnote", item);
@@ -67,7 +68,7 @@ const MaterialCard = ({item}) => {
                             <h2 className="text-xl max-w-4/5">{item.value.slice(0, 50)}...</h2>
                             {lessonInfo && (
                                 <p className="text-lg text-gray-500">
-                                    Lekcja: {lessonInfo.studentName} | {formatDate(lessonInfo.date)}
+                                    Lekcja: {isTutor ? lessonInfo.studentName : lessonInfo.topic}<br/>{formatDate(lessonInfo.date)}
                                 </p>
                             )}
                         </div>
@@ -79,7 +80,7 @@ const MaterialCard = ({item}) => {
                 <p className="text-xl max-w-4/5">{item.value}</p>
                 {lessonInfo && (
                     <p className="text-lg text-gray-500">
-                        Lekcja: {lessonInfo.studentName} | {formatDate(lessonInfo.date)}
+                        Lekcja: {isTutor ? lessonInfo.studentName : lessonInfo.topic}<br/>{formatDate(lessonInfo.date)}
                     </p>
                 )}
                 <div className="absolute top-5 right-5">
@@ -92,7 +93,7 @@ const MaterialCard = ({item}) => {
                 <p className="text-xl max-w-4/5">{item.value}</p>
                 {lessonInfo && (
                     <p className="text-lg text-gray-500">
-                        Lekcja: {lessonInfo.studentName} | {formatDate(lessonInfo.date)}
+                        Lekcja: {isTutor ? lessonInfo.studentName : lessonInfo.topic}<br/>{formatDate(lessonInfo.date)}
                     </p>
                 )}
                 <div className="absolute top-5 right-5">
