@@ -1,15 +1,12 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import {FaCircle} from "react-icons/fa";
+import {formatDate} from "../../../utils/HelperFunctions.js";
 
-const formatDate = (date) => {
-    return new Date(date).toLocaleDateString();
-};
-
-
-
-const LessonCard = ({item, isMainDashboard=false}) => {
-    const className = isMainDashboard ? "text-center w-fit mx-5 transition duration-300 hover:scale-102" : "rounded-xl flex gap-2 w-100 bg-white/80 drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103";
+const LessonCard = ({item, isMainDashboard=false, isStudentDashboard=false}) => {
+    const className = isMainDashboard ? "text-center w-fit mx-5 transition duration-300 hover:scale-102" :
+        isStudentDashboard ? "flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer" :
+        "rounded-xl flex gap-2 w-100 bg-white/80 drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103";
 
     if (!item) {
         return <div>Brak danych do wyświetlenia</div>

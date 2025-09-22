@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {ClipLoader} from "react-spinners";
 import axiosInstance from "/src/utils/axiosInstance.jsx";
-import {formatDate} from "../../../utils/HelperFunctions.js";
+import {formatDate, getGradeColor} from "../../../utils/HelperFunctions.js";
 import {ChevronRight, Calendar, Clock, CheckCircle, DollarSign, TrendingUp} from "lucide-react";
 import {NavLink} from "react-router-dom";
 
@@ -33,7 +33,7 @@ const LatestLessonsStudent = () => {
     }
 
     return (
-        <div className="relative p-8 rounded-2xl mt-10 shadow-xl h-fit bg-gradient-to-b from-secondary/5 to-sky-200/5 backdrop-blur-xl backdrop-filter backdrop-saturate-150">
+        <div className="relative p-8 rounded-2xl mt-10 shadow-xl h-fit bg-gradient-to-b from-secondary/5 to-sky-500/5 backdrop-blur-xl backdrop-filter backdrop-saturate-150">
             <div className="flex items-center gap-4 mb-6">
                 <div className="p-3 rounded-xl bg-green-500/10 backdrop-blur-sm">
                     <Clock className="w-7 h-7 text-green-500" />
@@ -70,7 +70,7 @@ const LatestLessonsStudent = () => {
 
                         <div className="flex items-center gap-3">
                             <div className="text-center">
-                                <div className={`text-lg font-bold`}>
+                                <div className={`text-lg font-bold ${getGradeColor(lesson.grade)}`}>
                                     {lesson.grade}/10
                                 </div>
                                 <div className="text-xs text-gray-500">ocena</div>
