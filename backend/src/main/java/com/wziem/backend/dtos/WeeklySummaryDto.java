@@ -1,13 +1,12 @@
 package com.wziem.backend.dtos;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import java.math.BigDecimal;
-
-@Data
-public class WeeklySummaryDto {
-    private Integer lessonsThisWeek;
-    private BigDecimal averageHourRate;
-    private BigDecimal earningsThisWeek;
-    private Double averageGrade;
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = WeeklySummaryTutorDto.class, name = "tutor"),
+        @JsonSubTypes.Type(value = WeeklySummaryStudentDto.class, name = "student")
+})
+public abstract class WeeklySummaryDto {
 }

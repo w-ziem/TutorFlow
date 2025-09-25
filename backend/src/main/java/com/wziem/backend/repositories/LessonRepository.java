@@ -68,10 +68,12 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
 
 
-    @Query(" SELECT AVG(l.grade) FROM Lesson l WHERE (l.tutor = :user OR l.student = :user) AND l.completed IS TRUE ")
+    @Query(" SELECT AVG(l.grade) FROM Lesson l WHERE (l.tutor = :user OR l.student = :user) AND l.completed IS TRUE AND l.date BETWEEN :startDate AND :currentDate")
     Double getAvgGradeByUserAndDate(User user, LocalDateTime startDate, LocalDateTime currentDate);
 
 
+    @Query(" SELECT AVG(l.grade) FROM Lesson l WHERE (l.tutor = :user OR l.student = :user) AND l.completed IS TRUE")
+    Double getAvgGradeByUser(User user);
 
     // Info for attention required statistics
     @Query(value = """
@@ -118,4 +120,12 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
         """)
     List<Object[]> findRecentLessonsWithLowGrades(@Param("tutorId") Long tutorId, @Param("maxGrade") Long maxGrade, @Param("sinceDate") LocalDateTime sinceDate);
 
+    @Query("""
+        SELECT SUM(l.duration/60.0)
+        FROM Lesson l
+        WHERE (l.tutor = :user OR l.student = :user)
+        AND l.date BETWEEN :startDate AND :currentDate
+        AND l.completed IS TRUE
+    """)
+    Double getHoursByUserAndDate(User user, LocalDateTime startDate, LocalDateTime currentDate);
 }

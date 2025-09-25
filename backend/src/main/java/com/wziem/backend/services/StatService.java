@@ -1,8 +1,7 @@
 package com.wziem.backend.services;
 
-import com.wziem.backend.dtos.AttentionItemDto;
-import com.wziem.backend.dtos.AttentionType;
-import com.wziem.backend.dtos.WeeklySummaryDto;
+import com.wziem.backend.dtos.*;
+import com.wziem.backend.entities.Role;
 import com.wziem.backend.entities.User;
 import com.wziem.backend.repositories.LessonRepository;
 import com.wziem.backend.repositories.UserRepository;
@@ -15,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -22,8 +22,9 @@ public class StatService {
     private final UserRepository userRepository;
     private final LessonRepository lessonRepository;
 
-    public WeeklySummaryDto getStats(Long userId, String range) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public WeeklySummaryDto getStats(Long userId, Role role, String range) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         LocalDateTime currentDate = null;
         LocalDateTime startDate = null;
@@ -31,32 +32,60 @@ public class StatService {
             currentDate = LocalDateTime.now();
             startDate = currentDate.minusWeeks(1);
         }
-        //additional logic for different timespans in the future
 
-        WeeklySummaryDto weeklySummaryDto = new WeeklySummaryDto();
-        weeklySummaryDto.setAverageGrade(getAverageGrade(user, startDate, currentDate));
-        weeklySummaryDto.setAverageHourRate(getAverageHourRate(user, startDate, currentDate));
-        weeklySummaryDto.setEarningsThisWeek(getEarnings(user, startDate, currentDate));
-        weeklySummaryDto.setLessonsThisWeek(getLessonCount(user, startDate, currentDate));
+        if (role.equals(Role.TUTOR)) {
+            return WeeklySummaryTutorDto.builder()
+                    .averageGrade(getAverageGradeByDate(user, startDate, currentDate))
+                    .averageHourRate(getAverageHourRate(user, startDate, currentDate))
+                    .earningsThisWeek(getEarnings(user, startDate, currentDate))
+                    .lessonsThisWeek(getLessonCount(user, startDate, currentDate))
+                    .build();
+        } else {
+            return WeeklySummaryStudentDto.builder()
+                    .averageGrade(getAverageGrade(user))
+                    .lessonsThisWeek(getLessonCount(user, startDate, currentDate))
+                    .hoursThisWeek(getHourCount(user, startDate, currentDate))
+                    .build();
+        }
+    }
 
-        return weeklySummaryDto;
+
+    private Double getHourCount(User user, LocalDateTime startDate, LocalDateTime currentDate) {
+        return Optional.ofNullable(
+                lessonRepository.getHoursByUserAndDate(user, startDate, currentDate)
+        ).orElse(0.0);
     }
 
     private Integer getLessonCount(User user, LocalDateTime startDate, LocalDateTime currentDate) {
-        return lessonRepository.countLessonsByUserAndDate(user, startDate, currentDate);
+        return Optional.ofNullable(
+                lessonRepository.countLessonsByUserAndDate(user, startDate, currentDate)
+        ).orElse(0);
     }
 
     private BigDecimal getEarnings(User user, LocalDateTime startDate, LocalDateTime currentDate) {
-        return lessonRepository.sumTotalEarningsByUserAndDate(user, startDate, currentDate);
+        return Optional.ofNullable(
+                lessonRepository.sumTotalEarningsByUserAndDate(user, startDate, currentDate)
+        ).orElse(BigDecimal.ZERO);
     }
 
     private BigDecimal getAverageHourRate(User user, LocalDateTime startDate, LocalDateTime currentDate) {
-        return lessonRepository.getAvgHourRateByUserAndDate(user, startDate, currentDate);
+        return Optional.ofNullable(
+                lessonRepository.getAvgHourRateByUserAndDate(user, startDate, currentDate)
+        ).orElse(BigDecimal.ZERO);
     }
 
-    private Double getAverageGrade(User user, LocalDateTime startDate, LocalDateTime currentDate) {
-        return lessonRepository.getAvgGradeByUserAndDate(user, startDate, currentDate);
+    private Double getAverageGradeByDate(User user, LocalDateTime startDate, LocalDateTime currentDate) {
+        return Optional.ofNullable(
+                lessonRepository.getAvgGradeByUserAndDate(user, startDate, currentDate)
+        ).orElse(0.0);
     }
+
+    private Double getAverageGrade(User user) {
+        return Optional.ofNullable(
+                lessonRepository.getAvgGradeByUser(user)
+        ).orElse(0.0);
+    }
+
 
 
     public List<AttentionItemDto> getAttentionSensitiveStats(Long userId) {
