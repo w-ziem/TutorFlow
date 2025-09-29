@@ -28,8 +28,12 @@ app:
     dir: ./uploads
   system:
     prompt: ${SYSTEM_PROMPT}
+  clientUrl: "http://localhost:3000"
 
 openai:
   api-key: ${OPENAI_API_KEY}
   base-url: https://api.openai.com/v1/chat/completions
   max-response-tokens: 800
+
+stripe:
+  api-key: ${STRIPE_API_KEY}

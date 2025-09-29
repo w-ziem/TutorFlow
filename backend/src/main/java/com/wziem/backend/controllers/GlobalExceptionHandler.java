@@ -1,6 +1,7 @@
 package com.wziem.backend.controllers;
 
 
+import com.stripe.exception.StripeException;
 import com.wziem.backend.exceptions.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -96,6 +97,14 @@ public class GlobalExceptionHandler {
         System.err.println("Error parsing data to statistics: " + Arrays.toString(ex.getStackTrace()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("error", "Error parsing data to statistics: " + ex.getMessage()));
+    }
+
+    // STRIPE ERROR HANDLER
+    @ExceptionHandler(StripeException.class)
+    public ResponseEntity<Map<String, String>> handleStripeException(StripeException ex) {
+        System.err.println("Error processing payment: " + Arrays.toString(ex.getStackTrace()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", "error creating a payment session"));
     }
 
     // REST API ERROR HANDLERS
