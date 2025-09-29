@@ -5,11 +5,10 @@ import com.stripe.exception.StripeException;
 import com.wziem.backend.dtos.CreateLessonRequest;
 import com.wziem.backend.dtos.FinishLessonRequest;
 import com.wziem.backend.dtos.LessonDto;
-import com.wziem.backend.dtos.PaymentResponse;
 import com.wziem.backend.entities.Lesson;
 import com.wziem.backend.mappers.LessonMapper;
 import com.wziem.backend.services.LessonService;
-import com.wziem.backend.services.PaymentService;
+import com.wziem.backend.services.StripePaymentGateway;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,7 @@ import java.util.List;
 public class LessonController {
     private final LessonService lessonService;
     private final LessonMapper lessonMapper;
-    private final PaymentService paymentService;
+    private final StripePaymentGateway paymentService;
 
     @PostMapping
     public ResponseEntity<LessonDto> createLesson(@Valid @RequestBody CreateLessonRequest request) {
@@ -89,11 +88,11 @@ public class LessonController {
     }
 
     @PostMapping("/{id}/pay")
-    public ResponseEntity<?> payForLesson(@PathVariable(value="id") Long lessonId) throws StripeException {
+    public ResponseEntity<?> payForLesson(@PathVariable(value="id") Long lessonId)  {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long studentId = (Long) authentication.getPrincipal();
 
-        String checkoutLink = paymentService.createSession(lessonId, studentId);
+        String checkoutLink = lessonService.createLessonPaymentSession(studentId, lessonId);
 
         return ResponseEntity.ok().body(checkoutLink);
     }

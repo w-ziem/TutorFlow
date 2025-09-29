@@ -5,6 +5,7 @@ import com.wziem.backend.entities.Lesson;
 import com.wziem.backend.entities.Profile;
 import com.wziem.backend.entities.User;
 import com.wziem.backend.exceptions.ForbiddenContentAccessException;
+import com.wziem.backend.exceptions.PaymentException;
 import com.wziem.backend.mappers.LessonMapper;
 import com.wziem.backend.repositories.LessonRepository;
 import com.wziem.backend.repositories.ProfileRepository;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +29,7 @@ public class LessonService {
     private final UserRepository userRepository;
     private final LessonMapper lessonMapper;
     private final ProfileRepository profileRepository;
+    private final PaymentGateway paymentGateway;
 
 
     public LessonDto createLesson(Long tutorId, String studentEmail, String topic, String link) {
@@ -102,4 +105,18 @@ public class LessonService {
         List<Lesson> lessons = lessonRepository.findLessonsByStudentAndTutor(student, tutor);
         return lessons.stream().map(lessonMapper::toDto).toList();
     }
+
+    public String createLessonPaymentSession(Long userId, Long lessonId) throws PaymentException {
+        Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(() -> new EntityNotFoundException("lesson not found"));
+        if(!Objects.equals(lesson.getStudent().getId(), userId) && !Objects.equals(lesson.getTutor().getId(), userId)) {
+            throw new ForbiddenContentAccessException("You don't have permission to access this lesson");
+        }
+
+        Profile studentInfo = profileRepository.findByStudentId(userId).orElseThrow(() -> new EntityNotFoundException("student profile not found"));
+
+        PaymentSession session = paymentGateway.createPaymentSession(lesson, studentInfo.getHourRate());
+
+        return session.getPaymentUrl();
+    }
+
 }
