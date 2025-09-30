@@ -4,6 +4,7 @@ import {Link, useNavigate, useLocation} from "react-router-dom";
 import axios from 'axios';
 import {jwtDecode} from "jwt-decode";
 import {useAuth} from "../../contexts/AuthProvider.jsx"
+import {toast} from "react-hot-toast";
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -59,6 +60,9 @@ const LoginForm = () => {
                 navigation(`/dashboard-${payload.role.toLowerCase()}`, {replace: true});
             }
         } catch (error) {
+            if (error.response?.status === 401) {
+                toast.error("Email lub hasło są niepoprawne!");
+            }
             console.error('Login error:', error.response?.data || error.message);
         }
     };
