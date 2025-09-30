@@ -64,7 +64,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/webhook").permitAll()
                         .requestMatchers("/students/**").hasRole(Role.TUTOR.name())
+                        .requestMatchers("/lessons/{id}/pay}").hasRole(Role.STUDENT.name())
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(c -> {

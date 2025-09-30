@@ -1,16 +1,17 @@
 package com.wziem.backend.controllers;
 
 
-import com.stripe.exception.StripeException;
+import com.stripe.exception.SignatureVerificationException;
+import com.stripe.net.Webhook;
 import com.wziem.backend.dtos.CreateLessonRequest;
 import com.wziem.backend.dtos.FinishLessonRequest;
 import com.wziem.backend.dtos.LessonDto;
 import com.wziem.backend.entities.Lesson;
 import com.wziem.backend.mappers.LessonMapper;
 import com.wziem.backend.services.LessonService;
-import com.wziem.backend.services.StripePaymentGateway;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,13 +20,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/lessons")
 public class LessonController {
     private final LessonService lessonService;
     private final LessonMapper lessonMapper;
-    private final StripePaymentGateway paymentService;
 
     @PostMapping
     public ResponseEntity<LessonDto> createLesson(@Valid @RequestBody CreateLessonRequest request) {
