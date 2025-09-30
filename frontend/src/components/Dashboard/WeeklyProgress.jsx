@@ -27,7 +27,6 @@ const WeeklyProgress = () => {
             if (isTutor) setTutorStats(data);
         } catch (err) {
             console.log("Error fetching weekly stats: " + err.message);
-            window.location.reload();
         }
     };
 

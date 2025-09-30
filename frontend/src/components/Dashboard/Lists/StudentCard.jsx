@@ -1,5 +1,4 @@
 import React from "react";
-import CardInfo from "../../Ui/CardInfo.jsx";
 import {NavLink} from "react-router-dom";
 import {formatLink} from "/src/utils/HelperFunctions.js";
 
