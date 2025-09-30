@@ -66,6 +66,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/webhook").permitAll()
                         .requestMatchers(HttpMethod.GET, "/stats/**").hasAnyRole(Role.STUDENT.name(), Role.TUTOR.name())
+                        .requestMatchers("/students/{id}/tutor").authenticated()
                         .requestMatchers("/students/**").hasRole(Role.TUTOR.name())
                         .requestMatchers("/lessons/{id}/pay").hasRole(Role.STUDENT.name())
                         .requestMatchers("/lessons/**").hasAnyRole(Role.TUTOR.name(), Role.STUDENT.name())

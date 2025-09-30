@@ -12,10 +12,9 @@ const WelcomeHeader = () => {
         try{
             const res = await axiosInstance.get(`students/${userId}/tutor`);
             const data = res.data;
-            setTutor(data.data);
+            setTutor(data);
         } catch (error) {
             console.log(error);
-            setTutor("Brak");
         }
     }
 

@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }) => {
                     } else {
                         setUser(decodedToken);
                         setToken(storedToken);
+                        setUserId(decodedToken.sub);
                     }
                 } catch (error) {
                     console.log('Token decode error:', error);
