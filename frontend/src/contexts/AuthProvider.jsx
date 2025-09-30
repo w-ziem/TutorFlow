@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [userId, setUserId] = useState(null);
 
     // Funkcja do próby refreshu tokena
     const tryRefreshToken = async () => {
@@ -23,6 +24,7 @@ export const AuthProvider = ({ children }) => {
             const newToken = await refreshToken();
             const decodedToken = jwtDecode(newToken);
             setUser(decodedToken);
+            setUserId(decodedToken.sub);
             setToken(newToken);
             return true;
         } catch (error) {
@@ -97,6 +99,7 @@ export const AuthProvider = ({ children }) => {
 
     const value = {
         user,
+        userId,
         token,
         loading,
         login,

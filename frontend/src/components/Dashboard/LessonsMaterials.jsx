@@ -70,8 +70,10 @@ const LessonsMaterials = ({lessonId, refreshTrigger}) => {
                     <MaterialCard key={material.id || index} item={material} />
                 ))}
             </div>
-            <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {openModal("materials", lessonId)}}>Dodaj materiał</button>
-        </>
+            {isTutor && <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {
+                openModal("materials", lessonId)
+            }}>Dodaj materiał</button>
+            }        </>
     );
 };
 
