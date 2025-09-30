@@ -48,7 +48,11 @@ public class StripePaymentGateway implements PaymentGateway{
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .setSuccessUrl(clientUrl + "/payment-success")
                     .setCancelUrl(clientUrl + "/payment-cancel")
-                    .putMetadata("lessonId", lesson.getId().toString())
+                    .setPaymentIntentData(
+                            SessionCreateParams.PaymentIntentData.builder()
+                                    .putMetadata("lesson_id", lesson.getId().toString())
+                                    .build()
+                    )
                     .addLineItem(
                         SessionCreateParams.LineItem.builder()
                             .setQuantity(1L)
@@ -83,6 +87,7 @@ public class StripePaymentGateway implements PaymentGateway{
                 case "payment_intent.succeeded" -> {
                     PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
                     assert paymentIntent != null;
+                    System.out.println(paymentIntent);
                     return new PaymentStatusObject(PaymentStatus.SUCCESS, Long.parseLong(paymentIntent.getMetadata().get("lesson_id")));
                 }
                 case "payment_intent.payment_failed" -> {

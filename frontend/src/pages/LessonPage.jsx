@@ -40,7 +40,16 @@ const LessonPage = () => {
     };
 
     const handlePayLesson = async () => {
-        console.log('Paying lesson...');
+        try {
+            setPaymentLoading(true);
+            const res = await axiosInstance.post(`/lessons/${id}/pay`);
+            window.location.href = res.data;
+        } catch (err) {
+            console.error('Error paying for lesson:', err);
+            setError('Nie udało się opłacić lekcji');
+        } finally {
+            setPaymentLoading(false);
+        }
     };
 
     useEffect(() => {

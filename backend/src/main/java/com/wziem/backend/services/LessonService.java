@@ -133,7 +133,7 @@ public class LessonService {
         if (data.getStatus() == PaymentStatus.SUCCESS) {
             handlePaymentSuccess(data.getLessonId().toString());
         } else {
-            log.error("Payment failed for lesson: {}", data.getLessonId());
+            log.error("Payment failed for lesson in lesson service: {}", data.getLessonId());
         }
     }
 }
