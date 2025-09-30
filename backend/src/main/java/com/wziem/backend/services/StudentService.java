@@ -55,4 +55,9 @@ public class StudentService {
         Profile studentInfo = profileRepository.findByStudentId(studentId).orElseThrow(() -> new EntityNotFoundException("Student not found"));
         return profileMapper.toStudentDto(studentInfo);
     }
+
+    public String getTutorByStudent(Long studentId) {
+        Profile studentInfo = profileRepository.findByStudentId(studentId).orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        return studentInfo.getTutor().getName();
+    }
 }

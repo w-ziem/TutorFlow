@@ -53,4 +53,12 @@ public class StudentContoller {
         return ResponseEntity.status(HttpStatus.OK).body(student);
     }
 
+    @GetMapping("/{id}/tutor")
+    public ResponseEntity<?> fetchTutor(@PathVariable(value = "id") Long studentId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String tutorName = studentService.getTutorByStudent(studentId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(tutorName);
+    }
+
 }
