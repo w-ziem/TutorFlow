@@ -65,8 +65,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/webhook").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/stats/**").hasAnyRole(Role.STUDENT.name(), Role.TUTOR.name())
                         .requestMatchers("/students/**").hasRole(Role.TUTOR.name())
-                        .requestMatchers("/lessons/{id}/pay}").hasRole(Role.STUDENT.name())
+                        .requestMatchers("/lessons/{id}/pay").hasRole(Role.STUDENT.name())
+                        .requestMatchers("/lessons/**").hasAnyRole(Role.TUTOR.name(), Role.STUDENT.name())
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(c -> {

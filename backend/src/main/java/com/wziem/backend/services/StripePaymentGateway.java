@@ -6,6 +6,8 @@ import com.stripe.model.PaymentIntent;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
+import com.wziem.backend.dtos.PaymentStatus;
+import com.wziem.backend.dtos.PaymentStatusObject;
 import com.wziem.backend.entities.Lesson;
 import com.wziem.backend.entities.Profile;
 import com.wziem.backend.entities.User;
@@ -24,11 +26,8 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class StripePaymentGateway implements PaymentGateway{
-    private final LessonService lessonService;
-
     @Value("${app.client-url}")
     private String clientUrl;
 
@@ -74,7 +73,7 @@ public class StripePaymentGateway implements PaymentGateway{
     }
 
 
-    public void handleWebhookEvent(Map<String, String> headers, String payload){
+    public PaymentStatusObject handleWebhookEvent(Map<String, String> headers, String payload){
         try {
             String signature = headers.get("stripe-signature");
             var event = Webhook.constructEvent(payload, signature, webhookSecretKey);
@@ -84,12 +83,16 @@ public class StripePaymentGateway implements PaymentGateway{
                 case "payment_intent.succeeded" -> {
                     PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
                     assert paymentIntent != null;
-                    lessonService.handlePaymentSuccess(paymentIntent.getMetadata().get("lesson_id"));
+                    return new PaymentStatusObject(PaymentStatus.SUCCESS, Long.parseLong(paymentIntent.getMetadata().get("lesson_id")));
                 }
                 case "payment_intent.payment_failed" -> {
                     PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
                     assert paymentIntent != null;
-                    log.error("Payment failed for lesson: {}", paymentIntent.getMetadata().get("lesson_id"));
+                    return new PaymentStatusObject(PaymentStatus.FAILED, Long.parseLong(paymentIntent.getMetadata().get("lesson_id")));
+                }
+                default -> {
+                    log.error("Unhandled event type: {}", event.getType());
+                    return new PaymentStatusObject(PaymentStatus.FAILED, -1L);
                 }
             }
 

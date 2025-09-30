@@ -1,6 +1,8 @@
 package com.wziem.backend.services;
 
 import com.wziem.backend.dtos.LessonDto;
+import com.wziem.backend.dtos.PaymentStatus;
+import com.wziem.backend.dtos.PaymentStatusObject;
 import com.wziem.backend.entities.Lesson;
 import com.wziem.backend.entities.Profile;
 import com.wziem.backend.entities.User;
@@ -13,6 +15,7 @@ import com.wziem.backend.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class LessonService {
     private final LessonRepository lessonRepository;
     private final UserRepository userRepository;
@@ -123,5 +127,13 @@ public class LessonService {
         Lesson lesson = lessonRepository.findById(Long.parseLong(lessonId)).orElseThrow(() -> new EntityNotFoundException("lesson not found"));
         lesson.setPaid(true);
         lessonRepository.save(lesson);
+    }
+
+    public void handlePaymentStatus(PaymentStatusObject data) {
+        if (data.getStatus() == PaymentStatus.SUCCESS) {
+            handlePaymentSuccess(data.getLessonId().toString());
+        } else {
+            log.error("Payment failed for lesson: {}", data.getLessonId());
+        }
     }
 }
