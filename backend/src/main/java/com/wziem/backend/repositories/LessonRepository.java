@@ -128,4 +128,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
         AND l.completed IS TRUE
     """)
     Double getHoursByUserAndDate(User user, LocalDateTime startDate, LocalDateTime currentDate);
+
+    @Query("SELECT COUNT(l) FROM Lesson l WHERE l.student = :student AND l.paid IS FALSE")
+    Integer getUnpaidLessonCountByStudent(@Param("student") User student);
 }

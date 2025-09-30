@@ -193,6 +193,13 @@ public class StatService {
 
         return items;
     }
+
+    public PaymentStatusDto getPaymentStatus(Long studentId) {
+        User student = userRepository.findById(studentId).orElseThrow(() -> new UsernameNotFoundException("Student not found"));
+        Integer unpaidCount = lessonRepository.getUnpaidLessonCountByStudent(student);
+
+        return new PaymentStatusDto(!unpaidCount.equals(0), unpaidCount);
+    }
 }
 
 
