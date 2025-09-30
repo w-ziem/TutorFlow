@@ -5,15 +5,18 @@ import LessonsMaterials from "../components/Dashboard/LessonsMaterials.jsx";
 import {formatLink} from "../utils/HelperFunctions.js";
 import {useForm} from "../contexts/FromContext.jsx";
 import {formatDate} from "../utils/HelperFunctions.js";
-import { Calendar, ExternalLink, AlertTriangle, CheckCircle2, Clock } from 'lucide-react';
+import {useAuth} from "../contexts/AuthProvider.jsx";
+import { Calendar, ExternalLink, AlertTriangle, CheckCircle2, Clock, CreditCard, XCircle } from 'lucide-react';
 
 const LessonPage = () => {
     const [lesson, setLesson] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [refreshMaterials, setRefreshMaterials] = useState(0);
+    const [paymentLoading, setPaymentLoading] = useState(false);
     const {id} = useParams();
     const { openModal, setOnSuccessRefresh } = useForm();
+    const {isTutor, isStudent} = useAuth();
 
     const handleRefreshMaterials = () => {
         setRefreshMaterials(prev => prev + 1);
@@ -36,6 +39,9 @@ const LessonPage = () => {
         }
     };
 
+    const handlePayLesson = async () => {
+        console.log('Paying lesson...');
+    };
 
     useEffect(() => {
         if (id) {
@@ -150,52 +156,104 @@ const LessonPage = () => {
                                             </div>
                                         )}
 
-                                        {/* Status indicator */}
-                                        <div className="flex items-center gap-3">
-                                            <div className={`p-2 rounded-xl backdrop-blur-sm ${
-                                                lesson.completed ? 'bg-green-500/10' : 'bg-orange-500/10'
-                                            }`}>
-                                                {lesson.completed ?
-                                                    <CheckCircle2 className="w-6 h-6 text-green-600" /> :
-                                                    <Clock className="w-6 h-6 text-orange-700" />
-                                                }
+                                        {/* Status indicators */}
+                                        <div className="flex flex-wrap items-center gap-4">
+                                            {/* Completion status - visible for both tutor and student */}
+                                            <div className="flex items-center gap-3">
+                                                <div className={`p-2 rounded-xl backdrop-blur-sm ${
+                                                    lesson.completed ? 'bg-green-500/10' : 'bg-orange-500/10'
+                                                }`}>
+                                                    {lesson.completed ?
+                                                        <CheckCircle2 className="w-6 h-6 text-green-600" /> :
+                                                        <Clock className="w-6 h-6 text-orange-700" />
+                                                    }
+                                                </div>
+                                                <span className={`text-lg font-medium ${
+                                                    lesson.completed ? 'text-green-600' : 'text-orange-700'
+                                                }`}>
+                                                    {lesson.completed ? 'Zakończona' : 'W trakcie'}
+                                                </span>
                                             </div>
-                                            <span className={`text-lg font-medium ${
-                                                lesson.completed ? 'text-green-600' : 'text-orange-700'
-                                            }`}>
-                                                {lesson.completed ? 'Zakończona' : 'W trakcie'}
-                                            </span>
+
+                                            {/* Payment status - visible only for student */}
+                                            {isStudent && (
+                                                <div className="flex items-center gap-3">
+                                                    <div className={`p-2 rounded-xl backdrop-blur-sm ${
+                                                        lesson.paid ? 'bg-green-500/10' : 'bg-red-500/10'
+                                                    }`}>
+                                                        {lesson.paid ?
+                                                            <CheckCircle2 className="w-6 h-6 text-green-600" /> :
+                                                            <XCircle className="w-6 h-6 text-red-600" />
+                                                        }
+                                                    </div>
+                                                    <span className={`text-lg font-medium ${
+                                                        lesson.paid ? 'text-green-600' : 'text-red-600'
+                                                    }`}>
+                                                        {lesson.paid ? 'Opłacona' : 'Nieopłacona'}
+                                                    </span>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
-                                    {/* Action Button */}
+                                    {/* Action Button - different for tutor and student */}
                                     <div className="flex-shrink-0">
-                                        <button
-                                            onClick={() => {
-                                                openModal("finishLesson", id);
-                                                setOnSuccessRefresh(fetchLesson);
-                                            }}
-                                            className={`group relative px-8 py-4 rounded-2xl font-semibold text-xl transition-all duration-300 ${
-                                                lesson.completed
-                                                    ? 'bg-gray-500/20 text-gray-400 cursor-default border border-gray-500/20'
-                                                    : 'bg-gradient-to-r from-[#242E7C] to-[#5FA3F7] text-white cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-secondary/20 border border-secondary/20'
-                                            }`}
-                                            disabled={lesson.completed}
-                                        >
-                                            {!lesson.completed && (
-                                                <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 to-fuchsia-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                                            )}
-                                            <span className="relative">
-                                                {lesson.completed ? 'Lekcja zakończona' : 'Zakończ lekcję'}
-                                            </span>
-                                        </button>
+                                        {isTutor ? (
+                                            <button
+                                                onClick={() => {
+                                                    openModal("finishLesson", id);
+                                                    setOnSuccessRefresh(fetchLesson);
+                                                }}
+                                                className={`group relative px-8 py-4 rounded-2xl font-semibold text-xl transition-all duration-300 ${
+                                                    lesson.completed
+                                                        ? 'bg-gray-500/20 text-gray-400 cursor-default border border-gray-500/20'
+                                                        : 'bg-gradient-to-r from-[#242E7C] to-[#5FA3F7] text-white cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-secondary/20 border border-secondary/20'
+                                                }`}
+                                                disabled={lesson.completed}
+                                            >
+                                                {!lesson.completed && (
+                                                    <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 to-fuchsia-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                                                )}
+                                                <span className="relative">
+                                                    {lesson.completed ? 'Lekcja zakończona' : 'Zakończ lekcję'}
+                                                </span>
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={handlePayLesson}
+                                                className={`group relative px-8 py-4 rounded-2xl font-semibold text-xl transition-all duration-300 ${
+                                                    lesson.paid || paymentLoading
+                                                        ? 'bg-gray-500/20 text-gray-400 cursor-default border border-gray-500/20'
+                                                        : 'bg-gradient-to-r from-green-600 to-emerald-500 text-white cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-green-500/20 border border-green-500/20'
+                                                }`}
+                                                disabled={lesson.paid || paymentLoading}
+                                            >
+                                                {!lesson.paid && !paymentLoading && (
+                                                    <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                                                )}
+                                                <span className="relative flex items-center gap-3">
+                                                    {paymentLoading ? (
+                                                        <>
+                                                            <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                                                            Przetwarzanie...
+                                                        </>
+                                                    ) : lesson.paid ? (
+                                                        'Lekcja opłacona'
+                                                    ) : (
+                                                        <>
+                                                            <CreditCard className="w-6 h-6" />
+                                                            Opłać lekcję
+                                                        </>
+                                                    )}
+                                                </span>
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Warning Alert */}
                     {isOverdue && (
                         <div className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-red-500/10 to-rose-500/10 backdrop-blur-xl border border-red-500/20 shadow-xl">
                             <div className="flex items-center gap-4">
@@ -224,47 +282,49 @@ const LessonPage = () => {
                                     <h3 className="text-2xl font-bold text-text">Link do tablicy</h3>
                                 </div>
 
-                                <a
-                                    href={formatLink(lesson.whiteboardLink)}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-3 text-xl text-secondary transition-colors duration-300 font-medium hover:underline group"
-                                >
-                                    <span>{lesson.whiteboardLink}</span>
-                                    <ExternalLink className="w-5 h-7 mb-1 inline group-hover:translate-x-1 transition-transform duration-300" />
+
+                                <a href={formatLink(lesson.whiteboardLink)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-3 text-xl text-secondary transition-colors duration-300 font-medium hover:underline group" >
+                                <span>{lesson.whiteboardLink}</span>
+                                <ExternalLink className="w-5 h-7 mb-1 inline group-hover:translate-x-1 transition-transform duration-300" />
                                 </a>
-                            </div>
                         </div>
+                    </div>
 
-                        {/* Note Card */}
-                        {lesson.note && (
-                            <div className="relative p-8 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-500/5 to-purple-500/5"></div>
-
-                                <div className="relative z-10">
-                                    <h3 className="text-2xl font-bold text-text mb-4">Komentarz do lekcji</h3>
-                                    <p className="text-lg text-text/80 leading-relaxed">{lesson.note}</p>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Materials Section */}
+                    {/* Note Card */}
+                    {isTutor && lesson.note && (
                         <div className="relative p-8 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
-                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/5 to-teal-500/5"></div>
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-500/5 to-purple-500/5"></div>
 
                             <div className="relative z-10">
-                                <LessonsMaterials lessonId={id} refreshTrigger={refreshMaterials} />
+                                <h3 className="text-2xl font-bold text-text mb-4">Komentarz do lekcji</h3>
+                                <p className="text-lg text-text/80 leading-relaxed">{lesson.note}</p>
                             </div>
+                        </div>
+                    )}
+
+                    {/* Materials Section */}
+                    <div className="relative p-8 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/5 to-teal-500/5"></div>
+
+                        <div className="relative z-10">
+                            <LessonsMaterials
+                                lessonId={id}
+                                refreshTrigger={refreshMaterials}
+                                readOnly={isStudent}
+                            />
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Bottom fade effect */}
-            <div className="fixed bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent pointer-events-none z-20"></div>
         </div>
-    );
+
+    {/* Bottom fade effect */}
+    <div className="fixed bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent pointer-events-none z-20"></div>
+</div>
+);
 };
 
 export default LessonPage;
-

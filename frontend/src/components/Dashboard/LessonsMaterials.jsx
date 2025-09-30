@@ -3,12 +3,14 @@ import axiosInstance from "../../utils/axiosInstance.jsx";
 import MaterialCard from "./Lists/MaterialCard.jsx";
 import {FaTurnDown} from "react-icons/fa6";
 import {useForm} from "../../contexts/FromContext.jsx";
+import {useAuth} from "../../contexts/AuthProvider.jsx";
 
 const LessonsMaterials = ({lessonId, refreshTrigger}) => {
     const [materials, setMaterials] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const {openModal} = useForm();
+    const {isStudent, isTutor} = useAuth();
 
     useEffect(() => {
         const fetchRelatedMaterials = async () => {
@@ -42,11 +44,22 @@ const LessonsMaterials = ({lessonId, refreshTrigger}) => {
     }
 
     if (materials.length === 0) {
-        return <div className="w-100">
-                <p className="text-lg text-primary">Brak materiałów dla tej lekcji, wciśnij przycisk aby dodać <FaTurnDown className="text-primary text-xl inline ml-2" /></p>
-            <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {openModal("materials", lessonId)}}>Dodaj materiał</button>
+        if(isTutor){
+            return <div className="w-100">
+                <p className="text-lg text-primary">Brak materiałów dla tej lekcji, wciśnij przycisk aby
+                    dodać <FaTurnDown className="text-primary text-xl inline ml-2"/></p>
+                <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {
+                    openModal("materials", lessonId)
+                }}>Dodaj materiał
+                </button>
+            </div>;
+        }
 
-        </div>;
+        if(isStudent){
+            return <div className="w-100">
+                <p className="text-lg text-primary">Brak materiałów dla tej lekcji</p>
+            </div>;
+        }
     }
 
     return (
