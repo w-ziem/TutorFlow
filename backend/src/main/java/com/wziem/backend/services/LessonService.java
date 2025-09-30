@@ -119,4 +119,9 @@ public class LessonService {
         return session.getPaymentUrl();
     }
 
+    public void handlePaymentSuccess(String lessonId) {
+        Lesson lesson = lessonRepository.findById(Long.parseLong(lessonId)).orElseThrow(() -> new EntityNotFoundException("lesson not found"));
+        lesson.setPaid(true);
+        lessonRepository.save(lesson);
+    }
 }

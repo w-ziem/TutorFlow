@@ -1,7 +1,10 @@
 package com.wziem.backend.services;
 
+import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
 import com.stripe.model.checkout.Session;
+import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.wziem.backend.entities.Lesson;
 import com.wziem.backend.entities.Profile;
@@ -12,21 +15,25 @@ import com.wziem.backend.repositories.ProfileRepository;
 import com.wziem.backend.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StripePaymentGateway implements PaymentGateway{
-
-    private final UserRepository userRepository;
-    private final LessonRepository lessonRepository;
-    private final ProfileRepository profileRepository;
+    private final LessonService lessonService;
 
     @Value("${app.client-url}")
     private String clientUrl;
+
+    @Value("${stripe.webhook-secret}")
+    private String webhookSecretKey;
 
     @Override
     public PaymentSession createPaymentSession(Lesson lesson, BigDecimal hourRate)  {
@@ -42,6 +49,7 @@ public class StripePaymentGateway implements PaymentGateway{
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .setSuccessUrl(clientUrl + "/payment-success")
                     .setCancelUrl(clientUrl + "/payment-cancel")
+                    .putMetadata("lessonId", lesson.getId().toString())
                     .addLineItem(
                         SessionCreateParams.LineItem.builder()
                             .setQuantity(1L)
@@ -62,6 +70,31 @@ public class StripePaymentGateway implements PaymentGateway{
             return new PaymentSession(session.getUrl());
         } catch (StripeException e) {
             throw new PaymentException("Error creating a stripe checkout session");
+        }
+    }
+
+
+    public void handleWebhookEvent(Map<String, String> headers, String payload){
+        try {
+            String signature = headers.get("stripe-signature");
+            var event = Webhook.constructEvent(payload, signature, webhookSecretKey);
+            var stripeObject = event.getDataObjectDeserializer().getObject().orElseThrow(() -> new PaymentException("Could not deserialize event, check api and sdk version"));
+
+            switch (event.getType()) {
+                case "payment_intent.succeeded" -> {
+                    PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
+                    assert paymentIntent != null;
+                    lessonService.handlePaymentSuccess(paymentIntent.getMetadata().get("lesson_id"));
+                }
+                case "payment_intent.payment_failed" -> {
+                    PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
+                    assert paymentIntent != null;
+                    log.error("Payment failed for lesson: {}", paymentIntent.getMetadata().get("lesson_id"));
+                }
+            }
+
+        } catch (SignatureVerificationException e) {
+            throw new PaymentException("invalid signature");
         }
     }
 }
