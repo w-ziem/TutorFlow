@@ -1,20 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth} from "../../contexts/AuthProvider.jsx";
+import axiosInstance from "../../utils/axiosInstance.jsx";
 
 
 const WelcomeHeader = () => {
-    const {user, isStudent} = useAuth();
+    const {user, userId,isStudent} = useAuth();
     const name = user?.name.split(" ")[0] || "Użytkowniku";
     const [tutor, setTutor] = useState(null);
 
     const fetchTutor = async () => {
-        //todo: api call to fetch tutor
-        setTutor("Jan Korepetytorowski");
+        try{
+            const res = await axiosInstance.get(`students/${userId}/tutor`);
+            const data = res.data;
+            setTutor(data.data);
+        } catch (error) {
+            console.log(error);
+            setTutor("Brak");
+        }
     }
 
     useEffect(() => {
         isStudent && fetchTutor();
-    }, []);
+    }, [userId]);
 
 
     return (
