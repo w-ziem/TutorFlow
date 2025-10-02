@@ -5,6 +5,7 @@ import axios from 'axios';
 import {jwtDecode} from "jwt-decode";
 import {useAuth} from "../../contexts/AuthProvider.jsx"
 import {toast} from "react-hot-toast";
+import {FaArrowDown} from "react-icons/fa6";
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -67,8 +68,29 @@ const LoginForm = () => {
         }
     };
 
+    const handleDemoLogin = async (role) => {
+        try{
+            const res = await axios.post("api/auth/login", {
+                email: role === "TUTOR" ? "tutor@example.com" : "student@example.com",
+                password: "password123"
+            });
+            const token = res.data.token;
+            localStorage.setItem('token', token);
+            const payload = jwtDecode(token);
+
+            if(login(token)) {
+                navigation(`/dashboard-${payload.role.toLowerCase()}`, {replace: true});
+            }
+            toast.success("Zalogowano na konto testowe");
+        } catch (error) {
+            console.error('Login error:', error.response?.data || error.message);
+            toast.error("Błąd logowania, prosimy o kontakt z administratorem.");
+        }
+    }
+
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col w-full lg:w-1/2 gap-4 p-4 rounded-xl bg-white ">
+        <div className="flex flex-col w-full lg:w-1/2">
+        <form onSubmit={handleSubmit} className="flex flex-col w-full gap-4 p-4 rounded-xl bg-white ">
             {/* Popup z notyfikacją */}
             {notification && (
                 <div className={`p-4 mb-4 rounded-xl ${
@@ -153,7 +175,21 @@ const LoginForm = () => {
                     </Link>
                 </p>
             </div>
+
+
         </form>
+        {/* Demo */}
+        <div className="flex flex-col gap-4 p-4 items-center rounded-xl bg-white mb-4">
+            <p className="text-center font-semibold text-secondary">Zobacz demo!</p>
+            <FaArrowDown className="text-center text-primary" />
+            <button className="w-full bg-gradient-to-r from-secondary/80 to-primary/80 hover:from-primary/80 hover:to-secondary/80 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+                    onClick={() => {handleDemoLogin("TUTOR")}}>Zaloguj jako korepetytor
+            </button>
+            <button className="w-full bg-gradient-to-r from-secondary/80 to-primary/80 hover:from-primary/80 hover:to-secondary/80 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+                    onClick={() => {handleDemoLogin("STUDENT")}}>Zaloguj jako uczeń
+            </button>
+        </div>
+    </div>
     );
 };
 

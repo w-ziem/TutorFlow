@@ -1,7 +1,9 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
+
 
 const Cta = () => {
+
     return (
         <section id="cta" className="relative isolate overflow-hidden lg:overflow-visible bg-background py-24">
             <div aria-hidden="true" className="pointer-events-none absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-indigo-600/20 blur-3xl" />
@@ -22,12 +24,11 @@ const Cta = () => {
                     >
                         Załóż konto
                     </Link>
-                    <Link
-                        to="/demo"
+                    <NavLink to={"/login"}
                         className="inline-flex border-1 backdrop-blur-2xl items-center justify-center rounded-xl px-7 py-3 text-base font-semibold text-heading ring-1 ring-white/15 transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                     >
                         Zobacz demo
-                    </Link>
+                    </NavLink>
                 </div>
             </div>
         </section>

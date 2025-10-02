@@ -72,6 +72,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('token', token);
             setToken(token);
             setUser(payload);
+            setUserId(payload.sub);
             console.log('Login success');
             console.log('USER:', payload.name, payload.role);
             return true;
