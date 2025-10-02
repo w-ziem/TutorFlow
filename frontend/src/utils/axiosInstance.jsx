@@ -1,8 +1,16 @@
 import axios from 'axios';
+import {useEffect} from "react";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-console.log(BASE_URL);
+
+const wakeUp = () => {
+    console.log('Wake up!');
+    fetch(BASE_URL, {method: 'POST'});
+}
+
+wakeUp();
+
 
 // Główna instancja axios
 const axiosInstance = axios.create({

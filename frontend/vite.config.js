@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tailwindcss()],
-    base: env.VITE_BASE_PATH || "/TutorFlow",
+    base: env.VITE_BASE_PATH || "/",
     server: {
       port: 3000,
       proxy: {
