@@ -26,6 +26,7 @@ backend/.mvn/
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
 /frontend/yarn-error.log*
+/frontend/.env
 
 # ====== System files ======
 .DS_Store
