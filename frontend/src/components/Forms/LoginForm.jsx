@@ -12,7 +12,9 @@ const LoginForm = () => {
     const [notification, setNotification] = useState(null);
     const location = useLocation();
     const {login} = useAuth();
-    
+    const BASE_URL = import.meta.env.VITE_API_URL;
+
+
     // Odbierz stan z nawigacji
     useEffect(() => {
         if (location.state) {
@@ -51,7 +53,7 @@ const LoginForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('api/auth/login', form);
+            const response = await axios.post(`${BASE_URL}/auth/login`, form);
             const token = response.data.token;
 
             localStorage.setItem('token', token);
