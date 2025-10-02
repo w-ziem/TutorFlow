@@ -5,6 +5,7 @@ import Features from "../components/MainPage/Features.jsx";
 import Header from "../components/MainPage/Header.jsx";
 import Footer from "../components/MainPage/Footer.jsx";
 import Pricing from "../components/MainPage/Pricing.jsx";
+import Testimonials from "../components/MainPage/Testimonials.jsx";
 
 
 
@@ -14,6 +15,7 @@ const MainPage = () => {
             <Header />
             <Hero />
             <Features />
+            <Testimonials />
             <Pricing />
             <Cta />
             <Footer />
