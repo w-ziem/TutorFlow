@@ -29,6 +29,7 @@ public class MaterialService {
     private final LessonRepository lessonRepository;
     private final FileStorageService fileStorageService;
     private final UserRepository userRepository;
+    private final CloudStorageService cloudStorageService;
 
 
     //add file type material
@@ -36,9 +37,9 @@ public class MaterialService {
         Lesson relatedLesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Lesson Not Found"));
 
-        String filepath;
+        String downloadUrl;
         try {
-            filepath = fileStorageService.saveFile(file);
+            downloadUrl = cloudStorageService.uploadFile(file);
         } catch (IOException e) {
             throw new RuntimeException("Problem with saving file: " + e.getMessage(), e);
         }
@@ -46,7 +47,7 @@ public class MaterialService {
         Material material = Material.builder()
                 .type(MaterialType.FILE)
                 .lesson(relatedLesson)
-                .value(filepath)
+                .value(downloadUrl)
                 .name(name)
                 .build();
 
@@ -86,6 +87,7 @@ public class MaterialService {
         return userMaterials.stream().map(materialMapper::toDto).toList();
     }
 
+    @Deprecated
     public MaterialResourceDto getMaterialPath(Long userId, Long materialId) {
         Material material = materialRepository.findById(materialId).orElseThrow(() -> new EntityNotFoundException("Material Not Found"));
 
@@ -94,8 +96,6 @@ public class MaterialService {
             throw new ForbiddenContentAccessException("You don't have permission to access this material");
         }
 
-        MaterialResourceDto resource = MaterialResourceDto.builder().path(fileStorageService.getFullPath(material.getValue())).name(material.getName()).build();
-
-        return resource;
+        return MaterialResourceDto.builder().path(fileStorageService.getFullPath(material.getValue())).name(material.getName()).build();
     }
 }

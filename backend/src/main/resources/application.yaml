@@ -24,11 +24,13 @@ server:
   port: 8080
 
 app:
-  upload:
-    dir: ./uploads
+  google:
+    drive:
+      credentials: ${GOOGLE_DRIVE_CREDENTIALS}
+      folder: 16t_FFvMAxs7vvpcuX7E5Wv75zQwztPtW
   system:
     prompt: ${SYSTEM_PROMPT}
-  clientUrl: "http://localhost:3000"
+  clientUrl: ${CLIENT_URL}
 
 openai:
   api-key: ${OPENAI_API_KEY}
@@ -38,3 +40,4 @@ openai:
 stripe:
   api-key: ${STRIPE_API_KEY}
   webhook-secret: ${STRIPE_WEBHOOK_SECRET}
+

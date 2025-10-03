@@ -80,6 +80,7 @@ public class MaterialController {
         return ResponseEntity.ok().body(materials);
     }
 
+    @Deprecated
     @GetMapping("/materials/{id}/download")
     public ResponseEntity<?> downloadMaterial(@PathVariable(value = "id") Long materialId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
