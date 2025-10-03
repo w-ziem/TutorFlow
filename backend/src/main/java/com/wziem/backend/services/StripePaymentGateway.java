@@ -28,7 +28,7 @@ import java.util.Map;
 @Service
 @Slf4j
 public class StripePaymentGateway implements PaymentGateway{
-    @Value("${app.client-url}")
+    @Value("${app.clientUrl}")
     private String clientUrl;
 
     @Value("${stripe.webhook-secret}")
@@ -46,8 +46,8 @@ public class StripePaymentGateway implements PaymentGateway{
             SessionCreateParams params =
                 SessionCreateParams.builder()
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl(clientUrl + "/payment-success")
-                    .setCancelUrl(clientUrl + "/payment-cancel")
+                    .setSuccessUrl(clientUrl + "/dashboard-student/lessons/" + lesson.getId())
+                    .setCancelUrl(clientUrl + "/dashboard-student/lessons/" + lesson.getId())
                     .setPaymentIntentData(
                             SessionCreateParams.PaymentIntentData.builder()
                                     .putMetadata("lesson_id", lesson.getId().toString())
