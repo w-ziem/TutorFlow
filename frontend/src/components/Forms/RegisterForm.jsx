@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser, FaUserGraduate} from "react-icons/fa";
 import axios from 'axios';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, NavLink} from "react-router-dom";
 
 const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const BASE_URL = import.meta.env.VITE_API_URL;
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -30,7 +32,7 @@ const RegisterForm = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.post('api/auth/register', form);
+            const res = await axios.post(`${BASE_URL}/auth/register`, form);
 
             if (res.status === 201) {
                 navigation('/login', {
@@ -184,9 +186,9 @@ const RegisterForm = () => {
             <div className="text-center pt-4">
                 <p className="text-text-secondary">
                     Masz już konto?{' '}
-                    <a href="/login" className="text-secondary hover:underline font-semibold">
+                    <NavLink to="/login" className="text-secondary hover:underline font-semibold">
                         Zaloguj się
-                    </a>
+                    </NavLink>
                 </p>
             </div>
         </form>
