@@ -72,7 +72,7 @@ const LoginForm = () => {
 
     const handleDemoLogin = async (role) => {
         try{
-            const res = await axios.post("api/auth/login", {
+            const res = await axios.post(`${BASE_URL}/auth/login`, {
                 email: role === "TUTOR" ? "tutor@example.com" : "student@example.com",
                 password: "password123"
             });
