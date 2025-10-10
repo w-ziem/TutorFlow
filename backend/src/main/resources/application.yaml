@@ -41,3 +41,9 @@ stripe:
   api-key: ${STRIPE_API_KEY}
   webhook-secret: ${STRIPE_WEBHOOK_SECRET}
 
+aws:
+  s3:
+    bucket-name: tutorflow-uploads
+    region: eu-north-1
+  access-key-id: ${AWS_ACCESS_KEY_ID}
+  secret-access-key: ${AWS_SECRET_ACCESS_KEY}

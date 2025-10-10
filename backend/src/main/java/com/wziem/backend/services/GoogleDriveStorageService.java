@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 
-@Service
+@Service("gdrive")
 public class GoogleDriveStorageService implements CloudStorageService {
 
     private final Drive drive;
