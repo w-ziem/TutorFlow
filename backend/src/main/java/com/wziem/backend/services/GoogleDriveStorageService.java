@@ -3,6 +3,7 @@ package com.wziem.backend.services;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.Permission;
 import com.google.auth.http.HttpCredentialsAdapter;
@@ -29,7 +30,7 @@ public class GoogleDriveStorageService implements CloudStorageService {
     public GoogleDriveStorageService(@Value("${app.google.drive.credentials}") String credentialsJson) throws IOException, GeneralSecurityException {
         GoogleCredentials credentials =  ServiceAccountCredentials
                 .fromStream(new ByteArrayInputStream(credentialsJson.getBytes(StandardCharsets.UTF_8)))
-                .createScoped(Collections.singleton("https://www.googleapis.com/auth/drive"));
+                .createScoped(Collections.singleton(DriveScopes.DRIVE));
 
         drive = new Drive.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),

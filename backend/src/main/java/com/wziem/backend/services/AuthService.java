@@ -15,6 +15,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpCookie;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,14 +34,16 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    public Cookie generateRefreshTokenCookie(User user){
+    public HttpCookie generateRefreshTokenCookie(User user){
         String refreshToken = jwtService.generateRefreshToken(user);
-        var cookie = new Cookie("refreshToken", refreshToken);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/auth/refresh");
-        cookie.setMaxAge(jwtConfig.getRefreshTokenExpiration());
-        cookie.setSecure(true);
-        return cookie;
+
+        return ResponseCookie.from("refreshToken", refreshToken)
+                .httpOnly(true)
+                .secure(true)
+                .path("/auth/refresh")
+                .maxAge(jwtConfig.getRefreshTokenExpiration())
+                .sameSite("None")
+                .build();
     }
 
 
@@ -51,8 +55,8 @@ public class AuthService {
 
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         String accessToken = jwtService.generateAccessToken(user);
-        Cookie cookie = generateRefreshTokenCookie(user);
-        response.addCookie(cookie);
+        HttpCookie cookie = generateRefreshTokenCookie(user);
+        response.addHeader("Set-Cookie", cookie.toString());
 
         return new JwtDto(accessToken);
     }
