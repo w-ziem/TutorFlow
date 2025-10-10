@@ -33,7 +33,7 @@ Aplikacja została zaprojektowana jako **fullstack** w oparciu o nowoczesny stac
 - **Spring Boot 3+** – serce backendu  
 - **Spring Security + JWT** – autentykacja i autoryzacja  
 - **Spring Data JPA + Hibernate** – ORM i komunikacja z bazą danych  
-- **PostgreSQL** – baza danych 
+- **PostgreSQL + flyway** – baza danych zarządzana migracjami flyway
 - **Stripe Java SDK** – integracja płatności  
 - **OpenAI API** – generowanie raportów AI  
 - Architektura oparta o **RESTful API**  
@@ -48,6 +48,9 @@ Aplikacja została zaprojektowana jako **fullstack** w oparciu o nowoczesny stac
 
 ---
 
-## ⚙️ Deployment
-
-w trakcie budowy
+## ⚙️ Deployment (AWS EC2 + S3, Docker)
+- **Docker** - konteneryzacja, obraz aplikacji Java (backend): _wziem/tutorflow-backend:latest_ 
+- **AWS EC2** – backend uruchomiony na AWS EC2 (Amazon Linux) z reverse proxy Nginx
+- **NeonDB** – deployment PostgreSQL
+- **AWS S3 Bucket** – przechowywanie plików wgrywanych przez użytkowników
+- **Vercel** – deployment frontednu z automatycznym redeploy po pushu do main  
