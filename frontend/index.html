@@ -1,13 +1,58 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TutorFlow</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg" href="/src/assets/nauczanie.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Primary SEO -->
+  <title>TutorFlow — zarządzanie lekcjami i materiałami</title>
+  <meta name="description"
+    content="TutorFlow — platforma do zarządzania lekcjami, materiałami i raportami dla tutorów i studentów. Planowanie zajęć, przesyłanie materiałów, generowanie raportów i monitorowanie postępów." />
+  <meta name="keywords" content="tutor, lekcje, materiały, raporty, edukacja, e-learning, TutorFlow" />
+  <meta name="author" content="TutorFlow" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://example.com/" />
+
+  <!-- Theme / Mobile -->
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="apple-touch-icon" href="/src/assets/mockup.png" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="TutorFlow — zarządzanie lekcjami i materiałami" />
+  <meta property="og:description"
+    content="Platforma do zarządzania lekcjami, materiałami i raportami dla tutorów i studentów." />
+  <meta property="og:site_name" content="TutorFlow" />
+  <meta property="og:url" content="https://example.com/" />
+  <!-- It's recommended to use an absolute URL for og:image in production -->
+  <meta property="og:image" content="/src/assets/mockup.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@TutorFlow" />
+  <meta name="twitter:title" content="TutorFlow — zarządzanie lekcjami i materiałami" />
+  <meta name="twitter:description"
+    content="Platforma do zarządzania lekcjami, materiałami i raportami dla tutorów i studentów." />
+  <meta name="twitter:image" content="/src/assets/mockup.png" />
+
+  <!-- Structured data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TutorFlow",
+    "url": "https://example.com/",
+    "description": "Platforma do zarządzania lekcjami, materiałami i raportami dla tutorów i studentów."
+  }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

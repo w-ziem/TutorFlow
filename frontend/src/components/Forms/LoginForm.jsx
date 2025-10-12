@@ -75,7 +75,7 @@ const LoginForm = () => {
             const res = await axios.post(`${BASE_URL}/auth/login`, {
                 email: role === "TUTOR" ? "tutor@example.com" : "student@example.com",
                 password: "password123"
-            });
+            }, {method: "POST"});
             const token = res.data.token;
             localStorage.setItem('token', token);
             const payload = jwtDecode(token);
