@@ -54,3 +54,18 @@ Aplikacja została zaprojektowana jako **fullstack** w oparciu o nowoczesny stac
 - **NeonDB** – deployment PostgreSQL
 - **AWS S3 Bucket** – przechowywanie plików wgrywanych przez użytkowników
 - **Vercel** – deployment frontednu z automatycznym redeploy po pushu do main  
+
+
+---
+
+## 🚧 Status projektu
+
+Projekt jest w aktywnym rozwoju – to moja pierwsza pełnoprawna aplikacja fullstack z pełnym deploymentem (backend, frontend, baza danych, hosting).  
+Obecna wersja **ma charakter „alpha”** – nie wszystko jest jeszcze dopracowane:  
+- niektóre funkcjonalności nie obsługują jeszcze błędów użytkownika,  
+- wersja demo nie posiada izolacji danych (zmiany są trwałe dla wszystkich użytkowników),  
+- interfejs nie jest w pełni responsywny (np. sidebar na urządzeniach mobilnych).
+
+Mimo to, aplikacja **działa, komunikuje się z bazą, przetwarza płatności, generuje raporty AI i żyje w sieci** – to był dla mnie kluczowy cel: zbudować coś, co naprawdę istnieje i funkcjonuje online.  
+
+Ciągle rozwijam TutorFlow – poprawiam błędy, dodaję nowe funkcje i optymalizuję kod.  
