@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {useEffect} from "react";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -38,7 +37,7 @@ const processQueue = (error, token = null) => {
     failedRequests = [];
 };
 
-// Wyodrębniona funkcja do refreshu tokena
+
 export const refreshToken = async () => {
     try {
         const response = await refreshInstance.get('/auth/refresh');

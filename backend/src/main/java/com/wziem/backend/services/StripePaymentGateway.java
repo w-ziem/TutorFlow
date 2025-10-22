@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
 
 @Service
@@ -37,7 +38,7 @@ public class StripePaymentGateway implements PaymentGateway{
     @Override
     public PaymentSession createPaymentSession(Lesson lesson, BigDecimal hourRate)  {
         Integer duration = lesson.getDuration();
-        Long total = (hourRate.multiply(BigDecimal.valueOf(duration).divideToIntegralValue(BigDecimal.valueOf(60))) //convert from minutes to hours
+        Long total = (hourRate.multiply(BigDecimal.valueOf(duration).divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP)) //convert from minutes to hours
                 .multiply(BigDecimal.valueOf(100)) //stripe handles payment in cents
                 .longValue());
 
