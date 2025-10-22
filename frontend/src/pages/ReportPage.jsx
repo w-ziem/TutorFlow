@@ -92,13 +92,15 @@ const ReportPage = () => {
     // Render z danymi
     return (
         <section className="relative">
-            <div className="flex flex-col p-20 m-10 ">
-                <div className="mb-10 p-8 rounded-3xl bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/10 shadow-xl">
+            <div className="flex flex-col p-4 md:p-10 lg:p-20 m-2 md:m-5 lg:m-10">
+                <div className="mb-6 md:mb-10 p-4 md:p-8 rounded-3xl bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/10 shadow-xl">
                     <div className="flex flex-col">
-                        <h1 className="text-5xl text-primary font-semibold">Raport dla: <span className="text-secondary">{report.studentName}</span></h1>
+                        <h1 className="text-2xl md:text-4xl lg:text-5xl text-primary font-semibold">
+                            Raport dla: <span className="text-secondary break-words">{report.studentName}</span>
+                        </h1>
                         {report.createdDate && (
-                            <p className="text-primary mt-2 text-xl">
-                               <Calendar className="inline mr-2" />  Data: {formatDate(report.createdDate)}
+                            <p className="text-primary mt-2 text-base md:text-xl">
+                               <Calendar className="inline mr-2 w-4 h-4 md:w-5 md:h-5" />  Data: {formatDate(report.createdDate)}
                             </p>
                         )}
                     </div>

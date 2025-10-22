@@ -43,12 +43,12 @@ const QuickLinks = () => {
     ];
 
     return (
-            <div className="relative p-8 rounded-2xl">
+            <div className="relative p-4 lg:p-8 rounded-2xl">
                 <div className="absolute inset-0 rounded-2xl"></div>
 
                 <div className="relative z-10">
 
-                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
                         {quickActions.map((action, index) => (
                             <QuickLink
                                 key={index}

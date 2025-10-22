@@ -17,12 +17,12 @@ const LessonCard = ({item, isMainDashboard=false, isStudentDashboard=false}) => 
 
     return (
         <NavLink to={`/dashboard-${user.role.toLowerCase()}/lessons/${item.id}`} className={className}>
-            <div className="flex flex-col justify-between py-5 h-fit">
-                <h2 className="text-xl font-semibold">{item.topic}</h2>
+            <div className="flex flex-col justify-between py-3 md:py-5 h-fit">
+                <h2 className="text-lg md:text-xl font-semibold break-words">{item.topic}</h2>
                 <div className="mt-auto">
-                    <h2 className="text-xl font-[500]">{isTutor && item.studentName}</h2>
-                    <p className="text-lg text-gray-500">{formatDate(item.date)}</p>
-                    {item.paid ? <p><FaCircle className="text-green-500 inline"/> opłacona</p> : <p ><FaCircle className="text-red-600 inline"/> nieopłacona</p>}
+                    <h2 className="text-base md:text-xl font-[500]">{isTutor && item.studentName}</h2>
+                    <p className="text-sm md:text-lg text-gray-500">{formatDate(item.date)}</p>
+                    {item.paid ? <p className="text-sm md:text-base"><FaCircle className="text-green-500 inline"/> opłacona</p> : <p className="text-sm md:text-base"><FaCircle className="text-red-600 inline"/> nieopłacona</p>}
                 </div>
             </div>
         </NavLink>

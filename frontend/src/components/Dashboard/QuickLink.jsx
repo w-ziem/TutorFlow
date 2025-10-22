@@ -17,7 +17,7 @@ const QuickLink = ({ icon: Icon, onClick, name, gradient, iconColor, borderColor
     return (
         <button
             onClick={onClick}
-            className={`group relative p-6 rounded-xl backdrop-blur-xl border ${borderColor} cursor-pointer shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden`}
+            className={`group relative p-4 md:p-6 rounded-xl backdrop-blur-xl border ${borderColor} cursor-pointer shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden`}
             style={{ animationDelay: `${index * 100}ms` }}
         >
             {/* Background gradient */}
@@ -26,15 +26,15 @@ const QuickLink = ({ icon: Icon, onClick, name, gradient, iconColor, borderColor
             {/* Hover glow effect */}
             <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-30 blur-xl transition-all duration-300`}></div>
 
-            <div className="relative z-10 flex flex-col items-start gap-4 h-full">
+            <div className="relative z-10 flex flex-col items-start gap-3 md:gap-4 h-full">
                 <div className="flex-1">
-                    <p className="text-lg font-bold text-text text-left leading-tight">
+                    <p className="text-base md:text-lg font-bold text-text text-left leading-tight">
                         {name}
                     </p>
                 </div>
 
-                <div className={`p-2 rounded-lg bg-white/10 backdrop-blur-sm group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className={`w-6 h-6 ${iconColor}`} />
+                <div className={`p-1.5 md:p-2 rounded-lg bg-white/10 backdrop-blur-sm group-hover:scale-110 transition-transform duration-300`}>
+                    <Icon className={`w-5 h-5 md:w-6 md:h-6 ${iconColor}`} />
                 </div>
             </div>
         </button>

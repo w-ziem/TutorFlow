@@ -138,45 +138,45 @@ const LessonPage = () => {
 
             {/* Main Content */}
             <div className="relative z-10 min-h-screen backdrop-blur-[1px] bg-white/[0.01]">
-                <div className="max-w-7xl mx-auto px-8 lg:px-12 py-12">
+                <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12 py-6 md:py-12">
 
                     {/* Header Card */}
-                    <div className="mb-12">
-                        <div className="relative p-10 rounded-3xl bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
+                    <div className="mb-8 md:mb-12">
+                        <div className="relative p-6 md:p-10 rounded-3xl bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
                             {/* Inner glow */}
                             <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-secondary/5 to-fuchsia-400/5"></div>
 
                             <div className="relative z-10">
                                 {/* Header Content */}
-                                <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-8">
+                                <div className="flex flex-col gap-6 md:gap-8">
                                     <div className="flex-1">
-                                        <h1 className="text-5xl lg:text-6xl text-primary font-bold mb-4 leading-tight">
+                                        <h1 className="text-3xl md:text-4xl lg:text-6xl text-primary font-bold mb-3 md:mb-4 leading-tight break-words">
                                             {lesson.topic}
                                         </h1>
 
                                         {lesson.date && (
-                                            <div className="flex items-center gap-3 mb-6">
+                                            <div className="flex items-center gap-3 mb-4 md:mb-6">
                                                 <div className="p-2 rounded-xl bg-secondary/10 backdrop-blur-sm">
-                                                    <Calendar className="w-6 h-6 text-secondary" />
+                                                    <Calendar className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
                                                 </div>
-                                                <p className="text-xl text-text/80 font-medium">
+                                                <p className="text-lg md:text-xl text-text/80 font-medium">
                                                     {formatDate(lesson.date)}
                                                 </p>
                                             </div>
                                         )}
 
                                         {/* Status indicators */}
-                                        <div className="flex flex-wrap items-center gap-4">
+                                        <div className="flex flex-wrap items-center gap-3 md:gap-4">
                                             {/* Completion status - visible for both tutor and student */}
-                                            <div className="flex items-center gap-3">
-                                                <div className={`p-2 rounded-xl backdrop-blur-sm ${lesson.completed ? 'bg-green-500/10' : 'bg-orange-500/10'
+                                            <div className="flex items-center gap-2 md:gap-3">
+                                                <div className={`p-1.5 md:p-2 rounded-xl backdrop-blur-sm ${lesson.completed ? 'bg-green-500/10' : 'bg-orange-500/10'
                                                     }`}>
                                                     {lesson.completed ?
-                                                        <CheckCircle2 className="w-6 h-6 text-green-600" /> :
-                                                        <Clock className="w-6 h-6 text-orange-700" />
+                                                        <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-600" /> :
+                                                        <Clock className="w-5 h-5 md:w-6 md:h-6 text-orange-700" />
                                                     }
                                                 </div>
-                                                <span className={`text-lg font-medium ${lesson.completed ? 'text-green-600' : 'text-orange-700'
+                                                <span className={`text-base md:text-lg font-medium ${lesson.completed ? 'text-green-600' : 'text-orange-700'
                                                     }`}>
                                                     {lesson.completed ? 'Zakończona' : 'W trakcie'}
                                                 </span>
@@ -184,15 +184,15 @@ const LessonPage = () => {
 
                                             {/* Payment status - visible only for student */}
                                             {isStudent && (
-                                                <div className="flex items-center gap-3">
-                                                    <div className={`p-2 rounded-xl backdrop-blur-sm ${lesson.paid ? 'bg-green-500/10' : 'bg-red-500/10'
+                                                <div className="flex items-center gap-2 md:gap-3">
+                                                    <div className={`p-1.5 md:p-2 rounded-xl backdrop-blur-sm ${lesson.paid ? 'bg-green-500/10' : 'bg-red-500/10'
                                                         }`}>
                                                         {lesson.paid ?
-                                                            <CheckCircle2 className="w-6 h-6 text-green-600" /> :
-                                                            <XCircle className="w-6 h-6 text-red-600" />
+                                                            <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-600" /> :
+                                                            <XCircle className="w-5 h-5 md:w-6 md:h-6 text-red-600" />
                                                         }
                                                     </div>
-                                                    <span className={`text-lg font-medium ${lesson.paid ? 'text-green-600' : 'text-red-600'
+                                                    <span className={`text-base md:text-lg font-medium ${lesson.paid ? 'text-green-600' : 'text-red-600'
                                                         }`}>
                                                         {lesson.paid ? 'Opłacona' : 'Nieopłacona'}
                                                     </span>
@@ -202,14 +202,14 @@ const LessonPage = () => {
                                     </div>
 
                                     {/* Action Button - different for tutor and student */}
-                                    <div className="flex-shrink-0">
+                                    <div className="flex-shrink-0 w-full md:w-auto">
                                         {isTutor ? (
                                             <button
                                                 onClick={() => {
                                                     openModal("finishLesson", id);
                                                     setOnSuccessRefresh(fetchLesson);
                                                 }}
-                                                className={`group relative px-8 py-4 rounded-2xl font-semibold text-xl transition-all duration-300 ${lesson.completed
+                                                className={`group relative w-full md:w-auto px-6 md:px-8 py-3 md:py-4 rounded-2xl font-semibold text-lg md:text-xl transition-all duration-300 ${lesson.completed
                                                         ? 'bg-gray-500/20 text-gray-400 cursor-default border border-gray-500/20'
                                                         : 'bg-gradient-to-r from-[#242E7C] to-[#5FA3F7] text-white cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-secondary/20 border border-secondary/20'
                                                     }`}
@@ -223,14 +223,14 @@ const LessonPage = () => {
                                                 </span>
                                             </button>
                                         ) : (
-                                            <div>
+                                            <div className="w-full md:w-auto">
                                                 <button
                                                     onClick={() => {
                                                         // guard: don't attempt to pay if already paid, loading or lesson not completed
                                                         if (lesson.paid || paymentLoading || !lesson.completed) return;
                                                         handlePayLesson();
                                                     }}
-                                                    className={`group relative px-8 py-4 rounded-2xl font-semibold text-xl transition-all duration-300 ${lesson.paid || paymentLoading || !lesson.completed
+                                                    className={`group relative w-full md:w-auto px-6 md:px-8 py-3 md:py-4 rounded-2xl font-semibold text-lg md:text-xl transition-all duration-300 ${lesson.paid || paymentLoading || !lesson.completed
                                                             ? 'bg-gray-500/20 text-gray-400 cursor-default border border-gray-500/20'
                                                             : 'bg-gradient-to-r from-green-600 to-emerald-500 text-white cursor-pointer hover:scale-105 hover:shadow-xl hover:shadow-green-500/20 border border-green-500/20'
                                                         }`}
@@ -274,12 +274,12 @@ const LessonPage = () => {
                     </div>
 
                     {isOverdue && (
-                        <div className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-red-500/10 to-rose-500/10 backdrop-blur-xl border border-red-500/20 shadow-xl">
-                            <div className="flex items-center gap-4">
+                        <div className="mb-6 md:mb-8 p-4 md:p-6 rounded-2xl bg-gradient-to-r from-red-500/10 to-rose-500/10 backdrop-blur-xl border border-red-500/20 shadow-xl">
+                            <div className="flex items-center gap-3 md:gap-4">
                                 <div className="p-2 rounded-xl bg-red-500/20">
-                                    <AlertTriangle className="w-8 h-8 text-red-600" />
+                                    <AlertTriangle className="w-6 h-6 md:w-8 md:h-8 text-red-600" />
                                 </div>
-                                <p className="text-xl font-semibold text-red-600">
+                                <p className="text-base md:text-xl font-semibold text-red-600">
                                     Uwaga! Lekcja nieopłacona od tygodnia!
                                 </p>
                             </div>
@@ -287,45 +287,45 @@ const LessonPage = () => {
                     )}
 
                     {/* Content Cards */}
-                    <div className="grid gap-8">
+                    <div className="grid gap-4 md:gap-8">
 
                         {/* Whiteboard Link Card */}
-                        <div className="relative p-8 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
+                        <div className="relative p-4 md:p-8 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
                             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500/5 to-blue-500/5"></div>
 
                             <div className="relative z-10">
-                                <div className="flex items-center gap-4 mb-4">
-                                    <div className="p-3 rounded-xl bg-cyan-500/10 backdrop-blur-sm">
-                                        <ExternalLink className="w-7 h-7 text-secondary" />
+                                <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
+                                    <div className="p-2 md:p-3 rounded-xl bg-cyan-500/10 backdrop-blur-sm">
+                                        <ExternalLink className="w-5 h-5 md:w-7 md:h-7 text-secondary" />
                                     </div>
-                                    <h3 className="text-2xl font-bold text-text">Link do tablicy</h3>
+                                    <h3 className="text-xl md:text-2xl font-bold text-text">Link do tablicy</h3>
                                 </div>
 
 
                                 <a href={formatLink(lesson.whiteboardLink)}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-3 text-xl text-secondary transition-colors duration-300 font-medium hover:underline group" >
+                                    className="inline-flex items-center gap-2 md:gap-3 text-base md:text-xl text-secondary transition-colors duration-300 font-medium hover:underline group break-all" >
                                     <span>{lesson.whiteboardLink}</span>
-                                    <ExternalLink className="w-5 h-7 mb-1 inline group-hover:translate-x-1 transition-transform duration-300" />
+                                    <ExternalLink className="w-4 h-4 md:w-5 md:h-7 mb-1 inline group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" />
                                 </a>
                             </div>
                         </div>
 
                         {/* Note Card */}
                         {isTutor && lesson.note && (
-                            <div className="relative p-8 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
+                            <div className="relative p-4 md:p-8 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
                                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-500/5 to-purple-500/5"></div>
 
                                 <div className="relative z-10">
-                                    <h3 className="text-2xl font-bold text-text mb-4">Komentarz do lekcji</h3>
-                                    <p className="text-lg text-text/80 leading-relaxed">{lesson.note}</p>
+                                    <h3 className="text-xl md:text-2xl font-bold text-text mb-3 md:mb-4">Komentarz do lekcji</h3>
+                                    <p className="text-base md:text-lg text-text/80 leading-relaxed">{lesson.note}</p>
                                 </div>
                             </div>
                         )}
 
                         {/* Materials Section */}
-                        <div className="relative p-8 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
+                        <div className="relative p-4 md:p-8 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
                             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/5 to-teal-500/5"></div>
 
                             <div className="relative z-10">

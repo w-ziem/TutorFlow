@@ -61,13 +61,13 @@ const MaterialCard = ({item}) => {
         case "TEXT":
             return <button 
                         onClick={showFullNote} 
-                        className="rounded-xl gap-2 w-100 bg-white/40 cursor-pointer drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103 break-all text-left"
+                        className="rounded-xl gap-2 w-full bg-white/40 cursor-pointer drop-shadow-md shadow-gray-300/100 p-4 md:p-5 transition duration-300 hover:scale-103 break-all text-left"
                     >
-                        <div className="flex flex-col justify-evenly py-5 h-full w-full">
-                            <h2 className="text-2xl font-semibold">{item.name}</h2>
-                            <h2 className="text-xl max-w-4/5">{item.value.slice(0, 50)}...</h2>
+                        <div className="flex flex-col justify-evenly py-3 md:py-5 h-full w-full">
+                            <h2 className="text-xl md:text-2xl font-semibold">{item.name}</h2>
+                            <h2 className="text-base md:text-xl max-w-4/5">{item.value.slice(0, 50)}...</h2>
                             {lessonInfo && (
-                                <p className="text-lg text-gray-500">
+                                <p className="text-sm md:text-lg text-gray-500">
                                     Lekcja: {isTutor ? lessonInfo.studentName : lessonInfo.topic}<br/>{formatDate(lessonInfo.date)}
                                 </p>
                             )}
@@ -75,29 +75,29 @@ const MaterialCard = ({item}) => {
                     </button>
         case "FILE":
             return <button onClick={downloadAsset}
-                        className="rounded-xl flex flex-col justify-evenly relative gap-2 w-100 bg-white/40 cursor-pointer drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103 break-all text-left">
-                <h2 className="text-2xl font-semibold">{item.name}</h2>
-                <p className="text-xl max-w-4/5">{item.value}</p>
+                        className="rounded-xl flex flex-col justify-evenly relative gap-2 w-full bg-white/40 cursor-pointer drop-shadow-md shadow-gray-300/100 p-4 md:p-5 transition duration-300 hover:scale-103 break-all text-left">
+                <h2 className="text-xl md:text-2xl font-semibold">{item.name}</h2>
+                <p className="text-base md:text-xl max-w-4/5">{item.value}</p>
                 {lessonInfo && (
-                    <p className="text-lg text-gray-500">
+                    <p className="text-sm md:text-lg text-gray-500">
                         Lekcja: {isTutor ? lessonInfo.studentName : lessonInfo.topic}<br/>{formatDate(lessonInfo.date)}
                     </p>
                 )}
-                <div className="absolute top-5 right-5">
-                    <FaDownload className="text-xl text-primary"/>
+                <div className="absolute top-3 right-3 md:top-5 md:right-5">
+                    <FaDownload className="text-lg md:text-xl text-primary"/>
                 </div>
             </button>
         case "LINK":
-            return <a href={item.value} target="_blank" className="rounded-xl flex flex-col justify-evenly relative gap-2 w-100 bg-white/40 cursor-pointer drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103 break-all text-left">
-                <h2 className="text-2xl font-semibold">{item.name}</h2>
-                <p className="text-xl max-w-4/5">{item.value}</p>
+            return <a href={item.value} target="_blank" className="rounded-xl flex flex-col justify-evenly relative gap-2 w-full bg-white/40 cursor-pointer drop-shadow-md shadow-gray-300/100 p-4 md:p-5 transition duration-300 hover:scale-103 break-all text-left">
+                <h2 className="text-xl md:text-2xl font-semibold">{item.name}</h2>
+                <p className="text-base md:text-xl max-w-4/5">{item.value}</p>
                 {lessonInfo && (
-                    <p className="text-lg text-gray-500">
+                    <p className="text-sm md:text-lg text-gray-500">
                         Lekcja: {isTutor ? lessonInfo.studentName : lessonInfo.topic}<br/>{formatDate(lessonInfo.date)}
                     </p>
                 )}
-                <div className="absolute top-5 right-5">
-                    <FaExternalLinkAlt className="text-xl text-primary"/>
+                <div className="absolute top-3 right-3 md:top-5 md:right-5">
+                    <FaExternalLinkAlt className="text-lg md:text-xl text-primary"/>
                 </div>
             </a>
     }

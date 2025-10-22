@@ -11,10 +11,12 @@ const LeftSummaries = () => {
     }, [user]);
 
     return (
-        <div className="w-[55%] p-10 h-screen flex flex-col justify-evenly">
-            <div className="ml-10">
-                <h1 className="gradient-text drop-shadow-2xl drop-shadow-secondary text-5xl/18 line-2 font-semibold">Cześć, {name}</h1>
-                <p className="text-xl text-text/70 font-medium">
+        <div className="w-full lg:w-[55%] p-4 lg:p-10 min-h-screen lg:h-screen flex flex-col justify-evenly gap-6 lg:gap-0">
+            <div className="ml-2 lg:ml-10">
+                <h1 className="gradient-text drop-shadow-2xl drop-shadow-secondary text-5xl lg:text-5xl font-semibold leading-tight">
+                    Cześć, {name}
+                </h1>
+                <p className="text-lg lg:text-xl text-text/70 font-medium">
                     Witaj ponownie. Co dzisiaj chcesz zrobić?
                 </p>
             </div>

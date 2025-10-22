@@ -94,9 +94,9 @@ const AddMaterialForm = ({onSuccess}) => {
     };
 
     return (
-        <div className="flex flex-col md:flex-row justify-between gap-6 min-h-[400px] p-6 bg-white rounded-lg border-1 border-primary">
-            <div className="flex flex-col gap-4 flex-1">
-                <h1 className="font-bold text-primary text-4xl leading-tight">
+        <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-6 min-h-[400px] p-4 md:p-6 bg-white rounded-lg border-1 border-primary max-w-full">
+            <div className="hidden md:flex flex-col gap-4 flex-1">
+                <h1 className="font-bold text-primary text-2xl md:text-4xl leading-tight">
                     Dodaj materiały
                 </h1>
                 <div className="flex-1 flex items-center">
@@ -108,8 +108,13 @@ const AddMaterialForm = ({onSuccess}) => {
                 </div>
             </div>
 
+            {/* Mobile title */}
+            <h1 className="md:hidden font-bold text-primary text-2xl leading-tight mb-2">
+                Dodaj materiały
+            </h1>
+
             <div className="flex-1">
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4 h-full justify-center">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-3 md:gap-4 h-full justify-center">
                     <label className="text-lg text-primary font-[550]">
                         Wybierz lekcję
                     </label>

@@ -33,19 +33,19 @@ const LatestLessonsStudent = () => {
     }
 
     return (
-        <div className="relative p-8 rounded-2xl mt-10 shadow-xl h-fit bg-gradient-to-b from-secondary/5 to-sky-500/5 backdrop-blur-xl backdrop-filter backdrop-saturate-150">
-            <div className="flex items-center gap-4 mb-6">
-                <div className="p-3 rounded-xl bg-green-500/10 backdrop-blur-sm">
-                    <Clock className="w-7 h-7 text-green-500" />
+        <div className="relative p-4 md:p-8 rounded-2xl mt-6 md:mt-10 shadow-xl h-fit bg-gradient-to-b from-secondary/5 to-sky-500/5 backdrop-blur-xl backdrop-filter backdrop-saturate-150">
+            <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
+                <div className="p-2 md:p-3 rounded-xl bg-green-500/10 backdrop-blur-sm">
+                    <Clock className="w-5 h-5 md:w-7 md:h-7 text-green-500" />
                 </div>
                 <div>
-                    <h2 className="text-2xl font-bold text-text">Ostatnie Lekcje</h2>
-                    <p className="text-text/60">Twoja najnowsza aktywność</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-text">Ostatnie Lekcje</h2>
+                    <p className="text-sm md:text-base text-text/60">Twoja najnowsza aktywność</p>
                 </div>
             </div>
 
             <NavLink to="lessons"
-                     className="text-blue-600 hover:text-blue-700 font-medium text-md flex items-center gap-1 absolute top-10 right-15">
+                     className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-md flex items-center gap-1 absolute top-6 md:top-10 right-4 md:right-15">
                 Zobacz wszystkie
                 <ChevronRight className="w-4 h-4"/>
             </NavLink>
@@ -53,30 +53,30 @@ const LatestLessonsStudent = () => {
 
                 <div className="space-y-3">
                          {lessons.map((lesson) => (
-                    <NavLink to={`lessons/${lesson.id}`} key={lesson.id} className="flex items-center justify-between p-4 bg-gray-100/70 rounded-xl hover:bg-gray-200 transition-colors cursor-pointer">
-                        <div className="flex-1">
-                            <h3 className="font-semibold text-gray-900 mb-1">{lesson.topic}</h3>
-                            <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <NavLink to={`lessons/${lesson.id}`} key={lesson.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 md:p-4 bg-gray-100/70 rounded-xl hover:bg-gray-200 transition-colors cursor-pointer gap-3 sm:gap-0">
+                        <div className="flex-1 w-full sm:w-auto">
+                            <h3 className="font-semibold text-gray-900 mb-1 text-sm md:text-base break-words">{lesson.topic}</h3>
+                            <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-gray-600">
                                 <div className="flex items-center gap-1">
-                                    <Calendar className="w-4 h-4" />
+                                    <Calendar className="w-3 h-3 md:w-4 md:h-4" />
                                     <span>{formatDate(lesson.date)}</span>
                                 </div>
                                 <div className="flex items-center gap-1">
-                                    <Clock className="w-4 h-4" />
+                                    <Clock className="w-3 h-3 md:w-4 md:h-4" />
                                     <span>{lesson.duration}m</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
                             <div className="text-center">
-                                <div className={`text-lg font-bold ${getGradeColor(lesson.grade)}`}>
+                                <div className={`text-base md:text-lg font-bold ${getGradeColor(lesson.grade)}`}>
                                     {lesson.grade}/10
                                 </div>
                                 <div className="text-xs text-gray-500">ocena</div>
                             </div>
 
-                            <div className={`p-2 rounded-lg ${lesson.paid ? 'bg-green-100' : 'bg-red-100'}`}>
+                            <div className={`p-1.5 md:p-2 rounded-lg ${lesson.paid ? 'bg-green-100' : 'bg-red-100'}`}>
                                 {lesson.paid ? (
                                     <CheckCircle className="w-4 h-4 text-green-600" />
                                 ) : (

@@ -19,7 +19,7 @@ export default function Modal({ isOpen, onClose, children, closing }) {
 
     return (
         <div
-            className={`fixed inset-0 flex items-center justify-center z-50 
+            className={`fixed inset-0 flex items-center justify-center z-50 p-4
                 ${closing ? "animate-fadeOut" : "animate-fadeIn"}`}
             onClick={onClose}
         >
@@ -29,7 +29,7 @@ export default function Modal({ isOpen, onClose, children, closing }) {
             {/* Kontener */}
             <div
                 onClick={(e) => e.stopPropagation()}
-                className={`bg-none rounded-xl shadow-lg p-1 w-fit z-10 max-h-[90vh] overflow-auto
+                className={`bg-none rounded-xl shadow-lg p-1 w-full max-w-4xl z-10 max-h-[90vh] overflow-auto
                     ${closing ? "animate-slideDown" : "animate-slideUp"}`}
             >
                 {children}

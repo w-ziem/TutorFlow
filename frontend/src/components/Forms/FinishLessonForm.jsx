@@ -57,10 +57,10 @@ const FinishLessonForm = ({ lessonId, onSuccess }) => {
     };
 
     return (
-        <div className="min-h-[500px] min-w-[500px] p-6 bg-white rounded-lg border-1 border-primary flex flex-col justify-evenly items-center">
-            <h2 className="text-3xl text-center font-semibold text-primary mb-6">Zakończ lekcję</h2>
+        <div className="min-h-[400px] md:min-h-[500px] w-full md:min-w-[500px] p-4 md:p-6 bg-white rounded-lg border-1 border-primary flex flex-col justify-evenly items-center">
+            <h2 className="text-2xl md:text-3xl text-center font-semibold text-primary mb-4 md:mb-6">Zakończ lekcję</h2>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 h-full justify-center">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3 md:gap-4 h-full justify-center w-full">
                 <div>
                     <label htmlFor="grade" className="block text-primary font-semibold text-xl mb-2">
                         Oceń poziom zrozumienia tematu przez ucznia

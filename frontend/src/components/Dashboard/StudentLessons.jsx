@@ -37,15 +37,15 @@ const StudentLessons = ({studentId, refreshTrigger}) => {
     }
 
     if (data.length === 0) {
-        return <div className="w-100">
-            <p className="text-lg text-primary">Brak lekcji dla tego ucznia</p>
+        return <div className="w-full">
+            <p className="text-base md:text-lg text-primary">Brak lekcji dla tego ucznia</p>
         </div>;
     }
 
     return (
         <>
-            <h2 className="text-primary text-xl mb-2">Lekcje: </h2>
-            <div className="flex gap-4 flex-wrap">
+            <h2 className="text-primary text-lg md:text-xl mb-2">Lekcje: </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                 {data.map((lesson, index) => (
                 <LessonCard key={lesson.id || index} item={lesson} />
                  ))}

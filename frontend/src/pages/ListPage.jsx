@@ -27,9 +27,9 @@ const ListPage = ({ type }) => {
     return (
         <>
         <div className="absolute w-[700px] h-[500px] bg-gradient-to-r from-secondary/80 to-fuchsia-400/40 rounded-full blur-[250px] bottom-50 right-1/4"></div>
-        <div className="p-30 w-[100%] h-screen">
-                <div className="w-[100%] mx-auto mb-10">
-                    <div className="relative px-12 py-8 rounded-3xl bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
+        <div className="p-4 md:p-10 lg:p-30 w-full min-h-screen">
+                <div className="w-full mx-auto mb-6 md:mb-10">
+                    <div className="relative px-6 md:px-12 py-6 md:py-8 rounded-3xl bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
                         <ListHeader
                             heading={config.heading}
                             description={config.description}

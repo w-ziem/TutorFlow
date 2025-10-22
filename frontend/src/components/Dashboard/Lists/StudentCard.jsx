@@ -13,22 +13,22 @@ const StudentCard = ({ item }) => {
     }
 
     return (
-        <NavLink to={`${item.id}`} className="rounded-xl flex gap-2 w-100 bg-white/40 drop-shadow-md shadow-gray-300/100 p-5 transition duration-300 hover:scale-103">
+        <NavLink to={`${item.id}`} className="rounded-xl flex flex-col sm:flex-row gap-3 md:gap-2 w-full bg-white/40 drop-shadow-md shadow-gray-300/100 p-4 md:p-5 transition duration-300 hover:scale-103">
             <img
                 src={`https://api.dicebear.com/7.x/initials/svg?seed=${item.name || 'Unknown'}`}
                 alt={item.name || 'Unknown'}
-                className="w-25 h-25 rounded-full p-5"
+                className="w-20 h-20 md:w-25 md:h-25 rounded-full p-3 md:p-5 mx-auto sm:mx-0"
             />
-            <div className="flex flex-col gap-1 py-5 justify-between">
-                <h3 className="text-3xl font-semibold">{item.name}</h3>
+            <div className="flex flex-col gap-1 py-2 md:py-5 justify-between">
+                <h3 className="text-2xl md:text-3xl font-semibold">{item.name}</h3>
 
                 <div>
-                    <p className="text-lg text-gray-500">{item.email}</p>
+                    <p className="text-base md:text-lg text-gray-500 break-all">{item.email}</p>
                     <p className="text-primary font-[550]" >{item.educationLevel}</p>
-                    <p>{item.hourRate}zł/h</p>
-                    <p>odbytych lekcji: {item.lessonCount}</p>
+                    <p className="text-sm md:text-base">{item.hourRate}zł/h</p>
+                    <p className="text-sm md:text-base">odbytych lekcji: {item.lessonCount}</p>
 
-                    <a href={formatLink(item.communicationLink)} target="_blank" className="text-md text-secondary font-semibold underline">{item.communicationLink }</a>
+                    <a href={formatLink(item.communicationLink)} target="_blank" className="text-sm md:text-md text-secondary font-semibold underline break-all">{item.communicationLink }</a>
                 </div>
             </div>
         </NavLink>

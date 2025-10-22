@@ -45,10 +45,10 @@ const LessonsMaterials = ({lessonId, refreshTrigger}) => {
 
     if (materials.length === 0) {
         if(isTutor){
-            return <div className="w-100">
-                <p className="text-lg text-primary">Brak materiałów dla tej lekcji, wciśnij przycisk aby
-                    dodać <FaTurnDown className="text-primary text-xl inline ml-2"/></p>
-                <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {
+            return <div className="w-full">
+                <p className="text-base md:text-lg text-primary">Brak materiałów dla tej lekcji, wciśnij przycisk aby
+                    dodać <FaTurnDown className="text-primary text-lg md:text-xl inline ml-2"/></p>
+                <button className="border-2 border-primary border-dashed p-3 md:p-4 cursor-pointer mt-3 text-sm md:text-base" onClick={() => {
                     openModal("materials", lessonId)
                 }}>Dodaj materiał
                 </button>
@@ -56,21 +56,21 @@ const LessonsMaterials = ({lessonId, refreshTrigger}) => {
         }
 
         if(isStudent){
-            return <div className="w-100">
-                <p className="text-lg text-primary">Brak materiałów dla tej lekcji</p>
+            return <div className="w-full">
+                <p className="text-base md:text-lg text-primary">Brak materiałów dla tej lekcji</p>
             </div>;
         }
     }
 
     return (
         <>
-            <h2 className="text-primary text-xl">dodane materiały:</h2>
-            <div className="flex gap-4 flex-wrap">
+            <h2 className="text-primary text-lg md:text-xl mb-3">dodane materiały:</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                 {materials.map((material, index) => (
                     <MaterialCard key={material.id || index} item={material} />
                 ))}
             </div>
-            {isTutor && <button className="border-2 border-primary border-dashed p-4 cursor-pointer" onClick={() => {
+            {isTutor && <button className="border-2 border-primary border-dashed p-3 md:p-4 cursor-pointer mt-4 text-sm md:text-base" onClick={() => {
                 openModal("materials", lessonId)
             }}>Dodaj materiał</button>
             }        </>

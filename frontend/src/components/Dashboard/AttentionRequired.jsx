@@ -40,23 +40,23 @@ const AttentionRequired = () => {
 
     if (attentionItems.length === 0) {
         return (
-            <div className="mt-8">
-                <div className="relative p-6 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
+            <div className="mt-4 md:mt-8">
+                <div className="relative p-4 md:p-6 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl">
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-green-500/5 to-emerald-500/5"></div>
 
                     <div className="relative z-10">
-                        <div className="flex items-center gap-4 mb-4">
-                            <div className="p-3 rounded-xl bg-green-500/10 backdrop-blur-sm">
-                                <Info className="w-7 h-7 text-green-400" />
+                        <div className="flex items-center gap-3 md:gap-4 mb-4">
+                            <div className="p-2 md:p-3 rounded-xl bg-green-500/10 backdrop-blur-sm">
+                                <Info className="w-5 h-5 md:w-7 md:h-7 text-green-400" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-text">Wymagające uwagi</h2>
-                                <p className="text-text/60">Wszystko pod kontrolą!</p>
+                                <h2 className="text-xl md:text-2xl font-bold text-text">Wymagające uwagi</h2>
+                                <p className="text-sm md:text-base text-text/60">Wszystko pod kontrolą!</p>
                             </div>
                         </div>
 
-                        <div className="text-center py-8">
-                            <p className="text-text/70 text-lg">Nie ma elementów wymagających Twojej uwagi 🎉</p>
+                        <div className="text-center py-6 md:py-8">
+                            <p className="text-text/70 text-base md:text-lg">Nie ma elementów wymagających Twojej uwagi 🎉</p>
                         </div>
                     </div>
                 </div>
@@ -65,18 +65,18 @@ const AttentionRequired = () => {
     }
 
     return (
-        <div className="mt-8">
-            <div className="relative p-6 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl min-h-[280px]">
+        <div className="mt-4 md:mt-8">
+            <div className="relative p-4 md:p-6 rounded-2xl bg-gradient-to-r from-white/8 to-white/4 backdrop-blur-xl border border-white/10 shadow-xl min-h-[240px] md:min-h-[280px]">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-500/5 to-orange-500/5"></div>
 
                 <div className="relative z-10 h-full flex flex-col">
-                    <div className="flex items-center gap-4 mb-6">
-                        <div className="p-3 rounded-xl bg-amber-500/10 backdrop-blur-sm">
-                            <AlertTriangle className="w-7 h-7 text-amber-400" />
+                    <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
+                        <div className="p-2 md:p-3 rounded-xl bg-amber-500/10 backdrop-blur-sm">
+                            <AlertTriangle className="w-5 h-5 md:w-7 md:h-7 text-amber-400" />
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold text-text">Wymagające uwagi</h2>
-                            <p className="text-text/60">Elementy, które mogą potrzebować Twojej interwencji</p>
+                            <h2 className="text-xl md:text-2xl font-bold text-text">Wymagające uwagi</h2>
+                            <p className="text-sm md:text-base text-text/60 hidden sm:block">Elementy, które mogą potrzebować Twojej interwencji</p>
                         </div>
                     </div>
 

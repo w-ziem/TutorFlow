@@ -45,30 +45,30 @@ const StudentPage = () => {
     if (!student) return <p>Nie znaleziono studenta</p>;
 
     return (
-        <div className="max-w-6xl mx-auto px-6 py-10">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-10">
             {/* Header */}
-            <div className="mb-10 p-8 rounded-3xl bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/10 shadow-xl">
-                <h1 className="text-5xl font-bold text-primary mb-4 flex items-center gap-4">
-                    <User className="w-10 h-10 text-secondary" />
+            <div className="mb-6 md:mb-10 p-4 md:p-8 rounded-3xl bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/10 shadow-xl">
+                <h1 className="text-3xl md:text-5xl font-bold text-primary mb-3 md:mb-4 flex items-center gap-3 md:gap-4">
+                    <User className="w-8 h-8 md:w-10 md:h-10 text-secondary" />
                     {student.name}
                 </h1>
-                <div className="flex flex-col md:flex-row gap-6 text-lg text-text/80">
-                    <div className="flex items-center gap-3">
-                        <Mail className="w-6 h-6 text-secondary" />
-                        <a href={`mailto:${student.email}`} className="hover:underline">{student.email}</a>
+                <div className="flex flex-col md:flex-row gap-4 md:gap-6 text-base md:text-lg text-text/80">
+                    <div className="flex items-center gap-2 md:gap-3">
+                        <Mail className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
+                        <a href={`mailto:${student.email}`} className="hover:underline break-all">{student.email}</a>
                     </div>
-                    <div className="flex items-center gap-3">
-                        <GraduationCap className="w-6 h-6 text-tertiary" />
+                    <div className="flex items-center gap-2 md:gap-3">
+                        <GraduationCap className="w-5 h-5 md:w-6 md:h-6 text-tertiary" />
                         <span>{student.educationLevel}</span>
                     </div>
                 </div>
-                <div className="mt-5 lg:mt-0 lg:absolute lg:top-10 lg:right-10 flex items-center gap-3 text-sm text-text/80">
+                <div className="mt-5 flex items-center gap-3 text-sm text-text/80">
                     <button
                         onClick={() => {
                             openModal("lessons", student.email);
                             setOnSuccessRefresh(handleRefreshLessons);
                         }}
-                        className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#242E7C] to-[#5FA3F7] text-white font-semibold hover:scale-105 transition"
+                        className="px-4 md:px-6 py-2 md:py-3 rounded-xl bg-gradient-to-r from-[#242E7C] to-[#5FA3F7] text-white font-semibold hover:scale-105 transition text-sm md:text-base"
                     >
                         Dodaj lekcję
                     </button>
@@ -76,7 +76,7 @@ const StudentPage = () => {
             </div>
 
             {/* Cards */}
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
                 {/* Komunikacja */}
                 <div className="p-6 rounded-2xl bg-gradient-to-r from-sky-600/10 to-blue-500/5 backdrop-blur-xl border border-white/10 shadow-xl">
                     <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">

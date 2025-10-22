@@ -4,7 +4,7 @@ import AttentionRequired from "./AttentionRequired.jsx";
 
 const RightSummaries = () => {
     return (
-        <div className="w-[40%] h-screen mr-15 mt-15 flex flex-col justify-evenly">
+        <div className="w-full lg:w-[40%] min-h-screen lg:h-screen mr-0 lg:mr-15 mt-0 lg:mt-15 p-4 lg:p-0 flex flex-col justify-evenly gap-6 lg:gap-0">
             <WeeklyProgress />
             <AttentionRequired />
         </div>
