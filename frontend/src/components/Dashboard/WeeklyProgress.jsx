@@ -75,7 +75,7 @@ const WeeklyProgress = () => {
         },
         {
             label: "Godziny nauki",
-            value: `${studentStats.hoursThisWeek}h`,
+            value: `${studentStats.hoursThisWeek.toFixed(2)}h`,
             icon: Clock,
             color: "text-emerald-400",
             bgColor: "bg-emerald-500/10"
