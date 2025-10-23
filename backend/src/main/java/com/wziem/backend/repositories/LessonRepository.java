@@ -80,8 +80,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     SELECT s.id,
            s.name,
            (CURRENT_DATE - MAX(l.date::date)) AS daysSinceLastLesson
-    FROM tutorflow.public.lessons l
-    JOIN tutorflow.public.users s ON l.student_id = s.id
+    FROM public.lessons l
+    JOIN public.users s ON l.student_id = s.id
     WHERE l.tutor_id = :tutorId
       AND l.is_completed = true
     GROUP BY s.id, s.name
@@ -95,8 +95,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
            s.name,
            COUNT(l.id) AS unpaidCount,
            (CURRENT_DATE - MIN(l.date::date)) AS oldestUnpaidDays
-    FROM tutorflow.public.lessons l
-    JOIN tutorflow.public.users s ON l.student_id = s.id
+    FROM public.lessons l
+    JOIN public.users s ON l.student_id = s.id
     WHERE l.tutor_id = :tutorId
       AND l.is_completed = true
       AND l.is_paid = false
